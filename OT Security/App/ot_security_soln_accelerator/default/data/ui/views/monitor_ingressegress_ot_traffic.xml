@@ -22,25 +22,9 @@
       <chart>
         <title>All Traffic Over Time</title>
         <search>
-          <query>| tstats count min(_time) AS firstTime max(_time) AS lastTime 
-    FROM datamodel=Network_Traffic 
-    WHERE All_Traffic.action=allowed 
-    ```AND```
-    ``` `is_ot_device(src)`  AND ```
-    ``` `is_perimeter_device` ``` 
-    BY All_Traffic.src All_Traffic.dest All_Traffic.dest_port All_Traffic.action, All_Traffic.dvc, _time
-| rename All_Traffic.* AS *
-``` remove this section - START ```
-| `get_asset_by("str", "dvc")` 
-| `get_asset_by("str", "src")` 
-| `get_asset_by("str", "dest")` 
-| search `get_perimeter_devices("dvc_")` src_category="ot" OR dest_category="ot"
-| eval label=CASE(
-src_category="ot" AND dest_category="ot", "OT to OT", 
-src_category="ot" AND isnull(dest_category), "OT to External",
-dest_category="ot" AND isnull(src_category), "External to OT",
-src_category="ot", "OT to Internal",
-1=1, "Internal to OT")
+          <query>tag=network tag=communicate
+| where `is_perimeter_device(dvc)`== "true" AND `is_ot_device(src)`="true" OR `is_ot_device(dest)`="true"
+| eval label=CASE(`is_ot_device(src)`=="true" AND `is_ot_device(dest)`=="true", "OT to OT", `is_ot_device(src)`=="true" AND `is_external(dest)`=="true", "OT to External", `is_ot_device(dest)`=="true" AND `is_external(src)`=="true", "External to OT", `is_ot_device(src)`=="true", "OT to Internal", `is_ot_device(dest)`=="true", "Internal to OT")
 | search label="$label_tok$"
 | dedup _time,src,dest,dvc
 | timechart count by label</query>
@@ -88,27 +72,11 @@ src_category="ot", "OT to Internal",
       <title>Egress Traffic</title>
       <table>
         <search>
-          <query>| tstats count min(_time) AS firstTime max(_time) AS lastTime 
-    FROM datamodel=Network_Traffic 
-    WHERE All_Traffic.action=allowed 
-    ```AND```
-    ``` `is_ot_device(src)`  AND ```
-    ``` `is_perimeter_device` ``` 
-    BY All_Traffic.src All_Traffic.dest All_Traffic.dest_port All_Traffic.action, All_Traffic.dvc, _time
-| rename All_Traffic.* AS *
-``` remove this section - START ```
-| `get_asset_by("str", "dvc")` 
-| `get_asset_by("str", "src")` 
-| `get_asset_by("str", "dest")` 
-| search `get_perimeter_devices("dvc_")` src_category="ot" 
-| eval label=CASE(
-src_category="ot" AND dest_category="ot", "OT to OT", 
-src_category="ot" AND isnull(dest_category), "OT to External",
-dest_category="ot" AND isnull(src_category), "External to OT",
-src_category="ot", "OT to Internal",
-1=1, "Internal to OT")
+          <query>tag=network tag=communicate
+| where `is_perimeter_device(dvc)`== "true" AND `is_ot_device(src)`="true" OR `is_ot_device(dest)`="true"
+| eval label=CASE(`is_ot_device(src)`=="true" AND `is_ot_device(dest)`=="true", "OT to OT", `is_ot_device(src)`=="true" AND `is_external(dest)`=="true", "OT to External", `is_ot_device(dest)`=="true" AND `is_external(src)`=="true", "External to OT", `is_ot_device(src)`=="true", "OT to Internal", `is_ot_device(dest)`=="true", "Internal to OT")
 | search label="$label_tok$"
-| stats latest(_time) as "Last Time" sum(count) as count by dvc,src,dest,label
+| stats latest(_time) as "Last Time" count by dvc,src,dest,label
 | table "Last Time",dvc,src,dest,label, count
 | rename dvc as "Perimeter Device", src as Source, dest as Dest, label as Description, count as Count
 |  sort -Count
@@ -139,27 +107,11 @@ src_category="ot", "OT to Internal",
       <title>Ingress Traffic</title>
       <table>
         <search>
-          <query>| tstats count min(_time) AS firstTime max(_time) AS lastTime 
-    FROM datamodel=Network_Traffic 
-    WHERE All_Traffic.action=allowed 
-    ```AND```
-    ``` `is_ot_device(src)`  AND ```
-    ``` `is_perimeter_device` ``` 
-    BY All_Traffic.src All_Traffic.dest All_Traffic.dest_port All_Traffic.action, All_Traffic.dvc, _time
-| rename All_Traffic.* AS *
-``` remove this section - START ```
-| `get_asset_by("str", "dvc")` 
-| `get_asset_by("str", "src")` 
-| `get_asset_by("str", "dest")` 
-| search `get_perimeter_devices("dvc_")` dest_category="ot" 
-| eval label=CASE(
-src_category="ot" AND dest_category="ot", "OT to OT", 
-src_category="ot" AND isnull(dest_category), "OT to External",
-dest_category="ot" AND isnull(src_category), "External to OT",
-src_category="ot", "OT to Internal",
-1=1, "Internal to OT")
+          <query>tag=network tag=communicate
+| where `is_perimeter_device(dvc)`== "true" AND `is_ot_device(src)`="true" OR `is_ot_device(dest)`="true"
+| eval label=CASE(`is_ot_device(src)`=="true" AND `is_ot_device(dest)`=="true", "OT to OT", `is_ot_device(src)`=="true" AND `is_external(dest)`=="true", "OT to External", `is_ot_device(dest)`=="true" AND `is_external(src)`=="true", "External to OT", `is_ot_device(src)`=="true", "OT to Internal", `is_ot_device(dest)`=="true", "Internal to OT")
 | search label="$label_tok$"
-| stats latest(_time) as "Last Time" sum(count) as count by dvc,src,dest,label
+| stats latest(_time) as "Last Time" count by dvc,src,dest,label
 | table "Last Time",dvc,src,dest,label, count
 | rename dvc as "Perimeter Device", src as Source, dest as Dest, label as Description, count as Count
 |  sort -Count

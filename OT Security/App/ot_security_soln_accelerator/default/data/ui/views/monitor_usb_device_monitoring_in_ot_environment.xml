@@ -1,0 +1,99 @@
+<form version="1.1" theme="dark">
+  <label>USB Device Monitoring in OT Environment</label>
+  <fieldset submitButton="false">
+    <input type="time" token="time_tok" searchWhenChanged="true">
+      <label>Time Period</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <single>
+        <title>Total Usage</title>
+        <search>
+          <query>sourcetype=WinRegistry key_path="HKLM\\system\\*controlset*\\enum\\usbstor\\*"  registry_type=CreateKey
+| rex field=key_path ".*[(USBSTOR)|(usbstor)]{1}\\\(?&lt;DeviceType&gt;.*)&amp;(V|v)en_(?&lt;Vendor&gt;.*)&amp;(p|P)rod_(?&lt;Product&gt;.*)&amp;(r|R)ev"
+| stats count</query>
+          <earliest>$time_tok.earliest$</earliest>
+          <latest>$time_tok.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Total Unique Devices</title>
+        <search>
+          <query>sourcetype=WinRegistry key_path="HKLM\\system\\*controlset*\\enum\\usbstor\\*"  registry_type=CreateKey
+| rex field=key_path ".*[(USBSTOR)|(usbstor)]{1}\\\(?&lt;DeviceType&gt;.*)&amp;(V|v)en_(?&lt;Vendor&gt;.*)&amp;(p|P)rod_(?&lt;Product&gt;.*)&amp;(r|R)ev"
+| eval key=Vendor + " " + replace(Product, "_", "")
+| stats dc(key)</query>
+          <earliest>$time_tok.earliest$</earliest>
+          <latest>$time_tok.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Hosts with USB Usage</title>
+        <search>
+          <query>sourcetype=WinRegistry key_path="HKLM\\system\\*controlset*\\enum\\usbstor\\*"  registry_type=CreateKey
+| rex field=key_path ".*[(USBSTOR)|(usbstor)]{1}\\\(?&lt;DeviceType&gt;.*)&amp;(V|v)en_(?&lt;Vendor&gt;.*)&amp;(p|P)rod_(?&lt;Product&gt;.*)&amp;(r|R)ev"
+| stats dc(host)</query>
+          <earliest>$time_tok.earliest$</earliest>
+          <latest>$time_tok.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Usage Over Time</title>
+        <search>
+          <query>sourcetype=WinRegistry key_path="HKLM\\system\\*controlset*\\enum\\usbstor\\*"  registry_type=CreateKey
+| rex field=key_path ".*[(USBSTOR)|(usbstor)]{1}\\\(?&lt;DeviceType&gt;.*)&amp;(V|v)en_(?&lt;Vendor&gt;.*)&amp;(p|P)rod_(?&lt;Product&gt;.*)&amp;(r|R)ev"
+| timechart count by host</query>
+          <earliest>$time_tok.earliest$</earliest>
+          <latest>$time_tok.latest$</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>USB Device Usage</title>
+      <table>
+        <search>
+          <query>sourcetype=WinRegistry key_path="HKLM\\system\\*controlset*\\enum\\usbstor\\*"  registry_type=CreateKey
+| rex field=key_path ".*[(USBSTOR)|(usbstor)]{1}\\\(?&lt;DeviceType&gt;.*)&amp;(V|v)en_(?&lt;Vendor&gt;.*)&amp;(p|P)rod_(?&lt;Product&gt;.*)&amp;(r|R)ev"
+| table _time, host, Vendor, Product, DeviceType
+| sort -_time</query>
+          <earliest>$time_tok.earliest$</earliest>
+          <latest>$time_tok.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">100</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

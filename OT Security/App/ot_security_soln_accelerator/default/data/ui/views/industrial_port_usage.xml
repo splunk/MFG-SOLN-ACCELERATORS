@@ -1,0 +1,99 @@
+<form version="1.1" theme="dark">
+  <label>Industrial Port Usage</label>
+  <search id="base_protocol_search">
+    <query>tag=network tag=communicate src=$src_tok|s$ dest=$dest_tok|s$ 
+| where `is_ot_device(src)`="true" OR `is_ot_device(dest)`="true"
+| lookup ot_protocol_definitions port_number AS dest_port, transport OUTPUTNEW app as protocol_app,protocol_tag,description as protocol_description
+| search protocol_tag="industrial"
+| fields _time,src,dest,bytes,protocol_app</query>
+    <earliest>$time_tok.earliest$</earliest>
+    <latest>$time_tok.latest$</latest>
+  </search>
+  <fieldset submitButton="false">
+    <input type="text" token="src_tok" searchWhenChanged="true">
+      <label>Source</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="dest_tok" searchWhenChanged="true">
+      <label>Destination</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="time" token="time_tok" searchWhenChanged="true">
+      <label>Time Period</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Usage by Protocol</title>
+      <chart>
+        <search base="base_protocol_search">
+          <query>| stats count by protocol_app</query>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Top 10 Sources</title>
+      <chart>
+        <search base="base_protocol_search">
+          <query>| top 10 src</query>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Top 10 Destinations</title>
+      <chart>
+        <search base="base_protocol_search">
+          <query>| top 10 dest</query>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Usage by Protocol Over Time</title>
+      <chart>
+        <search base="base_protocol_search">
+          <query>| timechart count by protocol_app</query>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">1</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Total Traffic by Source, Destination, and App</title>
+      <table>
+        <search base="base_protocol_search">
+          <query>| stats sum(bytes) as total_bytes by src,dest,protocol_app
+| sort -total_bytes, src, dest, protocol_app
+| table src, dest, protocol_app, total_bytes
+| rename protocol_app as app</query>
+        </search>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="totalsRow">false</option>
+        <format type="number" field="total_bytes">
+          <option name="precision">0</option>
+        </format>
+      </table>
+    </panel>
+  </row>
+</form>

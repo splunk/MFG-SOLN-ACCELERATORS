@@ -23,4 +23,3 @@ KNXNET/IP,3671,UDP,Protocol for home and building automation systems,industrial
 BACNET/IP,47808,UDP,Building automation and control network communication protocol for HVAC systems,industrial
 ICCP,102,TCP,Real-time data exchange between power system control centers,industrial
 IEC-60870-5-104,2404,TCP,Grid communication protocol for control and monitoring,industrial
-OASyS DNA,6883,TCP,OASyS DNA Replication Port,industrial

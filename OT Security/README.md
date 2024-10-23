@@ -8,4 +8,7 @@ This is a collection of various components needed to leverage the OT Security So
 
 **Reference Architecture**:  This folder contains specific reference architectures for OT Environments including various scenarios.  While this section does provide some guidance, before deploying Splunk it is recommended that you consult with a Splunk Architect for your specific environment.
 
-# NOTE:  This code is not directly supported by Splunk 
+**Installation Guide**:  This readme contains information on installing the included app into your Splunk environment.
+
+# NOTE:  This code is not directly supported by Splunk
+

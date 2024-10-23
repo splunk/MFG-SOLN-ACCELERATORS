@@ -1,0 +1,237 @@
+<dashboard version="2" theme="dark">
+    <label>Remote Access to OT Environment</label>
+    <description></description>
+    <definition><![CDATA[
+{
+        "dataSources": {
+                "ds_jU4wa6yf": {
+                        "type": "ds.search",
+                        "options": {
+                                "query": "tag=network tag=communicate (dest_port=3389 OR app=RDP) (action=\"allowed\" OR action=\"denied\" OR action=\"fail*\" OR action=\"success\")\n| where `is_remote_access_host(dest)`=\"true\"\n| table _time, action, user, src, dest",
+                                "queryParameters": {
+                                        "earliest": "-24h@h",
+                                        "latest": "now"
+                                }
+                        },
+                        "name": "All remote access - Table search"
+                },
+                "ds_m79njzI4": {
+                        "type": "ds.chain",
+                        "options": {
+                                "extend": "ds_jU4wa6yf",
+                                "query": "\n|  stats latest(_time) as \"Last Access\" count as \"# Logins\" by action,user,src,dest\n|  table \"Last Access\", action, user, src, dest, \"# Logins\"\n| sort -\"Last Access\"\n| convert ctime(\"Last Access\")\n"
+                        },
+                        "name": "RDP Sessions"
+                },
+                "ds_RrcSVELP": {
+                        "type": "ds.chain",
+                        "options": {
+                                "extend": "ds_jU4wa6yf",
+                                "query": "|  timechart count by action"
+                        },
+                        "name": "Remote Access over Time"
+                },
+                "ds_ey0NVrj4": {
+                        "type": "ds.chain",
+                        "options": {
+                                "extend": "ds_jU4wa6yf",
+                                "query": "|  top 10 dest"
+                        },
+                        "name": "Access by Destination"
+                },
+                "ds_8Kb8PEoS": {
+                        "type": "ds.chain",
+                        "options": {
+                                "extend": "ds_jU4wa6yf",
+                                "query": "| top 10 src"
+                        },
+                        "name": "Access by Source"
+                },
+                "ds_CWh07U0t": {
+                        "type": "ds.chain",
+                        "options": {
+                                "extend": "ds_jU4wa6yf",
+                                "query": "|  stats count by action,user,dest\n|  table action,user,dest"
+                        },
+                        "name": "Access by action user and destination"
+                },
+                "ds_DbRMvCXF": {
+                        "type": "ds.chain",
+                        "options": {
+                                "extend": "ds_jU4wa6yf",
+                                "query": "|  stats count by action,src,dest\n|  table action,src,dest"
+                        },
+                        "name": "Access by action src and dest"
+                }
+        },
+        "visualizations": {
+                "viz_JniWQygj": {
+                        "type": "splunk.table",
+                        "options": {
+                                "dataOverlayMode": "none",
+                                "drilldown": "none",
+                                "showRowNumbers": false,
+                                "showInternalFields": false,
+                                "columnFormat": {
+                                        "Last Access": {
+                                                "data": "> table | seriesByName(\"Last Access\") | formatByType(Last_AccessColumnFormatEditorConfig)"
+                                        }
+                                },
+                                "count": 7
+                        },
+                        "dataSources": {
+                                "primary": "ds_m79njzI4"
+                        },
+                        "title": "Access to Remote Servers",
+                        "context": {
+                                "Last_AccessColumnFormatEditorConfig": {
+                                        "number": {
+                                                "thousandSeparated": false,
+                                                "unitPosition": "after"
+                                        }
+                                }
+                        }
+                },
+                "viz_6Apo2rXs": {
+                        "type": "splunk.column",
+                        "dataSources": {
+                                "primary": "ds_RrcSVELP"
+                        },
+                        "showProgressBar": false,
+                        "showLastUpdated": false,
+                        "title": "Access to Remote Servers Over Time"
+                },
+                "viz_SfOXQZ0G": {
+                        "type": "splunk.pie",
+                        "dataSources": {
+                                "primary": "ds_ey0NVrj4"
+                        },
+                        "title": "Top 10 Destinations"
+                },
+                "viz_i09dSUkv": {
+                        "type": "splunk.pie",
+                        "dataSources": {
+                                "primary": "ds_8Kb8PEoS"
+                        },
+                        "title": "Remote Access by Source"
+                },
+                "viz_Vo1DYxFf": {
+                        "type": "splunk.linkgraph",
+                        "dataSources": {
+                                "primary": "ds_CWh07U0t"
+                        },
+                        "title": "Access by action, user and destination"
+                },
+                "viz_wCwzXgJa": {
+                        "type": "splunk.linkgraph",
+                        "dataSources": {
+                                "primary": "ds_DbRMvCXF"
+                        },
+                        "title": "Access by action, src and destination"
+                }
+        },
+        "inputs": {
+                "input_global_trp": {
+                        "type": "input.timerange",
+                        "options": {
+                                "token": "global_time",
+                                "defaultValue": "-24h@h,now"
+                        },
+                        "title": "Global Time Range"
+                }
+        },
+        "layout": {
+                "type": "grid",
+                "options": {
+                        "width": 1440,
+                        "height": 960
+                },
+                "structure": [
+                        {
+                                "item": "viz_6Apo2rXs",
+                                "type": "block",
+                                "position": {
+                                        "x": 0,
+                                        "y": 0,
+                                        "w": 817,
+                                        "h": 204
+                                }
+                        },
+                        {
+                                "item": "viz_JniWQygj",
+                                "type": "block",
+                                "position": {
+                                        "x": 0,
+                                        "y": 204,
+                                        "w": 1440,
+                                        "h": 363
+                                }
+                        },
+                        {
+                                "item": "viz_Vo1DYxFf",
+                                "type": "block",
+                                "position": {
+                                        "x": 0,
+                                        "y": 567,
+                                        "w": 720,
+                                        "h": 400
+                                }
+                        },
+                        {
+                                "item": "viz_wCwzXgJa",
+                                "type": "block",
+                                "position": {
+                                        "x": 720,
+                                        "y": 567,
+                                        "w": 720,
+                                        "h": 400
+                                }
+                        },
+                        {
+                                "item": "viz_SfOXQZ0G",
+                                "type": "block",
+                                "position": {
+                                        "x": 817,
+                                        "y": 0,
+                                        "w": 311,
+                                        "h": 204
+                                }
+                        },
+                        {
+                                "item": "viz_i09dSUkv",
+                                "type": "block",
+                                "position": {
+                                        "x": 1128,
+                                        "y": 0,
+                                        "w": 312,
+                                        "h": 204
+                                }
+                        }
+                ],
+                "globalInputs": [
+                        "input_global_trp"
+                ]
+        },
+        "title": "Remote Access to OT Environment",
+        "defaults": {
+                "dataSources": {
+                        "ds.search": {
+                                "options": {
+                                        "queryParameters": {
+                                                "latest": "$global_time.latest$",
+                                                "earliest": "$global_time.earliest$"
+                                        }
+                                }
+                        }
+                }
+        }
+}
+    ]]></definition>
+    <meta type="hiddenElements"><![CDATA[
+{
+        "hideEdit": false,
+        "hideOpenInSearch": false,
+        "hideExport": false
+}
+    ]]></meta>
+</dashboard>

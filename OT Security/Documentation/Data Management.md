@@ -7,10 +7,10 @@ Within OT environments there are often restrictions in gathering data due to ven
 The included searches and dashboards utilize data that is tagged appropriately.  This is most likely to be achieved by using apps directly from splunkbase which already provide data type tagging.  This can also be accomplished by creating eventtypes and tagging them appropriately.  Documentation for tagging eventtypes can be found [here](https://docs.splunk.com/Documentation/SplunkCloud/latest/Knowledge/Tageventtypes)
 
 The following is a breakdown of the data sources needed in the OT Security Solutions Accelerator:
-1. Network Traffic
-2. Firewall or Perimeter Device Traffic
-3. Authentication events (e.g. Windows Security Logs)
-4. Registry Data
+1. Network Traffic (tag=network, communicate)
+2. Firewall or Perimeter Device Traffic (tag=network, communicate)
+3. Remote Desktop Protocol (RDP) events (tag=network, communicate)
+4. Registry Data (tag=registry)
 
 ## Methods to Collect Data from OT Environments
 

@@ -167,14 +167,14 @@
 		"viz_8XRBsDIQ": {
 			"type": "splunk.markdown",
 			"options": {
-				"markdown": "**Industrial Port Usage**",
+				"markdown": "**Ingress/Egress Traffic**",
 				"fontSize": "extraLarge"
 			}
 		},
 		"viz_R18vDgCa": {
 			"type": "splunk.markdown",
 			"options": {
-				"markdown": "**Ingress/Egress Traffic**",
+				"markdown": "**Remote Access**",
 				"fontSize": "extraLarge"
 			}
 		},
@@ -188,7 +188,7 @@
 		"viz_GSa8TcmX": {
 			"type": "splunk.markdown",
 			"options": {
-				"markdown": "**Remote Access**",
+				"markdown": "**Industrial Port Usage**",
 				"fontSize": "extraLarge"
 			}
 		}
@@ -339,7 +339,7 @@
 				"item": "viz_HXmI01FP",
 				"type": "block",
 				"position": {
-					"x": 1070,
+					"x": 1050,
 					"y": 280,
 					"w": 230,
 					"h": 130
@@ -349,7 +349,7 @@
 				"item": "viz_OQxUbiLA",
 				"type": "block",
 				"position": {
-					"x": 1070,
+					"x": 1050,
 					"y": 110,
 					"w": 230,
 					"h": 140
@@ -359,7 +359,7 @@
 				"item": "viz_PDj6Z8xQ",
 				"type": "block",
 				"position": {
-					"x": 1510,
+					"x": 1490,
 					"y": 110,
 					"w": 230,
 					"h": 150
@@ -369,7 +369,7 @@
 				"item": "viz_XRjhMOKq",
 				"type": "block",
 				"position": {
-					"x": 1500,
+					"x": 1480,
 					"y": 280,
 					"w": 240,
 					"h": 130
@@ -379,7 +379,7 @@
 				"item": "viz_8XRBsDIQ",
 				"type": "block",
 				"position": {
-					"x": 1310,
+					"x": 1290,
 					"y": 130,
 					"w": 190,
 					"h": 30
@@ -389,7 +389,7 @@
 				"item": "viz_R18vDgCa",
 				"type": "block",
 				"position": {
-					"x": 1760,
+					"x": 1740,
 					"y": 130,
 					"w": 190,
 					"h": 30
@@ -399,7 +399,7 @@
 				"item": "viz_wS9Jg6No",
 				"type": "block",
 				"position": {
-					"x": 1760,
+					"x": 1740,
 					"y": 290,
 					"w": 190,
 					"h": 30
@@ -409,7 +409,7 @@
 				"item": "viz_GSa8TcmX",
 				"type": "block",
 				"position": {
-					"x": 1310,
+					"x": 1290,
 					"y": 290,
 					"w": 190,
 					"h": 30

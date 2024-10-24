@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "2.0.0",
+  "info": {
+    "title": "OT Security Solution Accelerator",
+    "id": {
+      "group": null,
+      "name": "ot_security_soln_accelerator",
+      "version": "1.0.0"
+    },
+    "author": [
+      {
+        "name": "Splunk LLC",
+        "email": ""
+        "company": "Splunk"
+      }
+    ],
+    "releaseDate": null,
+    "description": "OT Security Solution Accelerator",
+    "classification": {
+      "intendedAudience": null,
+      "categories": [],
+      "developmentStatus": null
+    },
+    "commonInformationModels": null,
+    "license": {
+      "name": null,
+      "text": null,
+      "uri": null
+    },
+    "privacyPolicy": {
+      "name": null,
+      "text": null,
+      "uri": null
+    },
+    "releaseNotes": {
+      "name": null,
+      "text": null,
+      "uri": null
+    }
+  },
+  "dependencies": null,
+  "tasks": null,
+  "inputGroups": null,
+  "incompatibleApps": null,
+  "platformRequirements": null,
+  "supportedDeployments": ["*"],
+  "targetWorkloads": ["*"]
+}

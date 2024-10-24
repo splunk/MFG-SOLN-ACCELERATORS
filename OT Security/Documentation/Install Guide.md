@@ -3,11 +3,11 @@
 This app can be installed directly via the Manage Apps features within Splunk.  The user attempting to install the app must have the necessary admin features to install the app.
 1.  Hover over the list of apps --> Click the *Manage* Button
 <p align="center">
-<img src="./images/splunk_manage_apps.png">
+<img src="./Images/splunk_manage_apps.png">
 </p>
 2.  Click the *Install App from Files* button on the right
 <p align="center">
-<img src="./images/splunk_install_app_from_file.png">
+<img src="./Images/splunk_install_app_from_file.png">
 </p>
 3.  To Upload the app perform the following steps
 
@@ -17,7 +17,7 @@ This app can be installed directly via the Manage Apps features within Splunk.  
 
 * Click the *Upload* button and wait for Splunk to acknowledge completion or the need to complete
 <p align="center">
-<img src="./images/splunk_select_app.png">
+<img src="./Images/splunk_select_app.png">
 </p>
 4.  Once complete either restart Splunk as requested, or open the app from the listed apps
 

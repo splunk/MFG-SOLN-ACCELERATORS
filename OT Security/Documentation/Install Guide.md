@@ -1,19 +1,32 @@
-## Installation
+## Installation 
 
-This app can be installed directly via the Manage Apps features within Splunk.  The user attempting to install the app must have the necessary admin features to install the app.
-1.  Hover over the list of apps --> Scroll down to Manage Apps
-2.  Click the Install Apps from Files button on the right
-3.  On the next window, either select or drop the app file for uploading.  If the app has previously been installed check the box that says to overwrite the existing app.
+The OT Security Solution Accelerator can be installed on a single instance or distributed Splunk environment and should be installed on a Search Head.
+
+> [!IMPORTANT]  
+> It is recommended to use Splunkbase apps that automatically provide tagging for data sources such as network traffic and authentication.
+
+## Installation Instructions
+
+This app can be installed directly via the Manage Apps features within the Splunk User Interface.  The user attempting to install the app must have the necessary admin capabilities to install the app.
+1.  Hover over the list of apps --> Click the *Manage* Button
+<p align="left">
+<img src="./Images/splunk_manage_apps.png" height="150px">
+</p>
+
+2.  Click the *Install App from Files* button on the right
+<p align="left">
+<img src="./Images/splunk_install_app_from_file.png" width="200px">
+</p>
+
+3.  To Upload the app perform the following steps
+
+* Click on *Choose File* button and select the name of the OT Security Solution App
+    
+* If the app has previously been installed check the box that says *Update app.  Checking this will overwrite the app if it already exists*.
+
+* Click the *Upload* button and wait for Splunk to acknowledge completion or the need to complete
+<p align="left" >
+<img src="./Images/splunk_select_app.png" width="400px">
+</p>
+
 4.  Once complete either restart Splunk as requested, or open the app from the listed apps
-
-## Important Data Sources
-
-The included searches and dashboards utilize data that is tagged appropriately.  This is most likely to be achieved by using apps directly from splunkbase which already provide data type tagging.  This can also be accomplished by creating eventtypes and tagging them appropriately.  Documentation for tagging eventtypes can be found [here](https://docs.splunk.com/Documentation/SplunkCloud/latest/Knowledge/Tageventtypes)
-
-The following is a breakdown of the data sources needed:
-1. Network Traffic
-2. Firewall or Perimeter Device Traffic
-3. Authentication events (e.g. Windows Security Logs)
-4. Registry Data
-
-

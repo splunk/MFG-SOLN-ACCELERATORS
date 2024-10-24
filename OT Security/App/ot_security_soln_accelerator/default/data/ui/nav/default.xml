@@ -1,0 +1,15 @@
+<nav search_view="search">
+  <view name="ot_security_accelerator_-_welcome_page" default='true' />
+  <collection label="Use Cases">
+    <view name="industrial_port_usage" />
+    <view name="monitor_ingressegress_ot_traffic" />
+    <view name="remote_access_to_ot_environment" />
+    <view name="monitor_usb_device_monitoring_in_ot_environment" />
+  </collection>
+  <view name="search"  />
+  <view name="analytics_workspace" />
+  <view name="datasets" />
+  <view name="reports" />
+  <view name="alerts" />
+  <view name="dashboards" />
+</nav>

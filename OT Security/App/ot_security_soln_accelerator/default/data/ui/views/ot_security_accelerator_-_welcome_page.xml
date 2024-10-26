@@ -1,3 +1,8 @@
+
+<dashboard version="2" theme="light">
+    <label>Welcome</label>
+    <description></description>
+    <definition><![CDATA[
 {
 	"visualizations": {
 		"viz_H9SgyJke": {
@@ -16,7 +21,7 @@
 			"type": "splunk.image",
 			"options": {
 				"preserveAspectRatio": true,
-				"src": "splunk-enterprise-kvstore://670d725ad683ec38970f5fa4"
+				"src": "splunk-enterprise-kvstore://671c071e3be6cd879a08dea8"
 			},
 			"eventHandlers": [
 				{
@@ -100,7 +105,7 @@
 			"type": "splunk.image",
 			"options": {
 				"preserveAspectRatio": true,
-				"src": "splunk-enterprise-kvstore://670d5b93d683ec38970f5f9f"
+				"src": "splunk-enterprise-kvstore://671c070e3be6cd879a08dea6"
 			},
 			"eventHandlers": [
 				{
@@ -117,7 +122,7 @@
 			"type": "splunk.image",
 			"options": {
 				"preserveAspectRatio": true,
-				"src": "splunk-enterprise-kvstore://670d5c73d683ec38970f5fa1"
+				"src": "splunk-enterprise-kvstore://671c06f63be6cd879a08dea4"
 			},
 			"eventHandlers": [
 				{
@@ -134,7 +139,7 @@
 			"type": "splunk.image",
 			"options": {
 				"preserveAspectRatio": true,
-				"src": "splunk-enterprise-kvstore://670d5cb1d683ec38970f5fa2"
+				"src": "splunk-enterprise-kvstore://671c07013be6cd879a08dea5"
 			},
 			"eventHandlers": [
 				{
@@ -151,7 +156,7 @@
 			"type": "splunk.image",
 			"options": {
 				"preserveAspectRatio": true,
-				"src": "splunk-enterprise-kvstore://670d5d28d683ec38970f5fa3"
+				"src": "splunk-enterprise-kvstore://671c07163be6cd879a08dea7"
 			},
 			"eventHandlers": [
 				{
@@ -381,7 +386,7 @@
 				"position": {
 					"x": 1290,
 					"y": 190,
-					"w": 190,
+					"w": 210,
 					"h": 30
 				}
 			},
@@ -411,7 +416,7 @@
 				"position": {
 					"x": 1290,
 					"y": 340,
-					"w": 190,
+					"w": 200,
 					"h": 30
 				}
 			}
@@ -421,3 +426,12 @@
 	"description": "",
 	"title": "Welcome"
 }
+    ]]></definition>
+    <meta type="hiddenElements"><![CDATA[
+{
+	"hideEdit": false,
+	"hideOpenInSearch": false,
+	"hideExport": false
+}
+    ]]></meta>
+</dashboard>

@@ -7,9 +7,5 @@
     <view name="monitor_usb_device_monitoring_in_ot_environment" />
   </collection>
   <view name="search"  />
-  <view name="analytics_workspace" />
-  <view name="datasets" />
-  <view name="reports" />
-  <view name="alerts" />
   <view name="dashboards" />
 </nav>

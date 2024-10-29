@@ -24,7 +24,6 @@ This macro passes in a host and returns "true" or "false" on whether the host is
 
 This macro passes in a host and returns "true" or "false" depending on whether the host is considered a remote access hosts such as "jump servers".
 
-
 ### Lookup Files
 
 The following lookup files should be populated with relevant data for the OT Solution Accelerator to function correctly.
@@ -32,3 +31,15 @@ The following lookup files should be populated with relevant data for the OT Sol
 <u>ot_protocol_definitions.csv</u>:  
 
 This lookup contains a mapping of application, port number, transport, description, and protocol tag.  When performing queries the port number and transport are used to identify the application.  Wildcards can also be present in the transport column to match multiple transport layer protocols (e.g. TCP, UDP, etc) and entries are not case sensative.  By default it contains a small list of industrial protocols which can be updated or augmented based on your environment.
+
+### Event Types
+
+Event tagging is used in searches to identify data that should appear on any dashboard.  The following event types are set up to facilitate tagging of data for dashboard content.  
+
+<u>ot_registry_events</u>:
+
+This eventtype should be mapped to any windows registry event that may contain information on the use of external media.  Be default it is set to sourcetype=WinRegistry.
+
+<u>ot_network_traffic</u>:
+
+This eventtype should be mapped to any data sources that contain information on OT networks and firewall traffic.  By default it is set to be any sourcetypes that include keywords such as traffic, firewall, netflow, and estreamer which are some of the most common data types for network traffic data.

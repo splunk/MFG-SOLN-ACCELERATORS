@@ -6,7 +6,7 @@
          <html>
             <ul>
                <h1>
-                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <img width="35" src="/static/app/ot_security_soln_accelerator/PM_image_icon_target.png"/>
                   <font color="#8B0000">Introduction to Monitoring remote access to Operational Technology environments</font>
                </h1>
                <p>Remote desktop connections (otherwise known as Remote Desktop Protocol, or RDP) are often used for support staff and vendors for access into the Operational Technology (OT) environment. OT systems often control critical equipment and handle sensitive data, and they need to be protected against threats that could shut down critical operations. A security breach through remote access can create production shutdowns, data loss and safety risks in these environments. This article shows you how to use the Splunk platform to detect RDP traffic in your environment.</p>
@@ -137,10 +137,10 @@
          <html tokens="true">
             <ul>
                <h1>
-                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_ques.png"/>
                   <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
-                  <!--a href="/app/supply_chain_edi/sec_search_02">
-                     <img width="100" src="/static/app/supply_chain_edi/SI_image_next_high.png"/>
+                  <!--a href="/app/ot_security_soln_accelerator/sec_search_02">
+                     <img width="100" src="/static/app/ot_security_soln_accelerator/SI_image_next_high.png"/>
                      </a-->
                </h1>
                <p>
@@ -160,17 +160,17 @@
                   </li>
                </ul>
                </p>
-               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
-               <!--img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_prev_exer_grey_nr.png"/>
-                  <a href="/app/supply_chain_edi/pm_get_data_01">
-                  <img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_next_exer_nr.png"/>
+               <img src="/static/app/ot_security_soln_accelerator/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+               <!--img height="15" width="118" src="/static/app/ot_security_soln_accelerator/SI_image_button_prev_exer_grey_nr.png"/>
+                  <a href="/app/ot_security_soln_accelerator/pm_get_data_01">
+                  <img height="15" width="118" src="/static/app/ot_security_soln_accelerator/SI_image_button_next_exer_nr.png"/>
                   </a-->
             </ul>
             <table>
                <tr>
                   <td>
                      <div class="col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 photo-box">
-                        <!--img src="/static/app/supply_chain_edi/Brian_Gilmore_white.png" alt="Supply Chain Visibility and Optimization expert photo" title=""/-->
+                        <!--img src="/static/app/ot_security_soln_accelerator/Brian_Gilmore_white.png" alt="Supply Chain Visibility and Optimization expert photo" title=""/-->
                      </div>
                   </td>
                </tr>

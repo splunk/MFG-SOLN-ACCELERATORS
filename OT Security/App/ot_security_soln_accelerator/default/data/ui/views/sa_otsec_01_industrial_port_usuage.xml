@@ -1,0 +1,145 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+   <label>01 : Industrial Port Usage</label>
+   <description>Use Case - Industrial Port Usage </description>
+   <row>
+      <panel>
+         <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/ot_security_soln_accelerator/PM_image_icon_target.png"/>
+                  <font color="#8B0000">Introduction to Industrial Port Usage</font>
+               </h1>
+               <p>Operational Technology (OT) environments commonly use specific ports and protocols when communicating with Industrial Control Systems (ICS) and industrial OT devices like programmable logic controllers (PLCs) and remote terminal units (RTUs). Identifying and labeling this traffic can be helpful to understand communications across the network, and can also help you remove ambiguity around the intent of the traffic.
+               </p>
+               <p>Since many OT protocols lack authentication mechanisms, most OT devices allow any device to read values from these devices or issue commands. Identifying industrial protocols can help organizations to identify the nature of the traffic, and could also be used to detect unauthorized communication to an OT device.</p>
+               <pre>It is strongly recommended to use more secure alternatives to RDP, such as solutions with multi-factor authentication (MFA) or specialized remote access software that is designed for OT environments.</pre>
+               <hr/>
+               <h1>
+                  <font color="#000000">Data required</font>
+               </h1>
+               <p>Traffic data from your network is required for this use case. This traffic data can come from any router, switch, or networking device. In some cases, the specific industrial protocol might already be identified by the devices depending on the individual network device capabilities.</p>
+               <p>Leveraging fields from the Common Information Model (CIM) will make implementing this use case easier. Splunk add-ons often provide data which is already CIM compliant.</p>
+               <hr/>
+               <h1>
+                  <font color="#000000">How to use Splunk software for this use case</font>
+               </h1>
+               <ul>
+                  <h2>
+                     <font color="#000000">STAGE 1: Identify OT devices</font>
+                  </h2>
+                  <p>In this stage, you'll identify source or destination hosts located within the OT environment. This is done by creating a macro called is_ot_device which takes in a host and then returns true or false to confirm whether the device is in the OT environment.</p>
+                  <p>To do this, you can:</p>
+                  <ul>
+                     <ul>
+                        <li>Use a lookup table that has a list of OT hosts.</li>
+                        <li>Use a lookup table that has a list of IP ranges for OT devices (for example, when VLANs are used).</li>
+                        <li>Use a static list of OT devices or characteristics (such as host name pattern or asset type).</li>
+                     </ul>
+                  </ul>
+                  <h2>
+                     <font color="#000000">STAGE 2: Create a lookup for common OT protocol ports and transport information</font>
+                  </h2>
+                  <p>In this example, the organization uses a lookup to identify ports and transport (TCP/UDP) information to determine the protocol. This lookup contains the following fields:</p>
+                  <ul>
+                     <ul>
+                        <li>port_number</li>
+                        <li>transport</li>
+                        <li>app</li>
+                        <li>protocol_tag</li>
+                     </ul>
+                  </ul>
+                  <p>The included example below names the lookup file ot_protocol_definitions.csv. The protocol_tag field in the lookup can be used for tagging OT protocols for filtering purposes. In the example below, the tag field is set to industrialfor filtering purposes.</p>
+                  <p>One of the most straightforward ways to populate this lookup is by leveraging existing repositories like GitHub for a JSON or CSV file containing this information. This lookup could also be updated dynamically based on these repositories; however, because many OT environments are isolated from direct internet connectivity, it might be necessary to manually populate this table from other sources, such as a manual download.</p>
+                  <p>The following example shows what that lookup might look like populated from the awesome-industrial-protocols GitHub repository.</p>
+                  <img src="/static/app/ot_security_soln_accelerator/sa_ot_sec_scr_01.png"/>
+                  <h2>
+                     <font color="#000000">STAGE 3: Identify traffic from OT protocols</font>
+                  </h2>
+                  <p>Run the following search. You can optimize it by specifying an index and adjusting the time range.</p>
+                  <pre>tag=network tag=communicate
+| `is_ot_device(src)`=”true” OR `is_ot_device(dest)=true
+| lookup ot_protocol_definitions.csv port_number AS dest_port, transport OUTPUTNEW app,protocol_tag 
+| search protocol_tag="industrial"</pre>
+                  <p><b>SEARCH EXPLANATION</b></p>
+                  <p>The table provides an explanation of what each part of this search achieves. You can adjust this query based on the specifics of your environment.</p>
+                  <table border="1">
+                     <tr>
+                        <th>Splunk Search</th>
+                        <th>Explanation</th>
+                     </tr>
+                     <tr>
+                        <td><code>tag=network tag=communicate</code></td>
+                        <td>Search data tagged as network traffic. You can also specify a source type, source, and index to search untagged data.</td>
+                     </tr>
+                     <tr>
+                        <td><code>| `is_ot_device(src)`="true" OR `is_ot_device(dest)`="true"</code></td>
+                        <td>Identify whether the destination or source of the traffic resides within the OT environment.</td>
+                     </tr>
+                     <tr>
+                        <td><code>| lookup ot_protocol_definitions.csv port_number AS dest_port, transport OUTPUTNEW app, protocol_tag</code></td>
+                        <td>Maps the port number and transport to the lookup table. <code>OUTPUTNEW</code> is used to avoid overriding any existing entries in the data that specify the app.</td>
+                     </tr>
+                     <tr>
+                        <td><code>| search protocol_tag="industrial"</code></td>
+                        <td>Filter for data tagged as industrial. You can set this to match whatever is used in the lookup file for <code>protocol_tag</code>.</td>
+                     </tr>
+                  </table>
+               </ul>
+               <hr/>
+               <h1>
+                  <font color="#000000">NEXT STEPS</font>
+               </h1>
+               <p>You can use or modify the search above to create a dashboard like this.</p>
+               <img width="1000" src="/static/app/ot_security_soln_accelerator/sa_ot_sec_scr_02.png"/>
+               <p>Being able to identify industrial traffic can be helpful when trying to understand the devices within an OT environment; however, focusing on changes can be more practical to help teams sift through the noise of the network. One way to accomplish this is by tracking regular traffic volumes over a time period (either in a summary index or lookup table) and looking for significant increases or decreases in network traffic. Additionally, you could use Splunk’s Machine Learning Toolkit to identify anomalous traffic patterns using various methods.</p>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_next">
+      <panel>
+         <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+                  <!--a href="/app/supply_chain_edi/sec_search_02">
+                     <img width="100" src="/static/app/supply_chain_edi/SI_image_next_high.png"/>
+                     </a-->
+               </h1>
+               <p>
+                  Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+               <ul>
+                  <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                     <b>Solutions Accelerator</b>
+                     </a> page.
+                  </li>
+                  <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                     <b>Contact Us</b>
+                     </a>
+                  </li>
+                  <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/">
+                     <b>Splunk Answers</b>
+                     </a>.
+                  </li>
+               </ul>
+               </p>
+               <img src="/static/app/ot_security_soln_accelerator/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+               <!--img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_prev_exer_grey_nr.png"/>
+                  <a href="/app/supply_chain_edi/pm_get_data_01">
+                  <img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_next_exer_nr.png"/>
+                  </a-->
+            </ul>
+            <table>
+               <tr>
+                  <td>
+                     <div class="col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 photo-box">
+                        <!--img src="/static/app/supply_chain_edi/Brian_Gilmore_white.png" alt="Supply Chain Visibility and Optimization expert photo" title=""/-->
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         </html>
+      </panel>
+   </row>
+</dashboard>

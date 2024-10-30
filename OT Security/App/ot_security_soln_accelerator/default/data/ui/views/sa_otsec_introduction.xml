@@ -1,0 +1,215 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+   <label>Introduction</label>
+   <row>
+      <panel>
+         <html>
+            <img width="1200" usemap="#nav_banner_map" src="/static/app/ot_security_soln_accelerator/SA_OT_Sec_banner_01.png"/>
+            <map name="nav_banner_map">
+               <area shape="rect" coords="40,365,172,400" alt="demo" target="_show_demo" href="http://demo-fraud.splunkoxygen.com/demos/Splunk_Predictive_Analytics/"/>
+            </map>
+            <h1>
+               <img width="45" src="/static/app/supply_chain_edi/SI_image_icon_07.png"/>
+               WELCOME TO SPLUNK SOLUTIONS ACCELERATOR : <font color="#8B0000">OT Security</font>
+            </h1>
+            <p>
+               Explore the new Solutions Accelerator for <b>Supply Chain Vibility and Optimization</b> to access a variety of solution components designed to jump-start your visibility into supply chain operations. Use the <b>navigation tab</b> to find documentation, template analyses, and ready-to-use dashboards.
+            </p>
+ 
+         </html>
+      </panel>
+   </row>
+   <row id="tabs">
+      <panel>
+         <html>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+               </li>
+               <li class="active">
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_01"> <font color="#8B0000">1 | INTRODUCTION</font></a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_02"><font color="#8B0000">2 | WHY SPLUNK?</font></a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_03"><font color="#8B0000">3 | SOLUTION SCENARIO</font></a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_04"><font color="#8B0000">4 | REFERENCE ARCHITECTURE</font></a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_05"><font color="#8B0000">5 | REQUIREMENTS</font></a>
+               </li>
+
+               <!--li><a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_next">WHAT'S NEXT?</a></li-->
+            </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_01">
+      <panel>
+         <html>
+            <h1>
+               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+               <b>INTRODUCTION</b> 
+            </h1>
+            <ul>
+               <p>The goal of this OT Security Solution Architecture is more than just providing dashboards and content within Splunk Enterprise and Splunk Cloud.  The overall goal is to help organizations better understand how to address specific use cases and challenges when dealing with an OT environment. This includes providing customers information regarding:</p>
+               <ul>
+                  <ul>
+                     <li><b>Reference architectures</b> :  Designed to help you understand how other organizations today deploy Splunk in various scenarios such as air gapped environments, hybrid, or even cloud scenarios</li>
+                     <li><b>Data management</b> : This data management content provides guidance around how to get data into Splunk with and without agents, based on real customer experience and dealing with OT environment limitations.</li>
+                     <li><b>Install Guide and Configuration Guide</b> : These guides help you understand how to deploy this app and additional configuration needed to use the existing dashboards are populating..</li>
+                  </ul>
+               </ul>
+               <p>The Solution Accelerator is designed to help you get started with Splunk Enterprise and Splunk Cloud.  For a more complete and integrated solution with Splunk Enterprise Security it is recommended you leverage the OT Security Add-on for Splunk or contact your sales team for more information.</p>
+               </ul>
+               
+               <hr/>
+               <h2>
+               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+                  <b>HELPFUL RESOURCES</b> 
+               </h2>
+               <ul>
+               <ul>
+               <h2>
+                  <b>Splunk Lantern for Industries</b> 
+               </h2>
+               <p>Let Splunk experts light your path toward gaining valuable data insights, achieving your key use cases, and managing Splunk more efficiently.</p>
+               <p>Our official product documentation will help you understand how to generally set up alerts and dashboards, but it won't connect that information to specific data types and vertical specific use cases.</p>
+               <p>That's where Lantern comes in - by providing information that's written by Splunk experts, is applicable across different types of environments, and is oriented towards your industries specific goals, you get the step-by-step guidance you need to plug into your deployment and start working toward your business use cases right away.</p>
+               <p>The Lantern Use Case Explorer for the Splunk Platform is designed to help inspire as you develop new use cases using either Splunk Enterprise or Splunk Cloud Platform and will guide you to know how to implement use cases specific to your industry, no matter where you are in your data journey.</p>
+               <h2>
+                  <b>Splunk for Manufacturing</b> 
+               </h2>
+               <p>See how Splunk can help you solve all kinds of data challenges. Explore how to enhance IT/OT Security, achieve foundational visibility across IT and OT systems, enable enhanced business process and service monitoring, and build next-gen operations on Splunk.</p>
+               </ul>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_02">
+      <panel>
+         <html>
+            <h1>
+               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+               WHY SPLUNK ? <!--font color="#8B0000">What is predictive maintenance?</font-->
+            </h1>
+            <ul>
+               <p> Paragraph Content here:</p>
+               <ul>
+                  <ul>
+                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Bullets Here</b> :  description</li>
+                  </ul>
+               </ul>
+          </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_03">
+      <panel>
+         <html tokens="true">
+            <h1>
+               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+               <b>WHAT'S IN THE APP :</b> 
+               <!--a target="_blank" href="https://splunk.box.com/s/91omcsxgsg7pkacabbxum96n0gpim47k">
+                  <img height="15" width="130" src="/static/app/supply_chain_edi/SI_image_demo_video.png"/>
+                  </a-->
+            </h1>
+            <ul>
+               <p> Paragraph Content here:</p>
+               <ul>
+                  <ul>
+                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Bullets Here</b> :  description</li>
+                  </ul>
+               </ul>
+          </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_04">
+      <panel>
+         <html tokens="true">
+            <h1>
+               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+               <b>DATA STORY :</b> <font color="#8B0000">Why predictive maintenance?</font>
+            </h1>
+            <ul>
+               <p> Paragraph Content here:</p>
+               <ul>
+                  <ul>
+                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Bullets Here</b> :  description</li>
+                  </ul>
+               </ul>
+          </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_05">
+      <panel>
+         <html tokens="true">
+            <h1>
+               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+               <b>REQUIREMENTS :</b> 
+               <!--a target="_blank" href="https://splunk.box.com/s/91omcsxgsg7pkacabbxum96n0gpim47k">
+                  <img height="15" width="130" src="/static/app/supply_chain_edi/SI_image_demo_video.png"/>
+                  </a-->
+            </h1>
+            <ul>
+               <p> Paragraph Content here:</p>
+               <ul>
+                  <ul>
+                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Bullets Here</b> :  description</li>
+                  </ul>
+               </ul>
+          </ul>
+          </html>
+      </panel>
+   </row>
+   <row id="tab_next">
+      <panel>
+         <html tokens="true">
+               <h1>
+                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+                  <!--a href="/app/supply_chain_edi/sec_search_02">
+                     <img width="100" src="/static/app/supply_chain_edi/SI_image_next_high.png"/>
+                     </a-->
+               </h1>
+            <ul>
+
+               <p>
+                  Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+
+               <ul>
+                  <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494"><b>Solutions Accelerator</b></a> page.</li>
+                  <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert"><b>Contact Us</b></a></li>
+                  <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/"><b>Splunk Answers</b></a>.</li>
+               </ul>
+               </p>
+               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+               <!--img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_prev_exer_grey_nr.png"/>
+                  <a href="/app/supply_chain_edi/pm_get_data_01">
+                  <img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_next_exer_nr.png"/>
+                  </a-->
+            </ul>
+            <table>
+               <tr>
+                  <td>
+                     <div class="col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 photo-box">
+                        <!--img src="/static/app/supply_chain_edi/Brian_Gilmore_white.png" alt="Supply Chain Visibility and Optimization expert photo" title=""/-->
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         </html>
+      </panel>
+   </row>
+</dashboard>

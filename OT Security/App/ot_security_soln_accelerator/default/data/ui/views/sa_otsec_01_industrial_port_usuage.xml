@@ -6,7 +6,7 @@
          <html>
             <ul>
                <h1>
-                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <img width="35" src="/static/app/ot_security_soln_accelerator/PM_image_icon_target.png"/>
                   <font color="#8B0000">Introduction to Industrial Port Usage</font>
                </h1>
                <p>Operational Technology (OT) environments commonly use specific ports and protocols when communicating with Industrial Control Systems (ICS) and industrial OT devices like programmable logic controllers (PLCs) and remote terminal units (RTUs). Identifying and labeling this traffic can be helpful to understand communications across the network, and can also help you remove ambiguity around the intent of the traffic.
@@ -101,7 +101,7 @@
          <html tokens="true">
             <ul>
                <h1>
-                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_ques.png"/>
                   <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
                   <!--a href="/app/supply_chain_edi/sec_search_02">
                      <img width="100" src="/static/app/supply_chain_edi/SI_image_next_high.png"/>
@@ -124,7 +124,7 @@
                   </li>
                </ul>
                </p>
-               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+               <img src="/static/app/ot_security_soln_accelerator/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
                <!--img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_prev_exer_grey_nr.png"/>
                   <a href="/app/supply_chain_edi/pm_get_data_01">
                   <img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_next_exer_nr.png"/>

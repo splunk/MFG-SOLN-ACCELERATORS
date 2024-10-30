@@ -5,14 +5,14 @@
          <html>
             <img width="1200" usemap="#nav_banner_map" src="/static/app/ot_security_soln_accelerator/SA_OT_Sec_banner_01.png"/>
             <map name="nav_banner_map">
-               <area shape="rect" coords="40,365,172,400" alt="demo" target="_show_demo" href="http://demo-fraud.splunkoxygen.com/demos/Splunk_Predictive_Analytics/"/>
+               <area shape="rect" coords="40,365,172,400" alt="demo" target="_show_demo" href="/app/ot_security_soln_accelerator/industrial_port_usage"/>
             </map>
             <h1>
-               <img width="45" src="/static/app/supply_chain_edi/SI_image_icon_07.png"/>
-               WELCOME TO SPLUNK SOLUTIONS ACCELERATOR : <font color="#8B0000">OT Security</font>
+               <img width="45" src="/static/app/ot_security_soln_accelerator/SI_image_icon_07.png"/>
+               WELCOME TO SPLUNK OT SECURITY SOLUTIONS ACCELERATOR : <font color="#8B0000">OT Security</font>
             </h1>
             <p>
-               Explore the new Solutions Accelerator for <b>Supply Chain Vibility and Optimization</b> to access a variety of solution components designed to jump-start your visibility into supply chain operations. Use the <b>navigation tab</b> to find documentation, template analyses, and ready-to-use dashboards.
+               Explore the new <b>OT Security Solutions Accelerator</b> to access a variety of solution components designed to jump-start your journey to securing your OT environemtn. Use the <b>navigation tab</b> to find documentation, use cases, and ready-to-use examples.
             </p>
  
          </html>
@@ -22,7 +22,7 @@
       <panel>
          <html>
             <ul id="tabs" class="nav nav-tabs">
-               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+               <li> <img width="200" src="/static/app/ot_security_soln_accelerator/PM_image_icon_navi_gr_button.png"/>
                </li>
                <li class="active">
                   <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_01"> <font color="#8B0000">1 | INTRODUCTION</font></a>
@@ -31,7 +31,7 @@
                   <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_02"><font color="#8B0000">2 | WHY SPLUNK?</font></a>
                </li>
                <li>
-                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_03"><font color="#8B0000">3 | SOLUTION SCENARIO</font></a>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_03"><font color="#8B0000">3 | WHAT'S IN THE APP</font></a>
                </li>
                <li>
                   <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_04"><font color="#8B0000">4 | REFERENCE ARCHITECTURE</font></a>
@@ -49,11 +49,11 @@
       <panel>
          <html>
             <h1>
-               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+               <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_target.png"/>
                <b>INTRODUCTION</b> 
             </h1>
             <ul>
-               <p>The goal of this OT Security Solution Architecture is more than just providing dashboards and content within Splunk Enterprise and Splunk Cloud.  The overall goal is to help organizations better understand how to address specific use cases and challenges when dealing with an OT environment. This includes providing customers information regarding:</p>
+               <p>The goal of the OT Security Solution Accelerator is more than just providing dashboards and content within Splunk Enterprise and Splunk Cloud.  The overall goal is to help organizations better understand how to address specific use cases and challenges when dealing with an OT environment. This includes providing customers information regarding:</p>
                <ul>
                   <ul>
                      <li><b>Reference architectures</b> :  Designed to help you understand how other organizations today deploy Splunk in various scenarios such as air gapped environments, hybrid, or even cloud scenarios</li>
@@ -66,7 +66,7 @@
                
                <hr/>
                <h2>
-               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+               <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_bulb.png"/>
                   <b>HELPFUL RESOURCES</b> 
                </h2>
                <ul>
@@ -91,16 +91,19 @@
       <panel>
          <html>
             <h1>
-               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
-               WHY SPLUNK ? <!--font color="#8B0000">What is predictive maintenance?</font-->
+               <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_bulb.png"/>
+               WHY SPLUNK ? 
             </h1>
             <ul>
-               <p> Paragraph Content here:</p>
+               <p>
+                 Many OT environments are compromised of multiple OT vendor solutions which follow different practices when logging data.  Also the need to monitor underlying infrastructure is crucial to protecting the complete OT environment.  Leveraging Splunk allows you to ingest this diverse and well-known data into a single system and then apply structure at readtime.  This same data can then be leveraged for operation and system use cases, helping organizations achieve better resilence.  
+               </p>
+               <p>The advantages of using Splunk for OT Security are:</p>
                <ul>
                   <ul>
-                     <li><b>Bullets Here</b> :  description</li>
-                     <li><b>Bullets Here</b> :  description</li>
-                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Scalability</b> :  From mebabytes to pedabytes, Splunk is designed to scale for large and small data loads as needed.  Splunk in OT can be deployed as a single instance to distributed high availablity clusters.</li>
+                     <li><b>Quick value</b> :  Splunk's ability to ingest structured and unstructure data provides an advatange with the diverse forms of data encountered within OT environments.  This allows organizations to begin using their OT data without worrying about schematizing the data beforehand.  Data is accessible immediately upon ingest.</li>
+                     <li><b>Flexibility</b> :  Splunk's ability to ingest data from air-gapped, shared, hybrid, or cloud environments helps organizations deploy Splunk in the manner they need to.  In addition, Splunk can collect data via agent and agentless methods allow it to meet vendors requirements without compromising safety or security.</li>
                   </ul>
                </ul>
           </ul>
@@ -111,19 +114,15 @@
       <panel>
          <html tokens="true">
             <h1>
-               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+               <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_bulb.png"/>
                <b>WHAT'S IN THE APP :</b> 
-               <!--a target="_blank" href="https://splunk.box.com/s/91omcsxgsg7pkacabbxum96n0gpim47k">
-                  <img height="15" width="130" src="/static/app/supply_chain_edi/SI_image_demo_video.png"/>
-                  </a-->
             </h1>
             <ul>
-               <p> Paragraph Content here:</p>
+               <p> This app includes two main components detailed below:</p>
                <ul>
                   <ul>
-                     <li><b>Bullets Here</b> :  description</li>
-                     <li><b>Bullets Here</b> :  description</li>
-                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Use Cases</b> :  This sections includes detailed information on base searches and examples within the app. This content can also be found in the IT/OT Security section on <a href="https://lantern.splunk.com/Splunk_Platform/UCE/Manufacturing">Lantern for Manufacturing</a></li>
+                     <li><b>Examples</b> :  The examples included contain content that can be used in production that implement the use cases.  In each case, the same base searches used in the use case section are leveraged in these examples.</li>
                   </ul>
                </ul>
           </ul>
@@ -134,16 +133,18 @@
       <panel>
          <html tokens="true">
             <h1>
-               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
-               <b>DATA STORY :</b> <font color="#8B0000">Why predictive maintenance?</font>
+               <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_bulb.png"/>
+               <b>REFERENCE ARCHITECTURE :</b> 
             </h1>
             <ul>
-               <p> Paragraph Content here:</p>
+               <p>Deployment of Splunk within an OT environment needs to accomodate various different scenarios.  This includes different architectures and methods to collect data from OT assets.  The following resources are available to help answer your questions:</p>
                <ul>
                   <ul>
-                     <li><b>Bullets Here</b> :  description</li>
-                     <li><b>Bullets Here</b> :  description</li>
-                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b><a href="https://github.com/splunk/MFG-SOLN-ACCELERATORS/blob/main/OT%20Security/Documentation/Data%20Management.md">Data Management Guide</a></b> :  This guide provides detailed information on how customers collect data in OT environments with and without agents.</li>
+                     <li><b><a href="https://github.com/splunk/MFG-SOLN-ACCELERATORS/blob/main/OT%20Security/Reference%20Architecture/Splunk%20Arch%20-%20OT%20and%20IT%20Isoldated%20On%20Premise.pdf">OT and IT Isolated Instances of Splunk</a></b> :  Architecture for scenarios where Splunk may be deployed on premise in a dedicated OT Splunk instance</li>
+                     <li><b><a href="https://github.com/splunk/MFG-SOLN-ACCELERATORS/blob/main/OT%20Security/Reference%20Architecture/Splunk%20Arch%20-%20Shared%20IT%3AOT%20On%20Premise.pdf">Shared IT/OT On Premise Instances of Splunk</a></b> :  Architecture of a unified IT/OT instances of Splunk kept on premise</li>
+                     <li><b><a href="Splunk Arch - OT On Premise and IT in Cloud.pdf">OT On Premise and IT in Cloud Instances of Splunk</a></b> :  Architecture of a instance where the OT instance of Splunk remains on premise and IT leverages Splunk in the Cloud (also known as hybrid)</li>
+                     <li><b><a href="https://github.com/splunk/MFG-SOLN-ACCELERATORS/blob/main/OT%20Security/Reference%20Architecture/Splunk%20Arch%20-%20OT%20in%20Cloud.pdf">OT in Cloud Instances of Splunk</a></b> :  Architecture of how to get data to a cloud instance of Splunk</li>
                   </ul>
                </ul>
           </ul>
@@ -154,19 +155,27 @@
       <panel>
          <html tokens="true">
             <h1>
-               <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+               <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_bulb.png"/>
                <b>REQUIREMENTS :</b> 
-               <!--a target="_blank" href="https://splunk.box.com/s/91omcsxgsg7pkacabbxum96n0gpim47k">
-                  <img height="15" width="130" src="/static/app/supply_chain_edi/SI_image_demo_video.png"/>
-                  </a-->
             </h1>
             <ul>
-               <p> Paragraph Content here:</p>
+              <h2><b>CONFIGURATION GUIDES</b></h2>
+               <p> The following knowledge objects must be configured in order for dashboards and reports to populate:</p>
                <ul>
                   <ul>
-                     <li><b>Bullets Here</b> :  description</li>
-                     <li><b>Bullets Here</b> :  description</li>
-                     <li><b>Bullets Here</b> :  description</li>
+                     <li><b>Eventtypes</b> :  Eventtypes are used to tag data so that base searches know what data to search.</li>
+                     <li><b>Macros</b> :  Macros allow a user to filter data that is used across the app.</li>
+                     <li><b>Lookups</b> :  Lookups are used to identify industrial data protocols within network and firewall traffic.</li>
+                  </ul>
+               </ul>
+               <p></p><p>For more detailed guide see the <a href="https://github.com/splunk/MFG-SOLN-ACCELERATORS/blob/main/OT%20Security/Documentation/Configuration%20Guide.md">Configuration Guide</a> on the <a href="https://github.com/splunk/MFG-SOLN-ACCELERATORS/tree/main/OT%20Security">OT Security Solution Accelerator</a> on github</p>
+              <h2><b>DATA SOURCES</b></h2>
+               <p> The use cases and examples here make use of the following data sources:</p>
+               <ul>
+                  <ul>
+                     <li><b>Network Traffic</b> :  Network traffic is used to identify access attempts to assets such as remote access hosts and to identify industrial protocol traffic.</li>
+                     <li><b>Firewall Traffic</b> :  Firewall traffic is used for the Perimeter Security use cases where ingress and egress traffic is analyzed.</li>
+                     <li><b>Windows Registry Events</b> :  Windows registry events contain information on the use of external media devices such as USB drive.</li>
                   </ul>
                </ul>
           </ul>
@@ -177,11 +186,8 @@
       <panel>
          <html tokens="true">
                <h1>
-                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_ques.png"/>
                   <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
-                  <!--a href="/app/supply_chain_edi/sec_search_02">
-                     <img width="100" src="/static/app/supply_chain_edi/SI_image_next_high.png"/>
-                     </a-->
                </h1>
             <ul>
 
@@ -190,21 +196,18 @@
 
                <ul>
                   <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494"><b>Solutions Accelerator</b></a> page.</li>
-                  <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert"><b>Contact Us</b></a></li>
+                  <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=ot_security" target="_ask_expert"><b>Contact Us</b></a></li>
                   <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/"><b>Splunk Answers</b></a>.</li>
                </ul>
                </p>
-               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
-               <!--img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_prev_exer_grey_nr.png"/>
-                  <a href="/app/supply_chain_edi/pm_get_data_01">
-                  <img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_next_exer_nr.png"/>
-                  </a-->
+               <img src="/static/app/ot_security_soln_accelerator/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=ot_security" class="btn" target="_ask_expert">Contact Us</a>
+
             </ul>
             <table>
                <tr>
                   <td>
                      <div class="col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 photo-box">
-                        <!--img src="/static/app/supply_chain_edi/Brian_Gilmore_white.png" alt="Supply Chain Visibility and Optimization expert photo" title=""/-->
+                        
                      </div>
                   </td>
                </tr>

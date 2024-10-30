@@ -6,7 +6,7 @@
          <html>
             <ul>
                <h1>
-                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <img width="35" src="/static/app/ot_security_soln_accelerator/PM_image_icon_target.png"/>
                   <font color="#8B0000">Introduction to Monitoring ingress and egress traffic across Operational Technology perimeters </font>
                </h1>
                <p>In many organizations, Operational Technology (OT) environments are separated from other environments by a security perimeter (often referred to as an airgap). In many cases, the airgap consists of a firewall, intrusion prevention system (IPS), or data diode.
@@ -225,10 +225,10 @@ Certain types of traffic might represent a higher risk to your OT environment, a
          <html tokens="true">
             <ul>
                <h1>
-                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_ques.png"/>
                   <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
-                  <!--a href="/app/supply_chain_edi/sec_search_02">
-                     <img width="100" src="/static/app/supply_chain_edi/SI_image_next_high.png"/>
+                  <!--a href="/app/ot_security_soln_accelerator/sec_search_02">
+                     <img width="100" src="/static/app/ot_security_soln_accelerator/SI_image_next_high.png"/>
                      </a-->
                </h1>
                <p>
@@ -248,17 +248,17 @@ Certain types of traffic might represent a higher risk to your OT environment, a
                   </li>
                </ul>
                </p>
-               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
-               <!--img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_prev_exer_grey_nr.png"/>
-                  <a href="/app/supply_chain_edi/pm_get_data_01">
-                  <img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_next_exer_nr.png"/>
+               <img src="/static/app/ot_security_soln_accelerator/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+               <!--img height="15" width="118" src="/static/app/ot_security_soln_accelerator/SI_image_button_prev_exer_grey_nr.png"/>
+                  <a href="/app/ot_security_soln_accelerator/pm_get_data_01">
+                  <img height="15" width="118" src="/static/app/ot_security_soln_accelerator/SI_image_button_next_exer_nr.png"/>
                   </a-->
             </ul>
             <table>
                <tr>
                   <td>
                      <div class="col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 photo-box">
-                        <!--img src="/static/app/supply_chain_edi/Brian_Gilmore_white.png" alt="Supply Chain Visibility and Optimization expert photo" title=""/-->
+                        <!--img src="/static/app/ot_security_soln_accelerator/Brian_Gilmore_white.png" alt="Supply Chain Visibility and Optimization expert photo" title=""/-->
                      </div>
                   </td>
                </tr>

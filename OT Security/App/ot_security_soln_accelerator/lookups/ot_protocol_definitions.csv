@@ -1,0 +1,25 @@
+app,port_number,transport,description,protocol_tag
+CODESYS,1200,TCP,"Programmable logic controller (PLC) development, communication protocol and runtime environment.",industrial
+FOCAS,8193,TCP,Standard protocol for collecting data from Fanuc CNC machines,industrial
+GVCP,3956,UDP,GigE Vision communication protocol for industrial cameras,industrial
+GVSP,20202,UDP,GigE Vision stream protocol for industrial cameras,industrial
+PC-WORX,1962,TCP,Software suite with proprietary protocol for Phoenix Contact PLCs,industrial
+PROCONOS,20547,TCP,Real-time operating system with proprietary protocol for industrial automation and control,industrial
+RTPS,7412,UDP,RTI's Real-Time Publish-Suscribe protocol for Data Distribution Systems (DDS),industrial
+MODBUS,502,tcp,Widely used industrial communication protocol,industrial
+CSPV4,2222,TCP,Allen-Bradley's protocol for industrial Ethernet communication,industrial
+MTCONNECT,7878,TCP,"Protocol for data exchange between manufacturing equipment, devices, and software applications",industrial
+CRIMSON,789,TCP,Red Lion's programming protocol,industrial
+ETHERCAT,34980,UDP,Real-time industrial Ethernet communication protocol for automation systems,industrial
+ETHER-S-I/O,6060,UDP,Proprietary protocol for Saia PCD controller I/O communication,industrial
+GE-SRTP,18245,TCP,General Electric's protocol for communication between GE devices and SCADA,industrial
+FINS,9600,UDP,Omron's industrial communication protocol for automation systems,industrial
+S7COMM,102,TCP,Communication protocol for Siemens S7 PLCs,industrial
+HICP,3250,UDP,HMS IP Configuration Protocol,industrial
+ATG,10001,TCP,Veeder Root's Automatic Tank Gauge (ATG) protocol,industrial
+DICOM,104,TCP,Communication and management of medical imaging information,industrial
+BSAP,1234,UDP,Emerson's Bristol Synchronous Asynchonous Protocol,industrial
+KNXNET/IP,3671,UDP,Protocol for home and building automation systems,industrial
+BACNET/IP,47808,UDP,Building automation and control network communication protocol for HVAC systems,industrial
+ICCP,102,TCP,Real-time data exchange between power system control centers,industrial
+IEC-60870-5-104,2404,TCP,Grid communication protocol for control and monitoring,industrial

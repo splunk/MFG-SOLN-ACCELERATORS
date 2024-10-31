@@ -1,0 +1,212 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>04 : Monitoring removable media devices in Operational Technology environments</label>
+  <description>Use Case - Monitoring removable media devices in Operational Technology environments</description>
+  <row>
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/ot_security_soln_accelerator/PM_image_icon_target.png"/>
+                  <font color="#8B0000">Introduction to Monitoring removable media devices in Operational Technology environments</font>
+               </h1>
+               <p>Industrial environments control critical systems and are used to handle sensitive data. A security breach caused by a connected removable media device (for example, a USB device) can cause significant financial loss, data theft, and operational disruption.</p>
+               <p>Avoiding the use of removable media devices can help reduce potential methods to bypass other security control. In some cases, completely eliminating removable media drives might be impractical, however, monitoring their usage, especially for unapproved removable media devices, can help you understand how security controls can be bypassed. This article explains how you can use the Splunk platform to detect connected removable media devices in your critical system environments.</p>
+               <hr/>
+               <h1>
+                  <font color="#000000">Data required</font>
+               </h1>
+               <p>You'll need to collect data from hosts to monitor the Windows registry. In some cases, the Windows event store might also log removable media share access. To bring in events from the Windows registry it is recommended to use the Splunk Add-on for Microsoft Windows, which already ensures these events are Common Information Model (CIM) compliant. The add-on is most often used with a Splunk universal forwarder on the host..</p>
+               <hr/>
+               <h1>
+                  <font color="#000000">How to use Splunk software for this use case</font>
+               </h1>
+               <ul>
+                  <h2>
+                     <font color="#000000">STAGE 1: Identify OT devices</font>
+                  </h2>
+                  <p>In this stage, you'll identify source or destination hosts located within the OT environment. This is done by creating a macro called is_ot_device which takes in a host and then returns true or false to confirm whether the device is in the OT environment.</p>
+                  <p>To do this, you can:</p>
+                  <ul>
+                     <ul>
+                        <li>Use a lookup table that has a list of OT hosts.</li>
+                        <li>Use a lookup table that has a list of IP ranges for OT devices (for example, when VLANs are used).</li>
+                        <li>Use a static list of OT devices or characteristics (such as host name pattern or asset type).</li>
+                     </ul>
+                  </ul>
+                  <h2>
+                     <font color="#000000">STAGE 2: Monitor Windows registry for external media devices</font>
+                  </h2>
+                  <p>Windows hosts modify the registry when external media devices are used. By monitoring the Windows registry for specific keys, you can monitor the use of external USB devices, even on older legacy systems:</p>
+                  <p>Run the following search. You can optimize it by specifying an index and adjusting the time range.</p>
+                  <pre>tag=network tag=communicate
+| `is_ot_device(src)`=”true” OR `is_ot_device(dest)=true
+| lookup ot_protocol_definitions.csv port_number AS dest_port, transport OUTPUTNEW app,protocol_tag 
+| search protocol_tag="industrial"</pre>
+                  <p>
+              <b>SEARCH EXPLANATION</b>
+            </p>
+                  <p>The table provides an explanation of what each part of this search achieves. You can adjust this query based on the specifics of your environment.</p>
+                  <table border="1">
+                     <tr>
+                        <th>Splunk Search</th>
+                        <th>Explanation</th>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>sourcetype=WinRegistry</code>
+                </td>
+                        <td>Search only Windows registry logs.</td>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>key_path="HKLM\\system\\*controlset*\\enum\\usbstor\\*" registry_type=CreateKey</code>
+                </td>
+                        <td>Search only for newly created entries in the registry.</td>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>| rex field=key_path ".*[(USBSTOR)|(usbstor)]{1}\\\(?&lt;DeviceType&gt;.*)&amp;(V|v)en_(?&lt;Vendor&gt;.*)&amp;(p|P)rod_(?&lt;Product&gt;.*)&amp;(r|R)ev"</code>
+                </td>
+                        <td>Extract the device type, vendor of the device, and product name of the device.</td>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>| search DeviceType="Disk"</code>
+                </td>
+                        <td>Narrow the results down to only external media drives.</td>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>`is_ot_device(dvc)`=true</code>
+                </td>
+                        <td>Narrow the results down to hosts within the OT environment.</td>
+                     </tr>
+                  </table>
+                  <h2>
+                     <font color="#000000">STAGE 3: Allowlist approved devices</font>
+                  </h2>
+                  <p>Where the use of some external media devices are allowed, you might not want approved devices showing up on dashboards. By leveraging an allowlisting technique that eliminates approved devices, you can identify only the unauthorized use of removable media devices. This example assumes that approval is based on device type and is also limited to particular hosts.</p>
+                  <p>To create the allowlist, you can:</p>
+                  <ul>
+                     <ul>
+                        <li>Create a lookup table.</li>
+                        <li>Create a lookup table alias.</li>
+                        <li>Modify the search to identify only approved devices.</li>
+                     </ul>
+                  </ul>
+                  <p>Run the following search. You can optimize it by specifying an index and adjusting the time range.</p>
+                  <pre>sourcetype=WinRegistry
+| search DeviceType="Disk"
+| eval device_id=Vendor + " " + Product
+| inputlookup device_id, host OUTPUT is_approved
+| fillnull is_approved value="false"
+| search is_approved="false"</pre>
+                  <p>
+              <b>SEARCH EXPLANATION</b>
+            </p>
+                  <p>The table provides an explanation of what each part of this search achieves. You can adjust this query based on the specifics of your environment.</p>
+                  <table border="1">
+                     <tr>
+                        <th>Splunk Search</th>
+                        <th>Explanation</th>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>sourcetype=WinRegistry</code>
+                </td>
+                        <td>Search only Windows Registry Logs.</td>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>| rex field=key_path ".*[(USBSTOR)|(usbstor)]{1}\\\(?&lt;DeviceType&gt;.*)&amp;(V|v)en_(?&lt;Vendor&gt;.*)&amp;(p|P)rod_(?&lt;Product&gt;.*)&amp;(r|R)ev"</code>
+                </td>
+                        <td>Extract the device type, vendor of the device, and product name of the device.</td>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>| search DeviceType="Disk"</code>
+                </td>
+                        <td>Narrow the results down to only external media drives.</td>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>| eval device_id=Vendor + " " + Product</code>
+                </td>
+                        <td>Create a <code>device_id</code> to look up.</td>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>| inputlookup device_id, host OUTPUT is_approved</code>
+                </td>
+                        <td>Search in the lookup table to see if the specific <code>device_id</code> and host combination are approved. This assumes the combination of host and device ID are unique.</td>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>| fillnull is_approved value="false"</code>
+                </td>
+                        <td>If the host and device are not in the table, assume the use of external media devices is not approved.</td>
+                     </tr>
+                     <tr>
+                        <td>
+                  <code>| search is_approved="false"</code>
+                </td>
+                        <td>Filter down to only devices that are unapproved.</td>
+                     </tr>
+                  </table>
+               </ul>
+               <hr/>
+               <h1>
+                  <font color="#000000">NEXT STEPS</font>
+               </h1>
+               <p>The dashboard below shows an example of how you can monitor removable media devices to identify all usage of USB removable media devices.</p>
+               <img width="1000" src="/static/app/ot_security_soln_accelerator/sa_ot_sec_scr_07.png"/>
+               <p>You might want to consider using additional correlations to create more proactive processes around the use of removable media. For instance, an alert could be set up to email or create a service ticket to investigate immediately. It might be useful to append data from an additional search to identify the current user logged into a machine in order to reduce investigation time.</p>
+               <p>Using sysmon with the Splunk Add-on for Sysmon can also provide additional logs to help monitor OT systems for other suspicious activity related to removable media.</p>
+               <p>Other resources you might find helpful include:</p>
+               <ul>
+                  <ul>
+                     <li>The OT Security Add-on for Splunk provides additional dashboards for monitoring the usage of removable media. The add-on also provides specific correlation searches to generate notables or leverage risk based alerting, as well as detections from endpoint protection products and monitoring of file share access.</li>
+                     <li>The CISO’s guide to complete security for industrial control systems might be useful to identify key areas of focus for protecting OT and industrial control system environments.</li>
+                     <li>Use case: Removable devices connected to a machine.</li>
+                     <li>Use case: File added to the system through external media</li>
+                  </ul>               </ul>
+                  <p>Splunk OnDemand Services: Use these credit-based services for direct access to Splunk technical consultants with a variety of technical services from a pre-defined catalog. Most customers have OnDemand Services per their license support plan. Engage the ODS team at ondemand@splunk.com if you would like assistance.</p>
+
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+
+               </h1>
+               <p>
+                  Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+               <ul>
+                  <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/8373">
+                     <b>Solutions Accelerator</b>
+                     </a> page.
+                  </li>
+                  <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=ot_security" target="_ask_expert">
+                     <b>Contact Us</b>
+                     </a>
+                  </li>
+                  <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/">
+                     <b>Splunk Answers</b>
+                     </a>.
+                  </li>
+               </ul>
+               </p>
+               <img src="/static/app/ot_security_soln_accelerator/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=ot_security" class="btn" target="_ask_expert">Contact Us</a>
+            
+            </ul>
+            
+         </html>
+    </panel>
+  </row>
+</dashboard>

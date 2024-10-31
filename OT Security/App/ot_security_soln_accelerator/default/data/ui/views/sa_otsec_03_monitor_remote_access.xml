@@ -1,9 +1,9 @@
 <dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
-   <label>03 : Monitoring remote access to Operational Technology environments </label>
-   <description>Use Case - Monitoring remote access to Operational Technology environments </description>
-   <row>
-      <panel>
-         <html>
+  <label>03 : Monitoring remote access to Operational Technology environments</label>
+  <description>Use Case - Monitoring remote access to Operational Technology environments</description>
+  <row>
+    <panel>
+      <html>
             <ul>
                <h1>
                   <img width="35" src="/static/app/ot_security_soln_accelerator/PM_image_icon_target.png"/>
@@ -43,7 +43,9 @@
 | eval action=CASE(EventCode=4624 OR EventCode=528, "Success", EventCode=4625 OR EventCode=529, "Failure")
 | search `is_remote_access_host(dest)`=true
 | table _time, user, src, dest,action</pre>
-                  <p><b>SEARCH EXPLANATION</b></p>
+                  <p>
+              <b>SEARCH EXPLANATION</b>
+            </p>
                   <p>The table provides an explanation of what each part of this search achieves. You can adjust this query based on the specifics of your environment.</p>
                   
 <table border="1">
@@ -52,23 +54,33 @@
     <th>Explanation</th>
   </tr>
   <tr>
-    <td><code>source=WinEventLog:Security</code></td>
+    <td>
+                  <code>source=WinEventLog:Security</code>
+                </td>
     <td>Search only Windows Security logs.</td>
   </tr>
   <tr>
-    <td><code>Logon_Type=10</code></td>
+    <td>
+                  <code>Logon_Type=10</code>
+                </td>
     <td>Search for logon type 10, which indicates remote logons.</td>
   </tr>
   <tr>
-    <td><code>((EventCode=4624 OR EventCode=528) OR</code></td>
+    <td>
+                  <code>((EventCode=4624 OR EventCode=528) OR</code>
+                </td>
     <td>Search for event codes 4624 and 528, which indicate successful logins.</td>
   </tr>
   <tr>
-    <td><code>(EventCode=4625 OR EventCode=529))</code></td>
+    <td>
+                  <code>(EventCode=4625 OR EventCode=529))</code>
+                </td>
     <td>Search for event codes 4625 and 529, which indicate failed logins.</td>
   </tr>
   <tr>
-    <td><code>| eval action=CASE(EventCode=4624 OR EventCode=528, "Success", EventCode=4625 OR EventCode=529, "Failure")</code></td>
+    <td>
+                  <code>| eval action=CASE(EventCode=4624 OR EventCode=528, "Success", EventCode=4625 OR EventCode=529, "Failure")</code>
+                </td>
     <td>Enumerate the login results as success or failure.</td>
   </tr>
 </table>
@@ -81,7 +93,9 @@
                   <pre>tag=network tag=communicate (dest_port=3389 OR app=RDP)
 | search `is_remote_access_host(dest)`=true
 | table _time, user, src, dest</pre>
-                  <p><b>SEARCH EXPLANATION</b></p>
+                  <p>
+              <b>SEARCH EXPLANATION</b>
+            </p>
                   <p>The table provides an explanation of what each part of this search achieves. You can adjust this query based on the specifics of your environment.</p>
                   
 <table border="1">
@@ -90,19 +104,27 @@
     <th>Explanation</th>
   </tr>
   <tr>
-    <td><code>tag=network tag=communicate</code></td>
+    <td>
+                  <code>tag=network tag=communicate</code>
+                </td>
     <td>Search only network traffic logs.</td>
   </tr>
   <tr>
-    <td><code>(dest_port=3389 OR app=RDP)</code></td>
+    <td>
+                  <code>(dest_port=3389 OR app=RDP)</code>
+                </td>
     <td>Search port 3389 for traffic that has been labeled as RDP.</td>
   </tr>
   <tr>
-    <td><code>| search `is_remote_access_host(dest)`=true</code></td>
+    <td>
+                  <code>| search `is_remote_access_host(dest)`=true</code>
+                </td>
     <td>Search for connections to the remote access host as a destination.</td>
   </tr>
   <tr>
-    <td><code>| table _time, user, src, dest</code></td>
+    <td>
+                  <code>| table _time, user, src, dest</code>
+                </td>
     <td>Show the time, user, source, and destination.</td>
   </tr>
 </table>
@@ -130,27 +152,24 @@
 
             </ul>
          </html>
-      </panel>
-   </row>
-   <row id="tab_next">
-      <panel>
-         <html tokens="true">
+    </panel>
+  </row>
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
             <ul>
                <h1>
                   <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_ques.png"/>
                   <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
-                  <!--a href="/app/ot_security_soln_accelerator/sec_search_02">
-                     <img width="100" src="/static/app/ot_security_soln_accelerator/SI_image_next_high.png"/>
-                     </a-->
                </h1>
                <p>
                   Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
                <ul>
-                  <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                  <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/8373">
                      <b>Solutions Accelerator</b>
                      </a> page.
                   </li>
-                  <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                  <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=ot_security" target="_ask_expert">
                      <b>Contact Us</b>
                      </a>
                   </li>
@@ -160,22 +179,9 @@
                   </li>
                </ul>
                </p>
-               <img src="/static/app/ot_security_soln_accelerator/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
-               <!--img height="15" width="118" src="/static/app/ot_security_soln_accelerator/SI_image_button_prev_exer_grey_nr.png"/>
-                  <a href="/app/ot_security_soln_accelerator/pm_get_data_01">
-                  <img height="15" width="118" src="/static/app/ot_security_soln_accelerator/SI_image_button_next_exer_nr.png"/>
-                  </a-->
+               <img src="/static/app/ot_security_soln_accelerator/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=ot_security" class="btn" target="_ask_expert">Contact Us</a>
             </ul>
-            <table>
-               <tr>
-                  <td>
-                     <div class="col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 photo-box">
-                        <!--img src="/static/app/ot_security_soln_accelerator/Brian_Gilmore_white.png" alt="Supply Chain Visibility and Optimization expert photo" title=""/-->
-                     </div>
-                  </td>
-               </tr>
-            </table>
          </html>
-      </panel>
-   </row>
+    </panel>
+  </row>
 </dashboard>

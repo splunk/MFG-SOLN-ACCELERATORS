@@ -103,18 +103,15 @@
                <h1>
                   <img width="45" src="/static/app/ot_security_soln_accelerator/PM_image_icon_ques.png"/>
                   <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
-                  <!--a href="/app/supply_chain_edi/sec_search_02">
-                     <img width="100" src="/static/app/supply_chain_edi/SI_image_next_high.png"/>
-                     </a-->
                </h1>
                <p>
                   Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
                <ul>
-                  <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                  <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/8373">
                      <b>Solutions Accelerator</b>
                      </a> page.
                   </li>
-                  <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                  <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=ot_security" target="_ask_expert">
                      <b>Contact Us</b>
                      </a>
                   </li>
@@ -124,21 +121,9 @@
                   </li>
                </ul>
                </p>
-               <img src="/static/app/ot_security_soln_accelerator/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
-               <!--img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_prev_exer_grey_nr.png"/>
-                  <a href="/app/supply_chain_edi/pm_get_data_01">
-                  <img height="15" width="118" src="/static/app/supply_chain_edi/SI_image_button_next_exer_nr.png"/>
-                  </a-->
+               <img src="/static/app/ot_security_soln_accelerator/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=ot_security" class="btn" target="_ask_expert">Contact Us</a>
             </ul>
-            <table>
-               <tr>
-                  <td>
-                     <div class="col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 photo-box">
-                        <!--img src="/static/app/supply_chain_edi/Brian_Gilmore_white.png" alt="Supply Chain Visibility and Optimization expert photo" title=""/-->
-                     </div>
-                  </td>
-               </tr>
-            </table>
+
          </html>
       </panel>
    </row>

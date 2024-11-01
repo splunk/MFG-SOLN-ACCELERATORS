@@ -1,0 +1,197 @@
+<form version="1.1" theme="dark">
+  <label>Supply Chain Operational Performance</label>
+  <fieldset submitButton="true" autoRun="true">
+    <input type="text" token="INPUT_TRANS" searchWhenChanged="true">
+      <label>Transaction ID</label>
+    </input>
+    <input type="time" token="field1">
+      <label></label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Average days from PO to ASN</title>
+      <single>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" source=edi_quantumline_customer_full ( edi_code=850 OR edi_code=856 ) 
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, list(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id 
+| eval ack_time_took=time_last-time_first 
+| table _time edi_tr_id time_last time_first edi_requestor edi_responder edi_type edi_code ack_time_took 
+| eval ack_time_took_days=ack_time_took/60/60/24
+| sort - ack_time_took_days
+| timechart span=1h avg(ack_time_took_days) as ack_time_took_days
+| sort - _time 
+| head 48
+| sort _time</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="height">100</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel">Days</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Average days from ASN to Warehouse Pickup</title>
+      <single>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" source=edi_quantumline_customer_full ( edi_code=850 OR edi_code=940 ) 
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, list(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id 
+| eval ack_time_took=time_last-time_first 
+| table _time edi_tr_id time_last time_first edi_requestor edi_responder edi_type edi_code ack_time_took 
+| eval ack_time_took_days=ack_time_took/60/60/24
+| sort - ack_time_took_days
+| timechart span=12h avg(ack_time_took_days) as ack_time_took_days
+| sort - _time 
+| head 12
+| sort _time</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="height">100</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel">Days</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Per EDI Code based Processing Status</title>
+      <chart>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" source=edi_quantumline_customer_full NOT ( edi_code=997 ) $INPUT_TRANS$
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, list(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id
+| stats count by edi_code
+| eval code_sort_order=case(edi_code=850,"01-850 PO",edi_code=855,"02-855 PO ACK",edi_code=830,"03-830 PLAN",edi_code=856,"04-856 ASN",edi_code=810,"05-810",edi_code=214,"06-214",edi_code=862,"07-862", edi_code=945,"08-945", edi_code=940,"09-940")
+| sort code_sort_order
+| table code_sort_order count</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">45</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Average days from PO to ASN Trend</title>
+      <chart>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" source=edi_quantumline_customer_full ( edi_code=850 OR edi_code=856 ) $INPUT_TRANS$
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, list(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id 
+| eval ack_time_took=time_last-time_first 
+| table _time edi_tr_id time_last time_first edi_requestor edi_responder edi_type edi_code ack_time_took 
+| eval ack_time_took_days=ack_time_took/60/60/24
+| sort - ack_time_took_days
+| timechart span=1h avg(ack_time_took_days) as ack_time_took_days
+| sort - _time 
+| head 96
+| sort _time</query>
+          <earliest>-30d@d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">connect</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+  </row>
+</form>

@@ -1,0 +1,274 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>04 : Monitoring EDI Acknowledgment Timing</label>
+  <description>Use Case - Monitoring EDI Transactions  |  Monitoring EDI Transmission and Acknowledgment</description>
+  <row>
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <font color="#8B0000">Monitoring EDI Acknowledgment Timing</font>
+               </h1>
+               <!--h2>OVERVIEW :</h2-->
+               <p>For monitoring the performance of EDI transactions, "Acknowledgment Timing" is also a crucial metric to track. Delays in acknowledgment timing can indicate several issues. One possibility is that the systems involved in exchanging EDI transactions are not performing optimally, or there may be infrastructure-related problems such as network congestion or unavailability. Another important indication could be that the receiving system on the other end is unavailable.</p>
+            </ul>
+
+         </html>
+    </panel>
+  </row>
+  <row id="tabs">
+    <panel>
+      <html>
+            <p>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+               </li>
+               <li class="active">
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_00_03,tab_step_00_04,tab_step_00_05,tab_title_01,tab_step_01,tab_title_02,tab_step_02,tab_title_03,tab_step_03,tab_title_04,tab_step_04_01,tab_title_05,tab_step_05,tab_title_05,tab_step_06,tab_step_07,tab_step_08,tab_step_09,tab_step_10">2 | ANALYSIS</a>
+               </li>
+               <li><a href="https://lantern.splunk.com/Splunk_Platform/UCE/Manufacturing/EDI%3A_Acknowledgement_timing" target="_blank">3 | LANTERN RECIPES</a></li>
+            </ul>
+            </p>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_objective">
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>OBJECTIVE :</b> 
+               </h1>
+               <p>Successful transmission and acknowledgment of EDI documents are crucial to maintaining an efficient supply chain. When an EDI document, such as a Purchase Order (EDI 850), is sent, it must be delivered to the intended recipient and acknowledged to confirm receipt. A key part of this process is the functional acknowledgment (EDI 997), which serves as a receipt that confirms whether the document has been successfully received and processed by the trading partner’s system.</p>
+               <p>Several types of EDI documents are commonly used throughout the supply chain, each serving a specific function : 
+               <ul>
+                  <ul>
+                     <li>
+                        <b>Purchase Orders (EDI 850)</b> : Used to place orders with suppliers.
+                     </li>
+                     <li>
+                        <b>Order Acknowledgments (EDI 855)</b> : Confirm that the supplier has received the purchase order.
+                     </li>
+                     <li>
+                        <b>Advance Ship Notices (EDI 856)</b> : Provide details about shipments that are en route.
+                     </li>
+                     <li>
+                        <b>Invoices (EDI 810)</b> : Outline the billing details for the goods or services provided
+                     </li>
+                  </ul>
+               </ul>
+               </p> 
+               <p>The 997 Functional Acknowledgment confirms that these documents have been received and processed successfully. Without receiving these acknowledgments, businesses are left in the dark about whether critical documents have been delivered, risking delays in order fulfillment, inventory management, and payment processing.</p>
+            </ul>
+            <hr width="100%"/>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>THE GOAL :</b> 
+               </h1>
+               <p>The time it takes for a receiving system to send back a 997 functional acknowledgment after an EDI document is transmitted. The 997 confirms that the recipient successfully received and processed the transmitted document.</p>
+               <p>Monitoring the time it takes to receive functional acknowledgments ensures timely confirmation of received documents. Delayed 997s may signal problems with communication or processing, leading to uncertainty about whether the transmitted documents were successfully received.</p>
+
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_00">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_tool.png"/>
+                  <b>ANALYSIS : Monitoring EDI Acknowledgments</b> 
+               </h1>
+               <p>
+                  This solutions template demonstrates a variety of analytics techniques for building solutions. The analysis showcases foundational approaches for generating critical insights, accelerating development by providing an environment with data available for experimentation.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_title_01">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Analyzing EDI response time trends.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>To calculate acknowledgment timing, we need to incorporate additional time-related aggregations into the "stats" command when combining request and acknowledgment events. Using latest(_time) as time_last and earliest(_time) as time_first allows us to determine the time of the initial request and the time of the acknowledgment, respectively. With these timestamps, we can apply a formula to calculate the difference between the "time of the request" and the "time of the acknowledgment" using eval ack_time_took=time_last-time_first. Finally, by using the "timechart" command, we can calculate the average of "ack_time_took" to determine the average time taken for acknowledgment.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_01">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, list(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval ack_time_took=time_last-time_first 
+| timechart avg(ack_time_took) as ack_time_took
+| sort - _time</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F}</colorPalette>
+        </format>
+        <format type="number" field="ack_time_took">
+          <option name="precision">0</option>
+        </format>
+        <format type="color" field="ack_time_took">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+      </table>
+    </panel>
+    <panel>
+      <chart>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, list(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_count by edi_tr_id edi_code_groupby 
+| eval ack_time_took=time_last-time_first 
+| timechart avg(ack_time_took) as ack_time_took</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row id="tab_title_02">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Finding EDI transactions exceeding SLA limit.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>How can we identify transactions that exceed the SLA? Here is a search that applies a threshold to find transactions with an acknowledgment time of 5 seconds or more. Use the search command with the filter “lack_time_took&gt;1000”.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_02">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 02 : Total stats on EDI response status</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval ack_time_took=time_last-time_first 
+| search edi_ack_status=A ack_time_took&gt;1000
+| table _time edi_tr_id time_last time_first edi_requestor edi_responder edi_code edi_ack_status	ack_time_took</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent">
+          <option name="precision">1</option>
+          <option name="unit">%</option>
+        </format>
+        <format type="color" field="percent">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="color" field="ack_time_took">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"A":#55C169}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>RESULT ANALYSIS 02 : Total stats on EDI response status</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval ack_time_took=time_last-time_first 
+| search edi_ack_status=A ack_time_took&gt;1000
+| timechart count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">190</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+               </h1>
+               <p>
+                 Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+                  <ul>
+                     <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                  <b>Solutions Accelerator</b>
+                </a> page.</li>
+                     <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                  <b>Contact Us</b>
+                </a>
+              </li>
+                     <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/">
+                  <b>Splunk Answers</b>
+                </a>.</li>
+                  </ul>
+               </p>
+               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+            </ul>
+            
+         </html>
+    </panel>
+  </row>
+</dashboard>

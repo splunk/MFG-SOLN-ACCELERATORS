@@ -1,0 +1,281 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>01 : Monitoring EDI Transmission and Acknowledgment</label>
+  <description>Use Case - Monitoring EDI Transactions  |  Monitoring EDI Transmission and Acknowledgment</description>
+  
+  <row>
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <font color="#8B0000">Introduction to EDI Transmission and Acknowledgment Monitoring</font>
+               </h1>
+               <p>Electronic Data Interchange (EDI) is a cornerstone of modern supply chain operations, enabling businesses to exchange critical documents electronically, such as purchase orders, shipment notifications, and invoices, in a standardized format. EDI streamlines communication between trading partners by automating the exchange of information, eliminating the need for manual intervention, and reducing the risk of errors associated with paper-based processes.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tabs">
+    <panel>
+      <html>
+            <p>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+            </li>
+               <li class="active">
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a>
+            </li>
+               <!--li><a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_method">2 | SCENARIO</a></li-->
+               <li>
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_00_03,tab_step_00_04,tab_step_00_05,tab_title_01,tab_step_01,tab_title_02,tab_step_02,tab_title_03,tab_step_03,tab_title_04,tab_step_04_01,tab_title_05,tab_step_05,tab_title_05,tab_step_06,tab_step_07,tab_step_08,tab_step_09,tab_step_10,tab_action">2 | ANALYSIS</a>
+               </li>
+               <li><a href="https://lantern.splunk.com/Splunk_Platform/UCE/Manufacturing/EDI%3A_Monitoring_acknowledgements" target="_blank">3 | LANTERN RECIPES</a></li>
+            </ul>
+            </p>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_objective">
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>OBJECTIVE :</b> 
+               </h1>
+               <p>Successful transmission and acknowledgment of EDI documents are crucial to maintaining an efficient supply chain. When an EDI document, such as a Purchase Order (EDI 850), is sent, it must be delivered to the intended recipient and acknowledged to confirm receipt. A key part of this process is the functional acknowledgment (EDI 997), which serves as a receipt that confirms whether the document has been successfully received and processed by the trading partner’s system.</p>
+               <p>Several types of EDI documents are commonly used throughout the supply chain, each serving a specific function : 
+               <ul>
+                  <ul>
+                     <li>
+                        <b>Purchase Orders (EDI 850)</b> : Used to place orders with suppliers.
+                     </li>
+                     <li>
+                        <b>Order Acknowledgments (EDI 855)</b> : Confirm that the supplier has received the purchase order.
+                     </li>
+                     <li>
+                        <b>Advance Ship Notices (EDI 856)</b> : Provide details about shipments that are en route.
+                     </li>
+                     <li>
+                        <b>Invoices (EDI 810)</b> : Outline the billing details for the goods or services provided
+                     </li>
+                  </ul>
+               </ul>
+               </p> 
+               <p>The 997 Functional Acknowledgment confirms that these documents have been received and processed successfully. Without receiving these acknowledgments, businesses are left in the dark about whether critical documents have been delivered, risking delays in order fulfillment, inventory management, and payment processing.</p>
+            </ul>
+            <hr width="100%"/>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>THE GOAL :</b> 
+               </h1>
+               <p>Monitoring the successful transmission and acknowledgment of EDI documents is essential to avoid costly delays, inventory shortages, and miscommunications between trading partners. Failure to detect issues in transmission can lead to disruptions in procurement, production, and fulfillment, ultimately impacting both operational efficiency and customer satisfaction</p>
+               <p>The primary focus of monitoring EDI transmissions and acknowledgments is to ensure the smooth exchange of critical supply chain documents. Specifically, organizations who are dependant of EDI communication for supply chain operations, need to monitor:
+               <ul>
+                  <ul>
+                     <li>
+                        <b>Transmission Success</b> : Track the successful transmission of key EDI documents, such as purchase orders (850), invoices (810), advance shipment notifications (856), and order confirmations (855). Ensuring these documents are sent and received correctly is vital for maintaining the flow of supply chain operations.
+                     </li>
+                     <li>
+                        <b>Transmission Failures</b>: Lost or failed EDI transactions can lead to operational inefficiencies, such as missed orders, delayed shipments, or inventory discrepancies.
+                     </li>
+                     <li>
+                        <b>Acknowledgment Receipts</b> : Monitor the timely receipt of acknowledgment documents, particularly the 997 functional acknowledgment. This confirms that the receiving system has received and processed the transmitted document. It is critical to ensure that acknowledgments are received within the expected time frame to avoid potential communication breakdowns.
+                     </li>
+                     <li>
+                        <b>Missing Acknowledgments</b>: A lack of functional acknowledgment (997) means there’s no confirmation that the recipient system received the document, causing uncertainty in processing.
+                     </li>
+                  </ul>
+               </ul>
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_00">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_tool.png"/>
+                  <b>ANALYSIS : Monitoring EDI Acknowledgments</b> 
+               </h1>
+               <p>
+                  This solutions template demonstrates a variety of analytics techniques for building solutions. The analysis showcases foundational approaches for generating critical insights, accelerating development by providing an environment with data available for experimentation.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_title_01">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Identifying EDI transactions sent by requestors that have not received a response.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>Here is an example of finding EDI 856 (Advance Ship Notice) sent that notifies the customer of a shipping order, where no acknowledgment has been received,  which could mean that a supplier wants to send  shipment, but  the customer was not expecting the shipment which creates potential delays in shipment.</p>
+                     <p>The search results show that EDI 856 ASNs have not been acknowledged by the receiver.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_01">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" 
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type edi_name 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, values(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_name) as edi_name, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| search edi_code_groupby=856 NOT edi_ack_status=A 
+| table _time edi_tr_id edi_requestor edi_responder edi_code edi_name edi_ack_status 
+| eval edi_ack_status=if(isnull(edi_ack_status), "Not Received" , edi_ack_status)</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_title_02">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Statistical snapshot of all EDI transactions with their various response statuses.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>From the results, search for transactions that do not have the "A" (accepted) acknowledgment flag. You'll find transactions with either an empty acknowledgment status, "R" (retransmission), or "E" (errors). By using the "stats" or “top” command, you can quickly determine the total number of EDI transactions, categorized by their different acknowledgment statuses.  The result of the “top” command displays the total number of EDI transactions with various acknowledgment statuses.  By leveraging visualization capabilities, we can clearly see the distribution of different acknowledgment statuses in a visual format.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_02">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 02 : Total stats on EDI response status</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" 
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| search edi_code_groupby=856 NOT edi_ack_status=A 
+| eval edi_ack_status=if(isnull(edi_ack_status), "Not Received" , edi_ack_status) 
+| top edi_ack_status 
+| replace E with Error, R with Reject in edi_ack_status</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent">
+          <option name="precision">1</option>
+          <option name="unit">%</option>
+        </format>
+        <format type="color" field="percent">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+      </table>
+    </panel>
+    <panel>
+      <chart>
+        <title>Total stats on EDI response status (Chart)</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" 
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| search edi_code_groupby=856 NOT edi_ack_status=A 
+| eval edi_ack_status=if(isnull(edi_ack_status), "Not Received" , edi_ack_status) 
+| top edi_ack_status 
+| replace E with Error, R with Reject in edi_ack_status</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">bar</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+
+  <row id="tab_action">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_tool.png"/>
+                  <b>NEXT : See the analysis in action.</b> 
+               </h1>
+               <p>
+                  This solutions template demonstrates a variety of analytics techniques for building solutions. The analysis showcases foundational approaches for generating critical insights, accelerating development by providing an environment with data available for experimentation.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+               </h1>
+               <p>
+                 Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+                  <ul>
+                     <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                  <b>Solutions Accelerator</b>
+                </a> page.</li>
+                     <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                  <b>Contact Us</b>
+                </a>
+              </li>
+                     <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/">
+                  <b>Splunk Answers</b>
+                </a>.</li>
+                  </ul>
+               </p>
+               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+
+            </ul>
+            
+         </html>
+    </panel>
+  </row>
+</dashboard>

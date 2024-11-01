@@ -1,0 +1,257 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>03 : Monitoring Transmission Errors and Retry Rates</label>
+  <description>Use Case - Monitoring EDI Transactions  |  Monitoring EDI Transmission and Acknowledgment</description>
+  <row>
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <font color="#8B0000">Introduction Monitoring Transmission Errors and Retry Rates</font>
+               </h1>
+               <p>Another KPI for monitoring the health of EDI transaction systems is the error and retry rates. Unlike transaction requests that lack an acknowledgment, which may not necessarily indicate an error or failure but rather a delay, errors and retries are more definitive. In this case, we specifically look for requests with acknowledgments marked with "E" for error and "R" for retries. This indicates that the receiving system has indeed received the request, but errors or retries occurred on their end. Therefore, these situations require immediate attention to ensure that proper orders are issued to the supply chain teams.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tabs">
+    <panel>
+      <html>
+            <p>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+               </li>
+               <li class="active">
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_00_03,tab_step_00_04,tab_step_00_05,tab_title_01,tab_step_01,tab_title_02,tab_step_02,tab_title_03,tab_step_03,tab_title_04,tab_step_04_01,tab_title_05,tab_step_05,tab_title_05,tab_step_06,tab_step_07,tab_step_08,tab_step_09,tab_step_10">2 | ANALYSIS</a>
+               </li>
+               <li><a href="https://lantern.splunk.com/Splunk_Platform/UCE/Manufacturing/EDI%3A_Transmission_errors_and_retry_rates" target="_blank">3 | LANTERN RECIPES</a></li>
+               </ul>
+            </p>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_objective">
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>OBJECTIVE :</b> 
+               </h1>
+               <p>Successful transmission and acknowledgment of EDI documents are crucial to maintaining an efficient supply chain. When an EDI document, such as a Purchase Order (EDI 850), is sent, it must be delivered to the intended recipient and acknowledged to confirm receipt. A key part of this process is the functional acknowledgment (EDI 997), which serves as a receipt that confirms whether the document has been successfully received and processed by the trading partner’s system.</p>
+               <p>Several types of EDI documents are commonly used throughout the supply chain, each serving a specific function : 
+               <ul>
+                  <ul>
+                     <li>
+                        <b>Purchase Orders (EDI 850)</b> : Used to place orders with suppliers.
+                     </li>
+                     <li>
+                        <b>Order Acknowledgments (EDI 855)</b> : Confirm that the supplier has received the purchase order.
+                     </li>
+                     <li>
+                        <b>Advance Ship Notices (EDI 856)</b> : Provide details about shipments that are en route.
+                     </li>
+                     <li>
+                        <b>Invoices (EDI 810)</b> : Outline the billing details for the goods or services provided
+                     </li>
+                  </ul>
+               </ul>
+               </p> 
+               <p>The 997 Functional Acknowledgment confirms that these documents have been received and processed successfully. Without receiving these acknowledgments, businesses are left in the dark about whether critical documents have been delivered, risking delays in order fulfillment, inventory management, and payment processing.</p>
+            </ul>
+            <hr width="100%" />
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>THE GOAL :</b> 
+               </h1>
+               <p>Track the percentage of EDI documents that failed or required a retry.  The percentage of EDI documents that encounter errors during transmission, as well as the number of documents that re-tried due to failures or partial transmission</p>
+               <p>A high error rate or frequent retries can indicate underlying issues with the EDI system, such as incorrect formatting, network problems, or data discrepancies. Consistent errors or retries can delay document processing and disrupt supply chain operations.
+               </p>
+
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_00">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_tool.png"/>
+                  <b>ANALYSIS : Monitoring Transmission Errors and Retry Rates</b> 
+               </h1>
+               <p>
+                  This solutions template demonstrates a variety of analytics techniques for building solutions. The analysis showcases foundational approaches for generating critical insights, accelerating development by providing an environment with data available for experimentation.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_title_01">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Identifying EDI transactions with reponse status with error or reject.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>To calculate the error and retry rates, similar to calculating the success rate, we need to count the total number of requests along with the number of error and retry requests, and then apply a formula to determine the respective rates. This involves aggregating both the total requests and the error/retry events. Using the "timechart" command, we can generate a statistical trend with the following SPL. The command “search edi_ack_status=E OR edi_ack_status=R“ will filter for EDI requests that have acknowledgments marked with "E" (Error) or "R" (Retry).</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_01">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status "Error" or "Rejected".</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| search edi_ack_status=E OR edi_ack_status=R</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_title_02">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Analyzing the error and retry rate trends.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>Similar to calculating the transmission success rate, the error and retry rates can be computed using the "eval" command by applying a simple ratio formula. To achieve this, we also need to include transactions that have been successfully accepted by applying a search condition, such as | search edi_ack_status=E OR edi_ack_status=R OR edi_ack_status=A, which adds the "edi_ack_status=A" status. Then, by using the "timechart" command, we can calculate the trend, followed by the "eval" command to determine the total transactions and the error_retry_rate to obtain the error and retry rates.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_02">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 02 : Stats trends on error + retry rate</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| search edi_ack_status=E OR edi_ack_status=R OR edi_ack_status=A 
+| timechart count by edi_ack_status 
+| eval total_transactions=A+E+R 
+| eval error_retry_rate=((E+R)/total_transactions)*100
+| sort - _time</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent">
+          <option name="precision">1</option>
+          <option name="unit">%</option>
+        </format>
+        <format type="color" field="percent">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="error_retry_rate">
+          <option name="precision">1</option>
+          <option name="unit">%</option>
+        </format>
+        <format type="number" field="A">
+          <option name="precision">0</option>
+        </format>
+        <format type="number" field="total_transactions">
+          <option name="precision">0</option>
+        </format>
+        <format type="color" field="error_retry_rate">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+      </table>
+    </panel>
+    <panel>
+      <chart>
+        <title>Visualization on error + retry trend</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| search edi_ack_status=E OR edi_ack_status=R OR edi_ack_status=A 
+| timechart count by edi_ack_status 
+| eval total_transactions=A+E+R 
+| eval error_retry_rate=((E+R)/total_transactions)*100</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisY2.enabled">1</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.overlayFields">A,E,R,total_transactions</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+               </h1>
+               <p>
+                 Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+                  <ul>
+                     <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                  <b>Solutions Accelerator</b>
+                </a> page.</li>
+                     <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                  <b>Contact Us</b>
+                </a>
+              </li>
+                     <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/">
+                  <b>Splunk Answers</b>
+                </a>.</li>
+                  </ul>
+               </p>
+               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+
+            </ul>
+            
+         </html>
+    </panel>
+  </row>
+</dashboard>

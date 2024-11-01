@@ -1,0 +1,232 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>05 : Finding Repeated EDI Failure Patterns</label>
+  <description>Use Case - Monitoring EDI Transactions  |  Monitoring EDI Transmission and Acknowledgment</description>
+  <row>
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <font color="#8B0000">Finding Repeated EDI Failure Patterns</font>
+               </h1>
+               <p>Monitoring message retries is critical for maintaining smooth supply chain operations. Unchecked retries can lead to transmission delays, which in turn disrupt procurement, production, or shipping timelines. Additionally, repeated failed attempts may result in duplicate orders or transactions, causing confusion and operational inefficiencies. By monitoring retries, companies can proactively address communication issues before they escalate into more severe disruptions.</p>
+            </ul>
+
+         </html>
+    </panel>
+  </row>
+  <row id="tabs">
+    <panel>
+      <html>
+            <p>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+               </li>
+               <li class="active">
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_00_03,tab_step_00_04,tab_step_00_05,tab_title_01,tab_step_01,tab_title_02,tab_step_02,tab_title_03,tab_step_03,tab_title_04,tab_step_04_01,tab_title_05,tab_step_05,tab_title_05,tab_step_06,tab_step_07,tab_step_08,tab_step_09,tab_step_10">2 | ANALYSIS</a>
+               </li>
+               <li><a href="https://lantern.splunk.com/Splunk_Platform/UCE/Manufacturing/EDI%3A_Finding_repeated_failure_patterns" target="_blank">3 | LANTERN RECIPES</a></li>
+            </ul>
+            </p>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_objective">
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>OBJECTIVE :</b> 
+               </h1>
+               <p>Successful transmission and acknowledgment of EDI documents are crucial to maintaining an efficient supply chain. When an EDI document, such as a Purchase Order (EDI 850), is sent, it must be delivered to the intended recipient and acknowledged to confirm receipt. A key part of this process is the functional acknowledgment (EDI 997), which serves as a receipt that confirms whether the document has been successfully received and processed by the trading partner’s system.</p>
+               <p>Several types of EDI documents are commonly used throughout the supply chain, each serving a specific function : 
+               <ul>
+                  <ul>
+                     <li>
+                        <b>Purchase Orders (EDI 850)</b> : Used to place orders with suppliers.
+                     </li>
+                     <li>
+                        <b>Order Acknowledgments (EDI 855)</b> : Confirm that the supplier has received the purchase order.
+                     </li>
+                     <li>
+                        <b>Advance Ship Notices (EDI 856)</b> : Provide details about shipments that are en route.
+                     </li>
+                     <li>
+                        <b>Invoices (EDI 810)</b> : Outline the billing details for the goods or services provided
+                     </li>
+                  </ul>
+               </ul>
+               </p> 
+               <p>The 997 Functional Acknowledgment confirms that these documents have been received and processed successfully. Without receiving these acknowledgments, businesses are left in the dark about whether critical documents have been delivered, risking delays in order fulfillment, inventory management, and payment processing.</p>
+            </ul>
+            <hr width="100%" />
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>THE GOAL :</b> 
+               </h1>
+               <p>Message send retries occur when an EDI document (e.g., Purchase Orders, Advance Ship Notices) fails to be acknowledged by the receiving system, prompting the sender to attempt resending the document. These retries can indicate issues such as communication failures, timeouts, or system errors that prevent the successful transmission or receipt of the document. Symptoms include delayed processing, missing acknowledgments (e.g., EDI 997), and a buildup of queued messages waiting for confirmation.</p>
+               <p>It is important to monitor for :
+               <ul>
+                  <ul>
+                     <li>
+                  <b>High Retry Rates</b> : A spike in message retries can indicate persistent transmission issues, such as network outages or system incompatibility.</li>
+                     <li>
+                  <b>Repeated Errors for Specific Documents</b>: If a particular type of document (e.g., 850) or trading partner frequently experiences retries, it may point to configuration problems or partner-specific communication issues.</li>
+                     <li>
+                  <b>Unresolved Retries</b> : Continuous retries without resolution may lead to message failures, signaling a need for immediate intervention.</li>
+                  </ul>
+               </ul>
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_00">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_tool.png"/>
+                  <b>ANALYSIS : Finding Repeated Failure Patterns</b> 
+               </h1>
+               <p>
+                  This solutions template demonstrates a variety of analytics techniques for building solutions. The analysis showcases foundational approaches for generating critical insights, accelerating development by providing an environment with data available for experimentation.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_title_01">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Identifying EDI transactions sent by requestors that have not received a response.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>Using Splunk SPL, it’s easy to identify recurring event patterns. First, we can calculate the total number of EDI codes found within each transaction ID. By aggregating the sum, any count greater than one indicates that there are repeated EDI events within the same transaction, signaling a potential loop.</p>
+                     <p>The results show that EDI code 856 (Advance Ship Notice) appears multiple times for certain transactions. This indicates that multiple ASNs were sent without receiving any acknowledgment, meaning the system is repeatedly attempting to send the same message, creating a loop.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_01">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" source=edi_quantumline_customer_full NOT edi_code=997 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| strcat edi_code "-" edi_ack_status edi_event_pattern_combo 
+| stats count as evt_cnt by edi_tr_id edi_code 
+| search evt_cnt&gt;2</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F}</colorPalette>
+        </format>
+        <format type="color" field="edi_tr_id">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_title_02">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Statistical snapshot of all EDI transactions with their various response statuses.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>As an additional step, we can now verify the event patterns for these two transactions. By using a sub-search, we can automatically filter for transactions that exhibit repetition. The sub-search is embedded within square brackets "[ ]", and the result of this search processes and returns the transaction IDs where repeated EDI codes have occurred.</p>
+                     <p>Here is the complete search with the sub-search applied.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_02">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" NOT edi_code=997 
+    [ search index=supply_chain_edi sourcetype="edi:x12" source=edi_quantumline_customer_full NOT edi_code=997 
+    | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+    | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+    | strcat edi_code "-" edi_ack_status edi_event_pattern_combo 
+    | stats count as evt_cnt by edi_tr_id edi_code 
+    | search evt_cnt&gt;2 
+    | table edi_tr_id ] 
+| table _time edi_tr_id edi_requestor edi_responder edi_code edi_type edi_cont_num edi_date edi_flag edi_time 
+| sort edi_tr_id, _time</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F}</colorPalette>
+        </format>
+        <format type="color" field="edi_tr_id">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+               </h1>
+               <p>
+                 Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+                  <ul>
+                     <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                  <b>Solutions Accelerator</b>
+                </a> page.</li>
+                     <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                  <b>Contact Us</b>
+                </a>
+              </li>
+                     <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/">
+                  <b>Splunk Answers</b>
+                </a>.</li>
+                  </ul>
+               </p>
+               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+
+            </ul>
+         </html>
+    </panel>
+  </row>
+</dashboard>

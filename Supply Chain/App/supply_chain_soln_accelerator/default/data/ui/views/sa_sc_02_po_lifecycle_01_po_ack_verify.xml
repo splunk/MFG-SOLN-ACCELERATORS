@@ -1,0 +1,324 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>01 : Purchase Orders Acknowledgment Verification</label>
+  <description>Use Case - Managing Supply Chain PO Lifecycle  |  Purchase Orders Acknowledgment Verification</description>
+
+  <row>
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <font color="#8B0000">Introduction to Purchase Orders Acknowledgment Verification</font>
+               </h1>
+               <p>Ensuring that suppliers acknowledge Purchase Orders is critical for confirming that they are aware of and processing the order. Without acknowledgement, there is uncertainty whether the supplier is acting on the order, which can cause significant delays.
+               </p>
+            </ul>
+
+         </html>
+    </panel>
+  </row>
+  <row id="tabs">
+    <panel>
+      <html>
+            <p>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+            </li>
+               <li class="active">
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a>
+            </li>
+               
+               <li>
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_00_03,tab_step_00_04,tab_step_00_05,tab_title_01,tab_step_01,tab_title_02,tab_step_02,tab_title_03,tab_step_03,tab_title_04,tab_step_04,tab_title_05,tab_step_05,tab_title_05,tab_step_06,tab_step_07,tab_step_08,tab_step_09,tab_step_10">2 | ANALYSIS</a>
+               </li>
+               <li><a href="https://lantern.splunk.com/Splunk_Platform/UCE/Manufacturing/PO_Monitoring%3A_Acknowledgement_of_purchase_orders" target="_blank">3 | LANTERN RECIPES</a></li>
+            </ul>
+            </p>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_objective">
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>OBJECTIVE :</b> 
+               </h1>
+               <p>To ensure the smooth processing of the Purchase Order lifecycle, it is essential to monitor two major components. These key performance indicators (KPIs) will help track the efficiency and effectiveness of the entire process.</p>
+               <p>
+               <ul>
+                  <ul>
+                     <li>
+                        <b>PurchInitial Purchase Order</b> : Track the transmission and acknowledgment of Purchase Orders (EDI 850) by the supplier.
+                     </li>
+                     <li>
+                        <b>Order Confirmation</b> : Track the actual acknowledgment of Purchase Orders (EDI 855) by the supplier to the buyer.
+                     </li>
+                     <li>
+                        <b>Order Changes</b> : Monitor any modifications to the PO (such as EDI 860 for order changes) and ensure that the changes are acknowledged and correctly processed.
+                     </li>
+                  </ul>
+               </ul>
+               </p> 
+               <p>Ensuring that suppliers are fully informed and in agreement with the order details reduces the risk of discrepancies or missed deliveries. By catching and resolving purchase order discrepancies early in the cycle, businesses can avoid delays in procurement, fulfillment, and payment process</p>
+          <p>Failing to monitor the health of the purchase order lifecycle can result in several critical supply chain operations issues. For instance, a failure to acknowledge purchase orders may lead to supply chain bottlenecks or unfulfilled orders. Additionally, delays in supplier responses can disrupt production schedules and customer delivery timelines.</p>
+            </ul>
+            <hr width="100%"/>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>THE GOAL :</b> 
+               </h1>
+               <p>This KPI tracks the timely receipt of functional acknowledgments (e.g., EDI 997) from suppliers, confirming that they have received and acknowledged the Purchase Order (EDI 850).</p>
+               <p>Watch for missing or delayed acknowledgments. If functional acknowledgments are not received within an expected time frame, it may indicate potential communication issues or that the supplier has not processed the order.</p>
+               <p>There are two types of acknowledgments we can check. The first is the system-level acknowledgment (EDI 997), which indicates that the purchase order (PO) message was technically received. However, more importantly, in the full order-to-cash process cycle, the PO (EDI 850) is generated, followed by the supplier's business-level acknowledgment through an EDI 855 message. This response confirms that the supplier has received and acknowledged the PO from the business level perspective.</p>
+             </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_00">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_tool.png"/>
+                  <b>ANALYSIS : Purchase Orders Acknowledgment Verification</b> 
+               </h1>
+               <p>
+                  This solutions template demonstrates a variety of analytics techniques for building solutions. The analysis showcases foundational approaches for generating critical insights, accelerating development by providing an environment with data available for experimentation.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_title_01">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Identifying Purchase Order with confirmed acknowledgment.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>First for analyzing the system-level acknowledgment, where EDI 850 (PO) pairs with EDI 997 (message acknowledgment), here's a Splunk SPL example that identifies an EDI 850 (Purchase Order) sent to a supplier and properly acknowledged. The search filters for successful transactions using the "edi_ack_status" with the "A" (Accepted) flag, indicating that the Purchase Order was correctly processed and acknowledged.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_01">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_name) as edi_name, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_cnt by edi_tr_id edi_code_groupby 
+| eval edi_ack_status=if(isnull(edi_ack_status), "Not Received" , edi_ack_status) 
+| search edi_ack_status=A 
+| table _time edi_tr_id edi_requestor edi_responder edi_code edi_name edi_ack_status evt_cnt</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F,"A":#55C169}</colorPalette>
+        </format>
+        <format type="color" field="evt_cnt">
+          <colorPalette type="map">{"2":#55C169}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_title_02">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Identifying Purchase Order with no received acknowledgment.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>Here is an example that identifies an EDI 850 (Purchase Order) sent to a supplier but without receiving an acknowledgment EDI 997.  This could indicate that the manufacturer attempted to place an order, but without the acknowledgment, the order may not be fulfilled, potentially causing raw material shortages. The search filters for transactions that do not have the edi_ack_status with the "A" (Accepted) flag.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_02">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 02 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_name) as edi_name, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_cnt by edi_tr_id edi_code_groupby 
+| eval edi_ack_status=if(isnull(edi_ack_status), "Not Received" , edi_ack_status) 
+| search edi_code_groupby=850 NOT edi_ack_status=A 
+| table _time edi_tr_id edi_requestor edi_responder edi_code edi_name edi_ack_status evt_cnt</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F,"A":#55C169}</colorPalette>
+        </format>
+        <format type="color" field="evt_cnt">
+          <colorPalette type="map">{"2":#55C169}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_step_03">
+    <panel>
+      <table>
+        <title>Total stats on EDI response status (Chart)</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_name) as edi_name, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_cnt by edi_tr_id edi_code_groupby 
+| eval edi_ack_status=if(isnull(edi_ack_status), "Not Received" , edi_ack_status)
+| search edi_code_groupby=850 NOT edi_ack_status=A
+| top edi_ack_status</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <format type="number" field="percent">
+          <option name="precision">0</option>
+          <option name="unit">%</option>
+        </format>
+        <format type="color" field="percent">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#D41F1F,"E":#E3723A,"R":#CBA700}</colorPalette>
+        </format>
+      </table>
+    </panel>
+    <panel>
+      <chart>
+        <title>Total stats on EDI response status (Chart)</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_name) as edi_name, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_cnt by edi_tr_id edi_code_groupby 
+| eval edi_ack_status=if(isnull(edi_ack_status), "Not Received" , edi_ack_status)
+| search edi_code_groupby=850 NOT edi_ack_status=A
+| top edi_ack_status</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">-45</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row id="tab_title_04">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Identifying what order items are impacted.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>Now, we want to identify which PO items are associated with unacknowledged requests. Splunk can dynamically parse data during the search, providing a powerful capability for creating data fields used for analysis and grouping. Below is a search example that helps identify specific parts at risk due to unacknowledged purchase orders sent to suppliers.</p>
+                     <p>The results indicate that the purchase orders are at risk of being delayed, which could hinder the timely preparation of the orders. Specifically, the search highlights which supplies are in jeopardy, helping to assess the potential impact on manufacturing if these supplies are critical to the production process.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_04">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 02 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) edi_tr_id=TR*
+| rex field=_raw max_match=100 "(?P&lt;po_item&gt;PO1\|[^\~]*)~" 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_name) as edi_name, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_cnt, values(po_item) as po_item by edi_tr_id edi_code_groupby 
+| eval edi_ack_status=if(isnull(edi_ack_status), "Not Received" , edi_ack_status) 
+| search edi_code_groupby=850 NOT edi_ack_status=A 
+| stats first(_time) as _time, values(po_item) as po_item, count by edi_tr_id edi_requestor edi_responder
+| table _time edi_tr_id	po_item edi_requestor edi_responder count</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F,"A":#55C169}</colorPalette>
+        </format>
+        <format type="color" field="evt_cnt">
+          <colorPalette type="map">{"2":#55C169}</colorPalette>
+        </format>
+        <format type="color" field="po_item">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+               </h1>
+               <p>
+                 Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+                  <ul>
+                     <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                  <b>Solutions Accelerator</b>
+                </a> page.</li>
+                     <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                  <b>Contact Us</b>
+                </a>
+              </li>
+                     <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/">
+                  <b>Splunk Answers</b>
+                </a>.</li>
+                  </ul>
+               </p>
+               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+
+            </ul>
+            
+         </html>
+    </panel>
+  </row>
+</dashboard>

@@ -13,7 +13,7 @@
     <latest>$INPUT_TIME_GLOBAL.latest$</latest>
   </search>
   <search id="search_global_03">
-    <query>index=genesys_sum source=genesys_evt_sum_conv_aggregates metric="$INPUT_METRIC_TYPE_O$" group.ani="*$INPUT_ANI$*" group.conversationId="*$INPUT_CONV_ID$*" | fields + *</query>
+    <query>source=genesys_evt_sum_conv_aggregates metric="$INPUT_METRIC_TYPE_O$" group.ani="*$INPUT_ANI$*" group.conversationId="*$INPUT_CONV_ID$*" | fields + *</query>
     <earliest>$INPUT_TIME_GLOBAL.earliest$</earliest>
     <latest>$INPUT_TIME_GLOBAL.latest$</latest>
   </search>

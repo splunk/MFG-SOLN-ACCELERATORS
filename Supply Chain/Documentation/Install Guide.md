@@ -2,7 +2,20 @@
 
 The Solution Accelerator for Supply Chain Operational Optimization can be installed on a single instance or distributed Splunk environment and should be installed on a Search Head.
 
-## Installation Instructions
+> [!IMPORTANT]  
+> This solution accelerator leverages default index names when generating sample data.  **Before** installing create the following indexes within your Splunk index if you intended to use the sample data:
+> 
+> *supply_chain_edi*
+> 
+> *supply_chain_idoc*
+> 
+> *chip_qa*
+> 
+> *supply_chain_sum_evt_edi_all*
+>
+> Any user of app should have their permissions to search these indexes **by default**
+
+## App Installation Instructions
 
 This app can be installed directly via the Manage Apps features within the Splunk User Interface.  The user attempting to install the app must have the necessary admin capabilities to install the app.
 1.  Hover over the list of apps --> Click the *Manage* Button

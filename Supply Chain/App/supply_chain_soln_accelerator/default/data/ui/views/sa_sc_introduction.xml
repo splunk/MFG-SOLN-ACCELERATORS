@@ -1,0 +1,228 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+   <label>Introduction</label>
+   <row>
+      <panel>
+         <html>
+            <img width="1200" usemap="#nav_banner_map" src="/static/app/supply_chain_edi/SA_SC_banner_02.png"/>
+            <map name="nav_banner_map">
+               <area shape="rect" coords="40,365,172,400" alt="demo" target="_show_demo" href="http://demo-fraud.splunkoxygen.com/demos/Splunk_Predictive_Analytics/"/>
+            </map>
+            <h1>
+               <img width="40" src="/static/app/supply_chain_edi/SI_image_icon_07.png"/>
+               WELCOME TO SPLUNK SOLUTIONS ACCELERATOR : <font color="#8B0000">Supply Chain Visibility &amp; Optimization </font>
+            </h1>
+            <p>
+               Explore the new Solutions Accelerator for <b>Supply Chain Vibility and Optimization</b> to access a variety of solution components designed to jump-start your visibility into supply chain operations. Use the <b>navigation tab</b> to find documentation, template analyses, and ready-to-use dashboards.
+            </p>
+         </html>
+      </panel>
+   </row>
+   <row id="tabs">
+      <panel>
+         <html>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+               </li>
+               <li class="active">
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_01">1 | INTRODUCTION</a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_02">2 | WHY SPLUNK?</a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_03">3 | SCOPE</a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_04">4 | REFERENCE ARCHITECTURE</a>
+               </li>
+               <!--li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_05">5 | REQUIREMENTS</a>
+               </li-->
+            </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_01">
+      <panel>
+         <html>
+            <h1>
+               <img width="40" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+               <b>INTRODUCTION</b> 
+            </h1>
+            <ul>
+               <h2>Unlocking End-to-End Supply Chain Visibility: How Splunk’s Real-Time Analytics Drives Optimization and Efficiency</h2>
+               <table>
+                  <tr>
+                     <td>
+                        <p>Are you struggling with blind spots in your supply chain? Do you find it challenging to have real-time visibility into critical operations like order processing, inventory management, and fulfillment? Poor visibility across your supply chain can lead to delays, inefficiencies, stock imbalances, and missed customer expectations. In today's competitive market, businesses cannot afford to overlook these critical bottlenecks. So how do you ensure you're fully optimized at every step of the way?</p>
+                        <h2>The Need for Supply Chain Operations Analytics</h2>
+                        <p>Supply chain operations are complex, involving multiple applications and business processes that handle critical transactions across the entire order-to-cash cycle. Each stage, from processing purchase orders to managing inventory and shipping, relies on numerous interconnected layers—ranging from IT infrastructure, networks, and systems to the applications that drive these business transactions. Without comprehensive analytics, monitoring these layers and the critical data flowing through them becomes difficult, if not impossible.</p>
+                        <p>Analytics solutions are no longer a luxury; they’re a necessity to monitor, optimize, and predict potential disruptions within your supply chain. Businesses need robust, real-time insights to understand how each piece of the puzzle fits together and to act quickly when issues arise</p>
+                     </td>
+                     <td style="width: 30%; vertical-align: top; padding: 15px;"><img width="2500" usemap="#nav_banner_map" src="/static/app/supply_chain_edi/sa_sc_img_warehouse.png"/></td>
+                  </tr>
+               </table>
+               <img width="800" src="/static/app/supply_chain_edi/sa_sc_img_reference_arch_01.png"/><br/>
+               <h2>Your Journey Starts Here!</h2>
+               <p>Let’s take the first step toward an intelligent supply chain that’s optimized, resilient, and ready for tomorrow. Splunk’s Solutions Accelerator for Supply Chain Optimization is your roadmap to operational excellence, designed to evolve alongside your organization’s needs.</p>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_02">
+      <panel>
+         <html>
+            <h1>
+               <img width="40" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+               WHY SPLUNK ? <!--font color="#8B0000">What is predictive maintenance?</font-->
+            </h1>
+            <ul>
+               <h2>How Splunk's Supply Chain Visibility &amp; Optimization Solutions Accelerator Delivers Results :</h2>
+               <p>Introducing Splunk’s Supply Chain Visibility and Optimization Solutions Accelerator, a powerful analytics solution framework designed to transform the way you manage and optimize your supply chain operations.</p>
+               <p>Splunk’s unique ability to integrate data from disparate systems across the supply chain—combined with its powerful analytics and machine learning capabilities—enables true operational intelligence. This Solutions Accelerator is a one-stop framework for turning supply chain data into actionable insights that keep your operations running efficiently, securely, and reliably.</p>
+               <p>In today’s complex manufacturing landscape, staying competitive means having end-to-end visibility into every link of your supply chain. Our accelerator provides a ready-to-use framework that enables:</p>
+               <ul>
+                  <ul>
+                     <li><b>Real-Time Supply Chain Monitoring</b> :  Get instant visibility into your entire supply chain, from sourcing to delivery.</li>
+                     <li><b>Performance Optimization</b> :  Continuously monitor key performance metrics, identify bottlenecks, and streamline logistics for greater efficiency.</li>
+                     <li><b>Predictive Analytics for Demand Forecasting</b> :  Use AI-powered insights to anticipate demand, optimize inventory, and improve production planning.</li>
+                  </ul>
+               </ul>
+               <hr/>
+               <h2>Splunk's innovative data platform functional architecture :</h2>
+               <img width="700" src="/static/app/supply_chain_edi/sa_sc_img_splunk_platform_01.png"/><br/>
+               <p>Splunk’s Solutions Accelerator for Supply Chain Operational Optimization is designed to streamline the adoption of advanced analytics for businesses, empowering you with the insights needed to drive efficiency and predictability. The solutions accelerator delivers a powerful set of tools to help you overcome challenges in supply chain visibility, inventory management, fulfillment, and more. Here’s what it offers:</p>
+               <ul>
+                  <ul>
+                     <li><b>Reference Architecture</b> :  A proven framework for implementing Splunk’s Supply Chain Optimization solution, tailored to your business needs.</li>
+                     <li><b>Data Collection and Processing Technology Add-On (TA)</b> :  A tool that collects, processes, and normalizes critical supply chain data from multiple sources.</li>
+                     <li><b>Data Models</b> : Predefined models that process various types of supply chain system data, making it easier to perform deep analyses.</li>
+                     <li><b>Analysis Queries and Searches</b> : Ready-made searches and queries to quickly uncover insights, identify anomalies, and track KPIs in real time.</li>
+                     <li><b>Dashboards and Reports</b> : Comprehensive, visual dashboards and reporting tools that give you a real-time overview of supply chain performance across multiple areas, from EDI transactions to inventory levels.</li>
+                  </ul>
+               </ul>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_03">
+      <panel>
+         <html tokens="true">
+            <h1>
+               <img width="40" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+               <b>SOLUTION SCOPE :</b> 
+            </h1>
+            <ul>
+               <p>This proposal outlines a phased journey using Splunk’s data platform to transform supply chain operations into a fully optimized, resilient, and data-driven powerhouse. Splunk’s Solutions Accelerator for Supply Chain Optimization doesn’t just monitor events—it leverages analytics to provide deep operational insights, ensuring each stage of the supply chain is streamlined and secure. This approach will help stakeholders at every level make faster, data-backed decisions.</p>
+               <h2>THE JOURNEY : Phased Solution Rollout</h2>
+               <p>Our strategy unfolds in four phases, with each phase building upon the insights and capabilities introduced in the previous one. This journey offers quick wins while laying the foundation for a scalable, intelligent supply chain that adapts to your organization’s growth and evolving needs.</p>
+               <ul>
+                  <img width="700" src="/static/app/supply_chain_edi/sa_sc_img_solution_roadmap.png"/><br/>
+                  <hr/>
+                  <table>
+                     <tr>
+                        <td style="width: 50%; vertical-align: top; padding: 15px;" width="50%">
+                           <h2><font color="#8B0000">PHASE 1: Foundation – Visibility into Supply Chain Operations</font></h2>
+                           <p>In Phase 1, Splunk brings real-time visibility into core supply chain activities by consolidating data from key EDI and SAP iDOC transactions, delivering insights directly tied to critical supply chain KPIs. This initial step focuses on optimizing transactional transparency and order lifecycle management through :</p>
+                           <ul>
+                              <li><b>Supply Chain Transaction Tracking</b> :  Real-time tracking of EDI messages (e.g., 850 for purchase orders, 860 for changes) to instantly visualize order status and identify bottlenecks or delays.</li>
+                              <li><b>Purchase Order Lifecycle Management</b> :  Monitoring purchase order flow from initiation to fulfillment, allowing you to spot and resolve discrepancies before they impact downstream operations</li>
+                              <p><b>SOLUTION ELEMENTS</b>: Dashboards, alerting thresholds, data models, and SLA recommendations—all pre-configured to enable immediate operational impact.</p>
+                           </ul>
+                           <hr/>
+                        </td>
+                        <td style="width: 50%; vertical-align: top; padding: 15px;" width="50%">
+                           <h2><font color="#8B0000">PHASE 2: Application Performance and Reliability</font></h2>
+                           <p>In Phase 2, we expand beyond transactional insights, enabling proactive management of application layers that support supply chain processes. Splunk consolidates performance data from ERP, MES, WMS, TMS, and OMS systems, empowering IT and supply chain teams to :</p>
+                           <ul>
+                              <li><b>Monitor Application Health</b> :  Track application uptime, latency, and error rates to ensure reliable execution of business-critical functions.</li>
+                              <li><b>Predict and Prevent Downtime</b> : Use predefined analytics and machine learning algorithms to anticipate application failures or slowdowns, minimizing disruptions in supply chain continuity.</li>
+                              <p><b>SOLUTION ELEMENTS</b>: Predictive analytics, application health dashboards, and automated alerting, providing IT and supply chain teams with the insights they need to ensure seamless performance.</p>
+                           </ul>
+                           <hr/>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td style="width: 50%; vertical-align: top; padding: 15px;" width="50%">
+                           <h2><font color="#8B0000">PHASE 3: Infrastructure and IT Observability</font></h2>
+                           <p>In Phase 3, we broaden Splunk’s analytics to cover the underlying IT infrastructure supporting the supply chain. This layer provides visibility into data centers, cloud environments, and network infrastructure to achieve :</p>
+                           <ul>
+                              <li><b>End-to-End Observability</b> :  Monitor infrastructure elements like server loads, network bandwidth, and cloud instances, ensuring they can handle peak supply chain demands.</li>
+                              <li><b>Resource Optimization</b> :  Analyze infrastructure usage trends to optimize resource allocation and reduce operational costs.</li>
+                              <p><b>SOLUTION ELEMENTS</b>: Customizable infrastructure dashboards, resource utilization reports, and automated alerts to preemptively address infrastructure needs before they impact supply chain performance.</p>
+                           </ul>
+                        </td>
+                        <td style="width: 50%; vertical-align: top; padding: 15px;" width="50%">
+                           <h2><font color="#8B0000">PHASE 4: Security, Compliance and Risk Management</font></h2>
+                           <p>In the final phase, we bring Splunk’s security analytics into the fold, safeguarding the supply chain from potential threats, fraud, and compliance issues. Phase 4 leverages Splunk’s capabilities in threat detection, compliance monitoring, and incident response to :</p>
+                           <ul>
+                              <li><b>Secure Data Integrity</b> :  Detect anomalies, unauthorized access attempts, or unusual data flows that might indicate a cyber threat within the supply chain.</li>
+                              <li><b>Automate Compliance Checks</b> :  Continuously monitor and log activities to ensure compliance with industry regulations and standards, reducing the risk of regulatory penalties.</li>
+                              <li><b>Prevent Fraud and Counterfeit Risk</b> :  Identify suspicious transactions or patterns that may signal fraud, enhancing the security and integrity of the supply chain.</li>
+                              <p><b>SOLUTION ELEMENTS</b>: Security incident dashboards, automated compliance reporting, and fraud detection alerts, providing a fortified, compliant supply chain environment.</p>
+                           </ul>
+                        </td>
+                     </tr>
+                  </table>
+                  <hr/>
+                  <h2><img width="40" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                     ROADMAP TO SUCCESS : Customization and Continuous Improvement
+                  </h2>
+                  <p>Throughout this journey, our team will work closely with you to customize each phase to meet your unique operational needs, with options to expand or refine analytics as your organization grows. We’ll schedule regular optimization reviews to adapt the accelerator to your evolving supply chain requirements, ensuring it continues to drive value at every stage.</p>
+                  <img width="800" src="/static/app/supply_chain_edi/sa_sc_img_concept.png"/><br/>
+               </ul>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_04">
+      <panel>
+         <html tokens="true">
+            <h1>
+               <img width="40" src="/static/app/supply_chain_edi/PM_image_icon_bulb.png"/>
+               <b>REFERENCE ARCHTECTURE :</b> <font color="#8B0000">Technical structure</font>
+            </h1>
+            <ul>
+               <p> With Splunk's Supply Chain Visibility and Optimization Solution Accelerator, you receive a comprehensive framework designed to expedite implementation. </p>
+               <p>This framework includes :</p>
+                  <img width="1100" src="/static/app/supply_chain_edi/sa_sc_img_reference_arch_03.png"/><br/>
+               <ul>
+                  <ul>
+                     <li><b>Splunk TAs and data transformation settings</b> specifically for EDI X12 and SAP iDocs.</li>
+                     <li><b>Data models</b> that structure EDI X12 and SAP iDocs transactions for easier analysis.</li>
+                     <li><b>Lookup tables</b> for quick reference to EDI X12 and SAP iDocs definitions.</li>
+                     <li><b>Pre-built use cases</b> focused on critical supply chain visibility and reliability.</li>
+                     <li><b>Dashboard examples</b> that leverage analytics, using insights from Splunk's Lantern recipes.</li>
+                  </ul>
+               </ul>
+               <p>Together, these components provide a powerful toolkit for accelerating your supply chain analytics journey with Splunk.</p>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_next">
+      <panel>
+         <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="40" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+                  <!--a href="/app/supply_chain_edi/sec_search_02">
+                     <img width="100" src="/static/app/supply_chain_edi/SI_image_next_high.png"/>
+                     </a-->
+               </h1>
+               <p>
+                  Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+               <ul>
+                  <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494"><b>Solutions Accelerator</b></a> page.</li>
+                  <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert"><b>Contact Us</b></a></li>
+                  <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/"><b>Splunk Answers</b></a>.</li>
+               </ul>
+               </p>
+               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+
+            </ul>
+         </html>
+      </panel>
+   </row>
+</dashboard>

@@ -1,0 +1,1148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>Stage 3 : Analysis Method - Supervised Learning</label>
+  <row>
+    <panel>
+      <html>
+            <img width="1300" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_stage_banner_03_03.png"/>
+             <ul>
+            <h1>
+               <!--img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_icon_03.png"/>
+               SUPERVISED LEARNING : --><font color="#8B0000">Training model to predict maintenance state assets</font>
+            </h1>
+            <!--h2>OVERVIEW :</h2-->
+               <p>This section introduces the third method of predictive maintenance analysis, applying supervised learning to the jet engine dataset, covering key techniques for training, creating and applying a machine learning model to predict the state of the jet engine. 
+               </p>
+            </ul>
+            <img width="200" align="top" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_st_navi_gr_button_02.png"/>
+            <img width="650" align="top" usemap="#nav_map" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_stage_button_new_03_3.png"/>
+            <map name="nav_map">
+               <area shape="rect" coords="5,3,95,83" alt="Stage_01" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_get_data_01"/>
+               <area shape="rect" coords="140,3,233,83" alt="Stage_02" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_exploration_01"/>
+               <area shape="rect" coords="280,3,510,60" alt="Stage_03" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_01"/>
+               <area shape="rect" coords="280,65,510,93" alt="Stage_03-01" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_02"/>
+               <area shape="rect" coords="280,105,510,130" alt="Stage_03-02" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_03"/>
+               <area shape="rect" coords="280,140,510,165" alt="Stage_03-04" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_04"/>
+               <area shape="rect" coords="558,3,650,83" alt="Stage_04" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_apply_01"/>
+            </map>
+            <br/>
+         </html>
+    </panel>
+  </row>
+  <row id="tabs">
+    <panel>
+      <html>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_navi_gr_button.png"/>
+               </li>
+               <li class="active">
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_method">2 | METHODOLOGY REVIEW</a>
+               </li>
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_00_03,tab_step_00_04,tab_step_00_05,tab_step_00_06,tab_step_00_07,tab_step_01,tab_step_02,tab_step_03,tab_step_04_01,tab_step_04,tab_step_05,tab_step_06,tab_step_07,tab_step_08,tab_step_09,tab_step_10,tab_step_11,tab_step_12">3 | STEP-BY-STEP</a>
+               </li>
+               <!--li><a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_next">WHAT'S NEXT?</a></li-->
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_objective">
+    <panel>
+      <html>
+            <h1>
+               <img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_target.png"/>
+               <b>OBJECTIVE :</b> 
+            </h1>
+            <ul>
+              <p>Supervised learning is a method that uses historical data with known states (labels), such as failures, to train a prediction model, which can be used for predictions with future data.  Supervised learning can be applied to a broad set of use cases, from general asset behavior monitoring to predictive maintenance, and it is one of the most common machine learning methods. It is effective to profile different conditions of asset states, then look for conditions that match what has been trained.</p>
+               <img width="700" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_technique_03.png"/><br/>
+              <p>The advantages to supervised learning are that the you have the ability to take in multiple features or variables that could indicate different conditions, then design and curate the data for training to control the quality of prediction results. However, this requires greater understanding of the data and its interpretation, as well as more preparation.</p>
+              <p>In this section, use the supervised learning method to train a model with status data labeled “Failed’, then classify and predict the condition of jet engines with a non-training dataset.</p>
+               <p>
+                  <b>After this section, users will be able to</b> :
+               <ul>
+                  <ul>
+                     <li>Label “state” to create a training dataset for a machine learning model.</li>
+                     <li>Use tools to train models and then apply the models to new data.</li>
+                     <li>Evaluate the efficacy of the trained model and tune with different machine learning algorithms.</li>
+                  </ul>
+               </ul>
+               </p>
+               Review the supervised learning concepts in the methodology section, then proceed with the step-by-step exercise to create supervised learning algorithms to process against new data.
+               <br/>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_method">
+    <panel>
+      <html tokens="true">
+            <h1>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_bulb.png"/>
+               <b>METHODOLOGY REVIEW :</b> 
+               <!--a target="_blank" href="https://splunk.box.com/s/91omcsxgsg7pkacabbxum96n0gpim47k">
+                  <img height="15" width="130" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_demo_video.png"/>
+                  </a-->
+            </h1>
+            <p>This section introduces the mechanics of applying supervised learning, from selecting the approach to training the model, to actual creation of machine learning algorithms, to applying the algorithms to future data to generate predictions.</p>
+
+
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Machine Learning -  Supervised Learning mechanism : <font color="#8B0000">How training machine learning algorithms works?</font>
+               </b>
+            </h2>
+            <ul>
+               <p>Supervised learning for the jet engine dataset requires the following steps to create, apply and validate the model.</p>
+               <ul>
+                  <ul>
+                    <li>1 - Decide how to train the model: In this app’s jet engine dataset example, train a model to recognize multiple states.</li>
+                    <li>2 - Prepare training dataset: Using a historical dataset and a field to represent the state of the engine, add a label to the data.</li>
+                    <li>3 - Decide on an algorithm to use: Both logistic regression and random forest algorithms are used.</li>
+                    <li>4 - Create the model using the algorithm that you select.</li>
+                    <li>5 - Evaluate the accuracy and effectiveness of the machine learning model. </li> 
+                    <li>6 - Apply the prediction model created using the training data and algorithm. </li>
+                  </ul>
+               </ul>
+               <br/>
+               <ul>
+                  <img width="500" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_Anal_super_03.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The above illustration shows that the majority of the training data is used to train and create the prediction model using the selected machine learning algorithm. A subset of the training data is used as test data to validate the accuracy and efficacy of the model at prediction, based on the defined labels in the test data.<br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  During the evaluation process, you can create different models using different machine learning algorithms to test the accuracy of different algorithms. Then you can apply the more accurate prediction model to a future dataset.<br/><br/>
+               </ul>
+            </ul>           
+
+
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Decide on the best approach to train the model for the problem : <font color="#8B0000">Looking for “Good” or “Bad”</font>
+               </b>
+            </h2>
+            <ul>
+               <p>After you’ve decided which machine learning algorithms to use, you need to determine how to train the machine learning model.  Depending on the type of problem, you might want to consider 3 different approaches for training data.</p>
+               <p>In the context of predictive maintenance, the decision making process looks like this: </p>
+               <br/>
+               <ul>
+                  <img width="700" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/img_anal_str_05.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  For jet engine data, "Train Multiple State" approach is covered.<br/><br/>
+               </ul>
+            </ul>     
+            
+            
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Training the “Good”</b>
+            </h2>
+            <ul>
+               <p>This approach works by training a model with a known “Good” state so that the model can identify patterns that don’t match the known “Good” state.  Use this approach for complex equipment with many different types of potential problems. Due to the complexity of the equipment or system, it is easier to train on a known “Good” state than on a known “Bad” state, because there could be many patterns that indicate equipment in bad condition. </p>
+               <ul>
+               <p>For example: If you want to monitor the state of an entire system, such as one made up of several electronic components (like a car), there are many different ways that the various parts reflect the status or performance of the system. In this example it’s easier to monitor known good performance of a car rather than the myriad ways that the system can fail or perform badly.</p>
+               </ul>
+               <br/>
+               <ul>
+                  <img width="500" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_Anal_super_08.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  Like the illustration, label the “good” state as input for training, then the model can look for anything else that doesn’t match the “good” pattern. The model does not need to be trained for all the different situations that indicate bad performance.<br/>
+                  <img width="700" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/img_anal_diag_03.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The trained model classifies matching patterns as  “1” (yes, this pattern is “Good”) and anything else as “0” (no, this pattern is not good).<br/><br/>
+               </ul>
+            </ul>     
+            
+            
+            
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Training the “Bad”</b>
+            </h2>
+            <ul>
+               <p>This approach works by training a model based on a known “Bad” state so that the model can identify other “Bad” conditions that match that pattern.  Use this approach if you can identify a specific condition or pattern of metrics that have a limited number of different state combinations.</p>
+               <ul>
+               <p>For example, you could use the pattern of an engine going into “hyper spin” as a “Bad” state to train the model with.   In order to use this pattern to train the model, you must be able to identify it in the data or it must be already labeled in the data.  This approach is used for more simplistic equipment with a limited set of known “Bad” states. </p>
+               </ul>
+               <p>First, capture the segment of “Bad” state data, then train the model.</p>
+               <br/>
+               <ul>
+                  <img width="500" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_Anal_super_09.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  Like the illustration, label the “bad” state as input for training, then the model looks for those specific pattern to identify it as bad.<br/>
+                  <img width="700" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/img_anal_diag_01.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The trained model classifies the data, with matching patterns being identified as “1” (yes, they are bad)and anything else as “0” (no, they are not bad patterns).<br/><br/>
+               </ul>
+            </ul>    
+            
+
+
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Training multiple states</b>
+            </h2>
+            <ul>
+               <p>This approach works by training multiple sets of known states, such as “Good” or “Bad”.  Use this approach when you have somewhat limited possible states or conditions  and you want to specifically classify those conditions.</p>
+               <ul>
+               <p>For example, categorizing the movements of an automobile based on car sensor readings as local driving, highway driving, reverse, or stopped. In that case, you can you can label the various states that you want to identify and train a model accordingly.</p>
+               </ul>
+               <p>First, capture the segment of “Bad” state data, then train the model.</p>
+               <br/>
+               <ul>
+                  <img width="500" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_Anal_super_10.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  For jet engine data, label the state based on the intensity of data deviation, normal to extreme.<br/>
+                  <img width="700" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/img_anal_diag_02.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The trained model classifies matching multiple outcomes:  “Good” as “1” ,“Alert” as “2”, and “Bad” as “3”.<br/><br/>
+               </ul>
+            </ul>    
+            
+
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Preparing data for supervised learning : <font color="#8B0000">Labeling data for algorithm training.</font>
+               </b>
+            </h2>
+            <ul>
+               <p>The key when preparing data for supervised learning is to label the data with training values. If the data doesn’t have a status label, which is typical in datasets like the jet engine dataset, you must define the labels after some analysis to use for training.If the goal is to label multiple states beyond just the failed state, you can define ranges and label those as a certain state,  like the illustration below.</p>
+               <br/>
+               <ul>
+                  <img width="700" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_Anal_super_01.png"/>
+                  <br/><br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  This label is added to the training dataset as another column, then the data is used to create a classification algorithm.  From the illustration, the data is labeled as the following:<br/>
+                  <ul>
+                     <ul>
+                        <ul>
+                          <li>Range 0-200 cycles as state=0, normal</li>
+                          <li>Range 201-275 cycle as state=1, warning</li>
+                          <li>Range 276-361 cycle as state=2, critical</li><br/>
+                        </ul>
+                     </ul>
+                  </ul>
+                  <img width="700" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/img_anal_train_multi_lable.png"/>
+                  <br/><br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  Looking at the training dataset as tables, the new column “state” includes the labels indicating the state labeled for training purpose. This training dataset is now ready to be used to train a prediction model.<br/>
+               </ul>
+            </ul>
+            
+  
+            
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Machine Learning Algorithms : <font color="#8B0000">Different charteristics of ML Algorithms</font>
+               </b>
+            </h2>
+            <ul>
+               <p>
+                  For the jet engine dataset, a dataset of time series multivariate data, several algorithms can be used. The recommended algorithms are 1) Logistic Regression, 2) Gaussian Naive Bayes, and 3) Random Forest. In the evaluation step, different machine learning algorithms can be evaluated. This app evaluates the logistic Regression and Random Forest algorithms.
+               </p>
+               <ul>
+                  <img width="700" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_Anal_super_05.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                 Above illustration shows how different machine learning algorithms classify data in different ways depending on different dimensions. Applying different models to datasets with different characteristics gives you experience on what kinds of data match with different types of machine learning algorithm. <br/>
+                  <br/>
+               </ul>
+            </ul>
+            
+            
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Prediction Model Evaluation : <font color="#8B0000">Confusion Matrix to evaluate the accuracy of machine learning algorithm</font>
+               </b>
+            </h2>
+            <ul>
+               <p>One technique to evaluate the accuracy of a trained model is to create a confusion matrix. A confusion matrix shows the results of a prediction and its actual values from the test data. The results of the matrix analysis show you a count of correct predictions and a count of incorrect predictions to help you evaluate the accuracy.</p>
+               <br/>
+               <ul>
+                  <img width="800" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_Anal_super_06.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  From this you can conclude that the model is highly accurate at predicting the “0” and “2” states, and less accurate at predicting the “1” state.  For example, applying a confusion matrix to some data can show results like the above: <br/>
+                  <ul>
+                     <ul>
+                        <ul>
+                          <li>Actual value of 0 was predicted 226 times as “0”, showing high accuracy.</li>
+                          <li>Actual value of 1 was predicted 46 times as “1”, while the predicted values for that label also included “0” (predicted 3 times) and “2” (predicted 10 times), indicating some inaccuracies in the model.</li>
+                          <li>Actual value of 2 predicted 71 times as “2”, also showing high accuracy.</li>
+                        </ul>
+                     </ul>
+                  </ul>
+                  <br/>
+               </ul>
+            </ul>
+            
+            
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Prediction Model Evaluation : <font color="#8B0000">Classification Statistics to evaluate the accuracy of machine learning algorithms</font>
+               </b>
+            </h2>
+            <ul>
+               <p>A second technique to evaluate the accuracy of a trained model is to use classification statistics. The classification statistics show the calculated accuracy, precision, recall, and the f1, or overall model accuracy, of the created prediction model when run against test data.
+               The Splunk Machine Learning Toolkit provides a “classification statistics” macro that you can use to evaluate a model. </p>
+               <br/>
+               <ul>
+                  <img width="800" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_Anal_super_07.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  Tuning of prediction model is evaluated with classification statistics.
+                  <ul>
+                     <ul>
+                        <ul>
+                          <li>Accuracy : the ratio of correctly predicted observations. - The most intuitive performance measure of prediction model.</li>
+                          <li>Precision :  the ratio of correct positive observations. - Formula : the number of true positive / total of true positive + false positive </li>
+                          <li>Recall : the ratio of correctly predicted positive events. - Formula : number of true positive / false negative + true positive</li>
+                          <li>F1 : the weighted average of Precision and Recall - Formula : (precision + recall )/2 </li>
+                         <img width="200" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_Anal_super_12.png"/> 
+                        </ul>
+                     </ul>
+                  </ul>
+                  <br/><br/>
+               </ul>
+            </ul>
+            
+         </html>
+    </panel>
+  </row>
+  
+  
+  <!-- ############################## STEP BY STEP ############################## -->
+  
+  <row id="tab_step_00">
+    <panel>
+      <html tokens="true">
+            <h1>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_tool.png"/>
+               <b>STEP BY STEP :</b> 
+               <!--a target="_blank" href="https://splunk.box.com/s/91omcsxgsg7pkacabbxum96n0gpim47k">
+                  <img height="15" width="130" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_demo_video.png"/>
+                  </a-->
+            </h1>
+            <p>This step-by-step section guides you through applying the key techniques covered in the "Methodology Review" to the jet engine dataset. The Left column provides detailed instruction and the right column provides the results of the step. Use <img width="120" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/> button to jump directly into a live environment for each step.</p>
+            <p>Using the multivariate jet engine dataset, apply the key supervised learning techniques to create a prediction model using a couple of machine learning algorithms, logistic regression and random forest. The steps walk you through the following process:</p>
+                  <ul>
+                     <ul>
+                        <ul>
+                          <li>1 | Label data for training prediction model, with state 0, 1, and 2 being normal, warning, and critical.</li>
+                          <li>2 | Create a prediction model using logistic regression.</li>
+                          <li>3 | Apply the created prediction model to the dataset.</li>
+                          <li>4 | Evaluate the accuracy of the created logistic regression model.</li>
+                          <li>5 | Create another prediction model using the random forest algorithm.</li>
+                          <li>6 | Evaluate the accuracy of the random forest prediction model.</li>
+                          <li>7 | Choose the algorithm that provides better accuracy.</li>
+                        </ul>
+                     </ul>
+                   </ul>
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Preparing data for supervised learning : <font color="#8B0000">Labeling data for algorithm training.</font>
+               </b>
+            </h2>
+            <ul>
+               <p>After exploring the jet engine dataset, especially maintenance cycle data number 194, apply the state labels of each cycle observation with a status of 0 (normal), 1 (warning) or 2 (critical). Create a prediction model with the labeled data in the next step.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_step_01">
+    <panel>
+      <html tokens="true">
+            <style>
+               * {
+               box-sizing: border-box;
+               }
+               left_box {
+               float: left;
+               width: 95%;
+               }
+               middle_arrow {
+               margin: auto;
+               float: left;
+               padding: 10px;
+               width: 5%;
+               }
+               }
+            </style>
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 01</b>
+               : Select the event window 194 from the jet engine dataset using the `get_pm_event_window(X)` search macro. Then use the "trendline" command to smooth out spikes in the results. The "where" command filters out empty events, and the "table" command helps you view the engine sensor values that are already normalized and smoothened. 
+               <br/>
+               <ul>
+                  <pre width="800"><font color="#8B0000"><b>`get_pm_event_window(194)` </b></font>
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4*
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The result shows pre-processed events from get_pm_event_window metrics, then the applied smoothing technique smooths out spikes that are less representative of the metric characteristics. The newly processed metrics start with “sma4”. They are the new metrics formed by calculating the last average of 4 values. The spikes are smoothened out.
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search1_1549943576.2411&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20unit_cycle%20sma4*&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=statistics&amp;display.page.search.tab=statistics">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <table>
+        <title>RESULT STEP 01 : Retrieve data and preprocess, standard scale (Normalization) and smoothened spikes</title>
+        <search>
+          <query>`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4*
+               </query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_step_02">
+    <panel>
+      <html tokens="true">
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 02</b>
+               : Assign a state of 0 ,1 , or 2 using the eval command to create the field “train_model_state”.Define the ranges of unit_cycle (cycle number), where 0-229 is “0” (normal), 230-290 is “1” (warning), and values greater than 290 are “2” (critical). 
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4*
+| <font color="#8B0000"><b>eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")</b></font>
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The output puts data in table cell format sorted by oldest record.  Each line represents a set of <b>summary statistics</b> of a single flight (a trip).
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search2_1549943576.2412&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20unit_cycle%20sma4*%0A%7C%20eval%20train_model_state%3Dcase(unit_cycle%3C230%2C%20%220%22%2C%20unit_cycle%3E%3D230%20AND%20unit_cycle%3C%3D290%2C%221%22%2C%20%20unit_cycle%3E290%2C%20%222%22)&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=visualizations&amp;display.page.search.tab=visualizations&amp;display.visualizations.type=charting&amp;display.visualizations.charting.chart=line">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <chart>
+        <title>RESULT STEP 02 : Tagged training labels @ different unit_cycle ranges.</title>
+        <search>
+          <query>`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4*
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+               </query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">301</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+    <row id="tab_step_00_02">
+    <panel>
+      <html tokens="true">
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Generate a prediction model : <font color="#8B0000"> Creating a machine learning model using training data</font>
+               </b>
+            </h2>
+            <ul>
+               <p>Use the training data from the previous steps to create a logistic regression prediction model.</p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_step_03">
+    <panel>
+      <html tokens="true">
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 03</b>
+               : Create a logistic regression prediction model, using the fit command and specifying the training state label “train_model_state” and creating a model name “_app_pm_super_logis_reg_01”
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4*
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| <font color="#8B0000"><b>fit LogisticRegression fit_intercept=true "train_model_state" from "sma4(SS_sname_Bleed_Enthalpy)" "sma4(SS_sname_Bypass_Ratio)" "sma4(SS_sname_Corr_Fan_Speed)" "sma4(SS_sname_Fuel_Flow_Ratio)" "sma4(SS_sname_HPC_Outlet_Temp)" "sma4(SS_sname_HPT_Coolant_Bleed)" "sma4(SS_sname_LPC_Outlet_Temp)" "sma4(SS_sname_LPT_Outlet_Temp)" "sma4(SS_sname_Phys_Fan_Speed)" into _app_pm_super_logis_reg_01 </b></font>
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The new prediction model “_app_pm_super_logis_reg_01”  is created in the system.
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search3_1549943576.2413&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20unit_cycle%20sma4*%0A%7C%20eval%20train_model_state%3Dcase(unit_cycle%3C230%2C%20%220%22%2C%20unit_cycle%3E%3D230%20AND%20unit_cycle%3C%3D290%2C%221%22%2C%20%20unit_cycle%3E290%2C%20%222%22)%0A%7C%20fit%20LogisticRegression%20fit_intercept%3Dtrue%20%22train_model_state%22%20from%20%22sma4(SS_sname_Bleed_Enthalpy)%22%20%22sma4(SS_sname_Bypass_Ratio)%22%20%22sma4(SS_sname_Corr_Fan_Speed)%22%20%22sma4(SS_sname_Fuel_Flow_Ratio)%22%20%22sma4(SS_sname_HPC_Outlet_Temp)%22%20%22sma4(SS_sname_HPT_Coolant_Bleed)%22%20%22sma4(SS_sname_LPC_Outlet_Temp)%22%20%22sma4(SS_sname_LPT_Outlet_Temp)%22%20%22sma4(SS_sname_Phys_Fan_Speed)%22%20into%20_app_pm_super_logis_reg_01&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=visualizations&amp;display.page.search.tab=visualizations&amp;display.visualizations.charting.chart=line">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <chart>
+        <title>RESULT STEP 03 : Trained logistic regression prediction model - Predict categorical value.</title>
+        <search>
+          <query>`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4*
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| fit LogisticRegression fit_intercept=true "train_model_state" from "sma4(SS_sname_Bleed_Enthalpy)" "sma4(SS_sname_Bypass_Ratio)" "sma4(SS_sname_Corr_Fan_Speed)" "sma4(SS_sname_Fuel_Flow_Ratio)" "sma4(SS_sname_HPC_Outlet_Temp)" "sma4(SS_sname_HPT_Coolant_Bleed)" "sma4(SS_sname_LPC_Outlet_Temp)" "sma4(SS_sname_LPT_Outlet_Temp)" "sma4(SS_sname_Phys_Fan_Speed)" into _app_pm_super_logis_reg_01
+               </query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_step_00_03">
+    <panel>
+      <html tokens="true">
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Applying a machine learning model to data : <font color="#8B0000"> Logistic Regression to process new data with the created machine learning model.</font>
+               </b>
+            </h2>
+            <ul>
+               <p>In the previous step, you used the fit command to create a prediction model. Now you can use the apply command to apply the model to your dataset.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_step_04">
+    <panel>
+      <html tokens="true">
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 04</b>
+               : Replace the fit command  syntax with the apply command and run the data through the _app_pm_super_logis_reg_01  prediction model.
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| table unit_cycle train_model_state sma4*
+| <font color="#8B0000"><b>apply _app_pm_super_logis_reg_01 </b></font>
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The result shows a new column of “predicted(train_model_state)” values. This field contains the prediction generated by the prediction model.
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search4_1549943576.2414&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20eval%20train_model_state%3Dcase(unit_cycle%3C230%2C%20%220%22%2C%20unit_cycle%3E%3D230%20AND%20unit_cycle%3C%3D290%2C%221%22%2C%20%20unit_cycle%3E290%2C%20%222%22)%0A%7C%20table%20unit_cycle%20train_model_state%20sma4*%0A%7C%20apply%20_app_pm_super_logis_reg_01&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=visualizations&amp;display.page.search.tab=visualizations&amp;display.visualizations.charting.chart=line">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <chart>
+        <title>RESULT STEP 04 : Applied the test data to the trained logistic regression model.</title>
+        <search>
+          <query>`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| table unit_cycle train_model_state sma4*
+| apply _app_pm_super_logis_reg_01 
+               </query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+      </chart>
+    </panel>
+  </row>
+
+
+
+  <row id="tab_step_00_04">
+    <panel>
+      <html tokens="true">
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Evaluate machine learning model : <font color="#8B0000">Logistic Regression - Using new dataset, evaluate model accuracy.</font>
+               </b>
+            </h2>
+            <ul>
+               <p>Evaluate the accuracy of the model by looking at the confusion matrix. Validate how the actual results compare to the predictions in the matrix. Look for mismatches between the values to understand the volume of prediction errors made by the model.  Then use the classificationstatistics function to review the precision and recall values and assess the accuracy of the model.</p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  
+
+
+  <row id="tab_step_05">
+    <panel>
+      <html tokens="true">
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 05</b>
+               : Use the confusionmatrix macro by specifying the actual field name (train_model_state) and the predicted field name(predicted(train_model_state)).
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| table unit_cycle train_model_state sma4*
+| apply _app_pm_super_logis_reg_01 
+| <font color="#8B0000"><b>`confusionmatrix("train_model_state","predicted(train_model_state)")` </b></font>
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The results show some mismatches between the actual and predicted values. Save the results in order to compare with the other algorithm in the next few steps.
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search5_1549943577.2415&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20eval%20train_model_state%3Dcase(unit_cycle%3C230%2C%20%220%22%2C%20unit_cycle%3E%3D230%20AND%20unit_cycle%3C%3D290%2C%221%22%2C%20%20unit_cycle%3E290%2C%20%222%22)%0A%7C%20table%20unit_cycle%20train_model_state%20sma4*%0A%7C%20apply%20_app_pm_super_logis_reg_01%20%0A%7C%20%60confusionmatrix(%22train_model_state%22%2C%22predicted(train_model_state)%22)%60&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=statistics&amp;display.page.search.tab=statistics&amp;display.statistics.format.0=color&amp;display.statistics.format.0.scale=minMidMax&amp;display.statistics.format.0.colorPalette=minMidMax&amp;display.statistics.format.0.colorPalette.minColor=%23FFFFFF&amp;display.statistics.format.0.colorPalette.maxColor=%23DC4E41&amp;display.statistics.format.0.field=Predicted%200&amp;display.statistics.format.1=color&amp;display.statistics.format.1.scale=minMidMax&amp;display.statistics.format.1.colorPalette=minMidMax&amp;display.statistics.format.1.colorPalette.minColor=%23FFFFFF&amp;display.statistics.format.1.colorPalette.maxColor=%23DC4E41&amp;display.statistics.format.1.field=Predicted%201&amp;display.statistics.format.2=color&amp;display.statistics.format.2.scale=minMidMax&amp;display.statistics.format.2.colorPalette=minMidMax&amp;display.statistics.format.2.colorPalette.minColor=%23FFFFFF&amp;display.statistics.format.2.colorPalette.maxColor=%23DC4E41&amp;display.statistics.format.2.field=Predicted%202">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <table>
+        <title>RESULT STEP 05 : Confusion Matrix Table - The initial logistic regression</title>
+        <search>
+          <query>`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| table unit_cycle train_model_state sma4*
+| apply _app_pm_super_logis_reg_01 
+| `confusionmatrix("train_model_state","predicted(train_model_state)")`
+               </query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <format type="color" field="Predicted 1">
+          <colorPalette type="minMidMax" maxColor="#DC4E41" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="color" field="Predicted 0">
+          <colorPalette type="minMidMax" maxColor="#DC4E41" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="color" field="Predicted 2">
+          <colorPalette type="minMidMax" maxColor="#DC4E41" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_step_06">
+    <panel>
+      <html tokens="true">
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 06</b>
+               : Use the classificationstatistics macro by specifying the actual field name (train_model_state) and the predicted field name (predicted(train_model_state)).
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4* 
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| table unit_cycle train_model_state sma4* 
+| apply _app_pm_super_logis_reg_01 
+| <font color="#8B0000"><b>`classificationstatistics("train_model_state", "predicted(train_model_state)")` </b></font>
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The classification statistics macro shows the accuracy, precision, recall, and f1 statistics to evaluate the overall accuracy of the model. The f1 score turns out to be 96%, which is very accurate.
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search6_1549943577.2416&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20unit_cycle%20sma4*%20%0A%7C%20eval%20train_model_state%3Dcase(unit_cycle%3C230%2C%20%220%22%2C%20unit_cycle%3E%3D230%20AND%20unit_cycle%3C%3D290%2C%221%22%2C%20%20unit_cycle%3E290%2C%20%222%22)%0A%7C%20table%20unit_cycle%20train_model_state%20sma4*%20%0A%7C%20apply%20_app_pm_super_logis_reg_01%20%0A%7C%20%60classificationstatistics(%22train_model_state%22%2C%20%22predicted(train_model_state)%22)%60&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=statistics&amp;display.page.search.tab=statistics">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <table>
+        <title>RESULT STEP 06 : Prediction statistics result - The initial logistic regression.</title>
+        <search>
+          <query>`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4* 
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| table unit_cycle train_model_state sma4* 
+| apply _app_pm_super_logis_reg_01 
+| `classificationstatistics("train_model_state", "predicted(train_model_state)")`
+               </query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">4</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+
+
+  <row id="tab_step_00_05">
+    <panel>
+      <html tokens="true">
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Explore different machine learning algorithms : <font color="#8B0000">Random Forest - Create different ML algorithms for accuracy</font>
+               </b>
+            </h2>
+            <ul>
+               <p>You created a logistic regression model to process the data already, but follow these steps to create a different model using the random forest algorithm so that you can compare the accuracy with the logistic regression model. Compare the accuracy using the f1 score.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_step_08">
+    <panel>
+      <html tokens="true">
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 07</b>
+               : Replace the apply command part of the search with “fit RandomForestClassifier” to train another prediction model with the random forest algorithm.
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4*
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| <font color="#8B0000"><b>fit RandomForestClassifier  "train_model_state" from "sma4(SS_sname_Bleed_Enthalpy)" "sma4(SS_sname_Bypass_Ratio)" "sma4(SS_sname_Corr_Fan_Speed)" "sma4(SS_sname_Fuel_Flow_Ratio)" "sma4(SS_sname_HPC_Outlet_Temp)" "sma4(SS_sname_HPT_Coolant_Bleed)" "sma4(SS_sname_LPC_Outlet_Temp)" "sma4(SS_sname_LPT_Outlet_Temp)" "sma4(SS_sname_Phys_Fan_Speed)" into _app_pm_super_randomforest_01 </b></font>
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  A new prediction model with the name “_app_pm_super_randomforest_01” is created.
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search7_1549944019.2447&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20unit_cycle%20sma4*%0A%7C%20eval%20train_model_state%3Dcase(unit_cycle%3C230%2C%20%220%22%2C%20unit_cycle%3E%3D230%20AND%20unit_cycle%3C%3D290%2C%221%22%2C%20%20unit_cycle%3E290%2C%20%222%22)%0A%7C%20fit%20RandomForestClassifier%20%20%22train_model_state%22%20from%20%22sma4(SS_sname_Bleed_Enthalpy)%22%20%22sma4(SS_sname_Bypass_Ratio)%22%20%22sma4(SS_sname_Corr_Fan_Speed)%22%20%22sma4(SS_sname_Fuel_Flow_Ratio)%22%20%22sma4(SS_sname_HPC_Outlet_Temp)%22%20%22sma4(SS_sname_HPT_Coolant_Bleed)%22%20%22sma4(SS_sname_LPC_Outlet_Temp)%22%20%22sma4(SS_sname_LPT_Outlet_Temp)%22%20%22sma4(SS_sname_Phys_Fan_Speed)%22%20into%20_app_pm_super_randomforest_01&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=visualizations&amp;display.page.search.tab=visualizations&amp;display.visualizations.charting.chart=line">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <chart>
+        <title>RESULT STEP 07 : Trained another machine learning prediction model - Random Forest </title>
+        <search>
+          <query>`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4*
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| fit RandomForestClassifier  "train_model_state" from "sma4(SS_sname_Bleed_Enthalpy)" "sma4(SS_sname_Bypass_Ratio)" "sma4(SS_sname_Corr_Fan_Speed)" "sma4(SS_sname_Fuel_Flow_Ratio)" "sma4(SS_sname_HPC_Outlet_Temp)" "sma4(SS_sname_HPT_Coolant_Bleed)" "sma4(SS_sname_LPC_Outlet_Temp)" "sma4(SS_sname_LPT_Outlet_Temp)" "sma4(SS_sname_Phys_Fan_Speed)" into _app_pm_super_randomforest_01
+               </query>
+          <earliest>0</earliest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">all</option>
+        <option name="height">332</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  
+   <row id="tab_step_00_06">
+    <panel>
+      <html tokens="true">
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Evaluate ML model : <font color="#8B0000">Random Forest - Using new dataset, evaluate model accuracy.</font>
+               </b>
+            </h2>
+            <ul>
+               <p>Evaluate the accuracy of the new model created with random forest algorithm by looking at the confusion matrix. Validate how the actual results compare to the predictions in the matrix. Look for mismatches between the values to understand the volume of prediction errors made by the model.</p>
+               <p>Then use the classificationstatistics function to review the precision and recall values and assess the accuracy of the model.  Choose the model to be used for actual application of analytics model from reviewing accuracy.</p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  
+  
+  
+  <row id="tab_step_09">
+    <panel>
+      <html tokens="true">
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 08</b>
+               : Replace the previous fit command section of the search with “apply _app_pm_super_randomforest_01“ to apply the model to the dataset, then immediately use the confusionmatrix macro to evaluate the predictions of the new model.
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| table unit_cycle train_model_state sma4*
+| apply _app_pm_super_randomforest_01
+| <font color="#8B0000"><b>`confusionmatrix("train_model_state","predicted(train_model_state)")` </b></font>
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The results show a very accurate matching number of 100%. 
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search8_1549944019.2448&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20eval%20train_model_state%3Dcase(unit_cycle%3C230%2C%20%220%22%2C%20unit_cycle%3E%3D230%20AND%20unit_cycle%3C%3D290%2C%221%22%2C%20%20unit_cycle%3E290%2C%20%222%22)%0A%7C%20table%20unit_cycle%20train_model_state%20sma4*%0A%7C%20apply%20_app_pm_super_randomforest_01%0A%7C%20%60confusionmatrix(%22train_model_state%22%2C%22predicted(train_model_state)%22)%60&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=statistics&amp;display.statistics.format.0=color&amp;display.statistics.format.0.scale=minMidMax&amp;display.statistics.format.0.colorPalette=minMidMax&amp;display.statistics.format.0.colorPalette.minColor=%23FFFFFF&amp;display.statistics.format.0.colorPalette.maxColor=%23DC4E41&amp;display.statistics.format.0.field=Predicted%200&amp;display.statistics.format.1=color&amp;display.statistics.format.1.scale=minMidMax&amp;display.statistics.format.1.colorPalette=minMidMax&amp;display.statistics.format.1.colorPalette.minColor=%23FFFFFF&amp;display.statistics.format.1.colorPalette.maxColor=%23DC4E41&amp;display.statistics.format.1.field=Predicted%201&amp;display.statistics.format.2=color&amp;display.statistics.format.2.scale=minMidMax&amp;display.statistics.format.2.colorPalette=minMidMax&amp;display.statistics.format.2.colorPalette.minColor=%23FFFFFF&amp;display.statistics.format.2.colorPalette.maxColor=%23DC4E41&amp;display.statistics.format.2.field=Predicted%202&amp;display.page.search.tab=statistics">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <table>
+        <title>RESULT STEP 08 : Confusion matrix for the random forest regressor model</title>
+        <search>
+          <query>`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| table unit_cycle train_model_state sma4*
+| apply _app_pm_super_randomforest_01
+| `confusionmatrix("train_model_state","predicted(train_model_state)")`
+               </query>
+          <earliest>0</earliest>
+        </search>
+        <option name="drilldown">cell</option>
+        <format type="color" field="Predicted 0">
+          <colorPalette type="minMidMax" maxColor="#DC4E41" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="color" field="Predicted 1">
+          <colorPalette type="minMidMax" maxColor="#DC4E41" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="color" field="Predicted 2">
+          <colorPalette type="minMidMax" maxColor="#DC4E41" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_step_10">
+    <panel>
+      <html tokens="true">
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 09</b>
+               : Replace the confusionmatrix line with the classificationstatistics macro and specify the actual field name (train_model_state)and the predicted field name(predicted(train_model_state)). 
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4* 
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| table unit_cycle train_model_state sma4* 
+| apply _app_pm_super_randomforest_01
+| <font color="#8B0000"><b>`classificationstatistics("train_model_state", "predicted(train_model_state)")` </b></font>
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The results show 100% accuracy because the model was created with event window 194.
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search9_1549944019.2449&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20unit_cycle%20sma4*%20%0A%7C%20eval%20train_model_state%3Dcase(unit_cycle%3C230%2C%20%220%22%2C%20unit_cycle%3E%3D230%20AND%20unit_cycle%3C%3D290%2C%221%22%2C%20%20unit_cycle%3E290%2C%20%222%22)%0A%7C%20table%20unit_cycle%20train_model_state%20sma4*%20%0A%7C%20apply%20_app_pm_super_randomforest_01%0A%7C%20%60classificationstatistics(%22train_model_state%22%2C%20%22predicted(train_model_state)%22)%60&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=statistics&amp;display.page.search.tab=statistics">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <table>
+        <title>RESULT STEP 09 : Classification Statistics for the random forest regressor model</title>
+        <search>
+          <query>`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4* 
+| eval train_model_state=case(unit_cycle&lt;230, "0", unit_cycle&gt;=230 AND unit_cycle&lt;=290,"1",  unit_cycle&gt;290, "2")
+| table unit_cycle train_model_state sma4* 
+| apply _app_pm_super_randomforest_01
+| `classificationstatistics("train_model_state", "predicted(train_model_state)")`
+               </query>
+          <earliest>0</earliest>
+        </search>
+        <option name="drilldown">cell</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+  
+  <row id="tab_step_00_07">
+    <panel>
+      <html tokens="true">
+            <h2>
+               <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Apply different engine data : <font color="#8B0000">Using random forest prediction model to other dataset.</font>
+               </b>
+            </h2>
+            <ul>
+               <p>Apply the validated prediction model (Random Forest Regressor) to another engine dataset. Validate how the designed prediction model works on other datasets, then review the model accuracy and statistics.</p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_step_11">
+    <panel>
+      <html tokens="true">
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 10</b>
+               : Replace the 194 cycle event window with a different event window, 116 to the created random forest prediction model.
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(116)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4*
+| eval train_model_state=case(unit_cycle&lt;210, "0", unit_cycle&gt;=210 AND unit_cycle&lt;=270,"1",  unit_cycle&gt;270, "2")
+| <font color="#8B0000"><b>apply _app_pm_super_randomforest_01 </b></font>
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The jet engine event window 116 dataset is used to apply the ransom forest prediction model.
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search7_1549944019.2447&amp;q=search%20%60get_pm_event_window(116)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20unit_cycle%20sma4*%20%0A%7C%20eval%20train_model_state%3Dcase(unit_cycle%3C210%2C%20%220%22%2C%20unit_cycle%3E%3D210%20AND%20unit_cycle%3C%3D270%2C%221%22%2C%20%20unit_cycle%3E270%2C%20%222%22)%0A%7C%20table%20unit_cycle%20train_model_state%20sma4*%20%0A%7C%20apply%20_app_pm_super_randomforest_01&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=visualizations&amp;display.page.search.tab=visualizations&amp;display.visualizations.charting.chart=line">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <chart>
+        <title>RESULT STEP 10 : Another event window dataset applied to the prediction model - Random Forest </title>
+        <search>
+          <query>`get_pm_event_window(116)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4* 
+| apply _app_pm_super_randomforest_01
+               </query>
+          <earliest>0</earliest>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">all</option>
+        <option name="height">332</option>
+      </chart>
+    </panel>
+  </row>
+  
+  
+  
+  
+  <row id="tab_step_12">
+    <panel>
+      <html tokens="true">
+            <section>
+               <left_box>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 11</b>
+               : Evaluate model statistics for event window 116 dataset.
+               <br/>
+               <ul>
+                  <pre width="800"><font color="#8B0000"><b>`get_pm_event_window(116)` </b></font>
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| table unit_cycle sma4* 
+| eval train_model_state=case(unit_cycle&lt;210, "0", unit_cycle&gt;=210 AND unit_cycle&lt;=270,"1",  unit_cycle&gt;270, "2")
+| table unit_cycle train_model_state sma4* 
+| apply _app_pm_super_randomforest_01
+| `classificationstatistics("train_model_state", "predicted(train_model_state)")`
+</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  Because the model is now applied to another event window, cycle 116, the results are more realistic because the model was not trained on this event window.
+                  <ul>
+                     <ul>
+                        <ul>
+                          <li>Accuracy = 0.94</li>
+                          <li>Precision = 0.94</li>
+                          <li>Recall = 0.94</li>
+                          <li>F1 = 0.94</li>
+                        </ul>
+                     </ul>
+                   </ul>
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search10_1549944019.2450&amp;q=search%20%60get_pm_event_window(116)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20unit_cycle%20sma4*%20%0A%7C%20eval%20train_model_state%3Dcase(unit_cycle%3C210%2C%20%210%22%2C%20unit_cycle%3E%3D230%20AND%20unit_cycle%3C%3D270%2C%221%22%2C%20%20unit_cycle%3E270%2C%20%222%22)%0A%7C%20table%20unit_cycle%20train_model_state%20sma4*%20%0A%7C%20apply%20_app_pm_super_randomforest_01%0A%7C%20%60classificationstatistics(%22train_model_state%22%2C%20%22predicted(train_model_state)%22)%60&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=statistics&amp;display.page.search.tab=statistics">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+               </ul>
+            </ul>
+               </left_box>
+
+            </section>
+         </html>
+    </panel>
+    <panel>
+      <table>
+        <title>RESULT STEP 11 : Classification Statistics for event window 116 dataset</title>
+        <search>
+          <query>`get_pm_event_window(116)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| eval train_model_state=case(unit_cycle&lt;210, "0", unit_cycle&gt;=210 AND unit_cycle&lt;=270,"1",  unit_cycle&gt;270, "2")
+| table unit_cycle train_model_state sma4* 
+| apply _app_pm_super_randomforest_01
+| `classificationstatistics("train_model_state", "predicted(train_model_state)")`
+               </query>
+          <earliest>0</earliest>
+        </search>
+        <option name="drilldown">cell</option>
+      </table>
+    </panel>
+  </row>
+  
+  
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
+            <h1>
+               <img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_ques.png"/>
+               <b>What's Next?</b>
+               <!--a href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/sec_search_02">
+                  <img width="100" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_next_high.png"/>
+                  </a-->
+            </h1>
+            <ul>
+               <p>
+                  You completed the third technique, applying the Supervised Learning method.  Move on to the next stage in understanding how you can operationalize the analysis results.
+               </p>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+               <b>NEXT STEP </b> : Learn how to operationalize the predictive analysis result.
+               <br/>
+               <br/>
+               <a href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_03">
+               <img height="15" width="118" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_button_prev_exer_nr.png"/>
+               </a>
+               <a href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_apply_01">
+               <img height="15" width="118" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_button_next_exer_nr.png"/>
+               </a>
+            </ul>
+            <table>
+               <tr>
+                  <td>
+                     <div class="col-sm-6 col-lg-6 ">
+                        <h1>
+                           <img width="30" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/> Do you need help? Ask an Industrial IOT Predictive Maintenance Expert
+                        </h1>
+                        <ul>
+                           <p>Need help with your environment and requirements? Send us your questions and we will get back to you as soon as possible.</p>
+                           <p>If you need immediate assistance, check out our community forum, <a href="http://answers.splunk.com/">Splunk Answers. (i1)</a>
+                           </p>
+                           <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=Splunk_Essentials_Predictive_Maintenance_for_IOTenance" class="btn" target="_ask_expert">Contact Us</a>
+                        </ul>
+                     </div>
+                  </td>
+                  <td>
+                     <div class="col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 photo-box">
+                        <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/Brian_Gilmore_white.png" alt="Predictive Maintenance expert photo" title=""/>
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         </html>
+    </panel>
+  </row>
+</dashboard>

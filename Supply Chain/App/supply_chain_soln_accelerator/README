@@ -1,1 +1,4 @@
 Please consult the official documentation for the Solution Accelerator for Supply Chain Operational Optimization found on Splunk Lantern here: https://lantern.splunk.com/Splunk_Platform/UCE/Manufacturing
+
+# Binary File Declaration
+SPLUNK_APP/etc/apps/supply_chain_edi/lookups/edi_code_to_sap_idocs.csv

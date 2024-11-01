@@ -1,0 +1,17 @@
+edi_code,edi_name,edi_desc
+810,810-Invoice ,810-Used by suppliers to request payment from buyers after goods are shipped or services are provided.
+850,850-Purchase Order ,850-Used to place an order for goods or services from a buyer to a supplier.
+855,855-Purchase Order Acknowledgment ,"855-Confirms the receipt and status of a purchase order, including any adjustments or acceptance."
+856,856-Advance Ship Notice (ASN) ,"856-Provides details about a shipment, including contents and delivery information, sent from a supplier to a buyer."
+997,997-Functional Acknowledgment ,"997-Confirms receipt of other EDI transactions, validating successful transmission."
+846,846-Inventory Inquiry/Advice ,846-Shares inventory status or availability details from a supplier to a buyer.
+830,830-Planning Schedule with Release Capability ,830-Used by buyers to convey forecasted demands or long term planning details to suppliers.
+820,820-Payment Order/Remittance Advice ,820-Sent by a buyer to authorize payment or notify the supplier about payments made.
+832,832-Price/Sales Catalog ,832-Provides price and product information from suppliers to buyers.
+860,860-Purchase Order Change Request ,860-Allows buyers to request changes to an existing purchase order.
+214,214-Transportation Carrier Shipment Status ,214-Updates on the status of a shipment in transit from carriers to shippers.
+945,945-Warehouse Shipping Advice ,945-Informs the supplier or retailer that the warehouse has shipped the goods.
+943,943-Warehouse Stock Transfer Shipment Advice ,943-Used to notify of a transfer or shipment from one warehouse to another.
+940,940-Warehouse Shipping Order ,940-Provides instruction to a warehouse to ship product to a specified location.
+204,204-Motor Carrier Load Tender ,204-Provides details to a transportation carrier about the logistics of a shipment.
+210,210-Motor Carrier Freight Details and Invoice ,210-Sends freight charges to be paid by the shipper to the carrier.

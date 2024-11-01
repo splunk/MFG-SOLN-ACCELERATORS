@@ -1,0 +1,15 @@
+X12_EDI_Code,X12_EDI_Transaction,SAP_IDoc_Type,Description
+810,Invoice,INVOIC02,Invoice creation and processing
+850,Purchase Order,ORDERS05,Standard purchase order
+855,Purchase Order Acknowledgment,ORDCHG/ORDERS,Order change or acknowledgment
+856,Advance Ship Notice (ASN),DESADV01,Shipping notification
+846,Inventory Inquiry/Advice,INVRPT01,Inventory report
+940,Warehouse Shipping Order,WMMBXY,Inventory movement and confirmation
+945,Warehouse Shipping Advice,SHPCON,Shipping confirmation
+860,Purchase Order Change Request - Buyer Initiated,ORDCHG,Order change request
+865,Purchase Order Change Acknowledgment,ORDERS,Order acknowledgment
+997,Functional Acknowledgment,STATUS,EDI acknowledgment of receipt
+214,Transportation Carrier Shipment Status,SHPMNT,Shipment status and update
+210,Freight Invoice,INVOIC01,Freight invoice
+820,Payment Order/Remittance Advice,PEXR2001,Payment order
+830,Planning Schedule with Release Capability,DELINS,Scheduling agreement releases

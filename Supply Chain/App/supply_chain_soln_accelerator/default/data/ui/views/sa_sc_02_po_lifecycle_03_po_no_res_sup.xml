@@ -113,7 +113,7 @@
       <table>
         <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850 855) 
+          <query>sourcetype="edi:x12" edi_code IN (850 855) 
 | table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
 | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
@@ -167,7 +167,7 @@
       <table>
         <title>RESULT ANALYSIS 02 : Total stats on EDI response status</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850 855) 
+          <query>sourcetype="edi:x12" edi_code IN (850 855) 
 | table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
 | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
@@ -210,7 +210,7 @@
       <chart>
         <title>Total stats on EDI response status (Chart)</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850 855) 
+          <query>sourcetype="edi:x12" edi_code IN (850 855) 
 | table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
 | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 

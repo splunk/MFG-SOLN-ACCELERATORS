@@ -125,7 +125,7 @@
       <table>
         <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" source=edi_quantumline_customer_full NOT edi_code=997 
+          <query>sourcetype="edi:x12" source=edi_quantumline_customer_full NOT edi_code=997 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
 | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
 | strcat edi_code "-" edi_ack_status edi_event_pattern_combo 
@@ -173,8 +173,8 @@
       <table>
         <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" NOT edi_code=997 
-    [ search index=supply_chain_edi sourcetype="edi:x12" source=edi_quantumline_customer_full NOT edi_code=997 
+          <query>sourcetype="edi:x12" NOT edi_code=997 
+    [ search sourcetype="edi:x12" source=edi_quantumline_customer_full NOT edi_code=997 
     | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
     | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
     | strcat edi_code "-" edi_ack_status edi_event_pattern_combo 

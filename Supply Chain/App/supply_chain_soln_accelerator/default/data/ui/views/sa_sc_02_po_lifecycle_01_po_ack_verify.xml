@@ -115,7 +115,7 @@
       <table>
         <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+          <query>sourcetype="edi:x12" edi_code IN (850, 997) 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
 | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
 | stats last(_time) as _time, last(edi_name) as edi_name, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_cnt by edi_tr_id edi_code_groupby 
@@ -162,7 +162,7 @@
       <table>
         <title>RESULT ANALYSIS 02 : EDI Transactions with response status determined.</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+          <query>sourcetype="edi:x12" edi_code IN (850, 997) 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
 | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
 | stats last(_time) as _time, last(edi_name) as edi_name, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_cnt by edi_tr_id edi_code_groupby 
@@ -190,7 +190,7 @@
       <table>
         <title>Total stats on EDI response status (Chart)</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+          <query>sourcetype="edi:x12" edi_code IN (850, 997) 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
 | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
 | stats last(_time) as _time, last(edi_name) as edi_name, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_cnt by edi_tr_id edi_code_groupby 
@@ -219,7 +219,7 @@
       <chart>
         <title>Total stats on EDI response status (Chart)</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+          <query>sourcetype="edi:x12" edi_code IN (850, 997) 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
 | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
 | stats last(_time) as _time, last(edi_name) as edi_name, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_cnt by edi_tr_id edi_code_groupby 
@@ -262,7 +262,7 @@
       <table>
         <title>RESULT ANALYSIS 02 : EDI Transactions with response status determined.</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) edi_tr_id=TR*
+          <query>sourcetype="edi:x12" edi_code IN (850, 997) edi_tr_id=TR*
 | rex field=_raw max_match=100 "(?P&lt;po_item&gt;PO1\|[^\~]*)~" 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
 | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 

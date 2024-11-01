@@ -1,0 +1,738 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+   <label>Stage 2 : Explore Data</label>
+   <row>
+      <panel>
+         <html>
+            <img width="1300" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_stage_banner_02.png"/>
+            <ul>
+               <h1>
+                  <!--img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_icon_09.png"/>
+                     EXPLORE DATA : --><font color="#8B0000">Understanding Predictive Maintenance Data-set</font>
+               </h1>
+               <!--h2>OVERVIEW :</h2-->
+               <p>Data exploration is the start of <b>“Analysis”</b> process, which is a key stage to plan how to proceed with analytics to get the desired outcome.
+                  Before we start with deciding which <b>analytical model</b> should be evaluated for creating a <b>predictive maintenance analysis model</b>, understanding the type of data and the characteristics of data-set is crucial in engineering right <b>features</b> in the data.
+               </p>
+            </ul>
+            <img width="200" align="top" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_st_navi_gr_button_02.png"/>
+            <img width="650" align="top" usemap="#nav_map" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_stage_button_new_02.png"/>
+            <map name="nav_map">
+               <area shape="rect" coords="5,3,95,83" alt="Stage_01" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_get_data_01"/>
+               <area shape="rect" coords="140,3,233,83" alt="Stage_02" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_exploration_01"/>
+               <area shape="rect" coords="280,3,510,60" alt="Stage_03" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_01"/>
+               <area shape="rect" coords="280,65,510,93" alt="Stage_03-01" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_02"/>
+               <area shape="rect" coords="280,105,510,130" alt="Stage_03-02" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_03"/>
+               <area shape="rect" coords="280,140,510,165" alt="Stage_03-04" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_04"/>
+               <area shape="rect" coords="558,3,650,83" alt="Stage_04" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_apply_01"/>
+            </map>
+            <br/>
+         </html>
+      </panel>
+   </row>
+   <row id="tabs">
+      <panel>
+         <html>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_navi_gr_button.png"/>
+               </li>
+               <li class="active"><a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a></li>
+               <li><a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_method">2 | METHODOLOGY REVIEW</a></li>
+               <li><a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_01,tab_step_02,tab_step_03,tab_step_04_01,tab_step_04,tab_step_05,tab_step_06,tab_step_07">3 | STEP-BY-STEP</a></li>
+               <!--li><a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_next">WHAT'S NEXT?</a></li-->
+            </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_objective">
+      <panel>
+         <html>
+            <h1>
+               <img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_target.png"/>
+               <b>OBJECTIVE :</b> 
+            </h1>
+            <ul>
+               <p>The goal of the “Explore data” stage is for you to understand characteristics of the maintenance related performance dataset to have clear a methodology for picking out the right features from the dataset for analysis, so the analyst can decide the right analytics approach in predicting optimal maintenance.</p>
+               <p>
+                  <b>After this section, you will be able to</b> :
+               <ul>
+                  <ul>
+                     <li>Normalize data to find hidden signals in the data.</li>
+                     <li>Be able to capture a full event window, preparing for Machine Learning algorithm training.</li>
+                     <li>Visualize data based on the patterns and characteristics of the data.</li>
+                     <li>Select features for doing accurate predictive maintenance analysis.</li>
+                  </ul>
+               </ul>
+               </p>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   
+   
+   <row id="tab_method">
+      <panel>
+         <html tokens="true">
+            <h1>
+               <img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_bulb.png"/>
+               <b>METHODOLOGY REVIEW :</b> 
+               <!--a target="_blank" href="https://splunk.box.com/s/91omcsxgsg7pkacabbxum96n0gpim47k">
+                  <img height="15" width="130" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_demo_video.png"/>
+                  </a-->
+            </h1>
+            <p>This section introduces a few key data exploration techniques that will help practitioners understand the characteristics of data which are essential to prepare for better <b>machine learning predictive modeling</b>.</p>
+            <h2>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Understanding Features from Data : <font color="#8B0000">Exploration of asset metrics</font>
+               </b>
+            </h2>
+            <ul>
+               <p>Data exploration starts with understanding what metrics mean in the context of your assets and the components of assets. Metrics that indicate the status of different components of an asset are often called “features” in analysis. Understanding the types of features that exist in your data is critical for identifying how to analyze the data.
+               </p>
+               <p>Identify the features in the data based on your understanding of the system :
+               <ul>
+                  <ul>
+                     <li>To be able to effectively analyze the data, you need to identify what the asset does, and the component parts of the asset. The functions performed by the asset generate metrics and indicate the status of the asset components.</li>
+                     <li>For example, if you have “Fuel flow ration” metrics for an engine, that indicates the rate of engine fuel flowing through the engine.</li>
+                     <li>Understand how the metrics change, and what a typical deviation in values is over time. For example, as an engine wears out, the core temperature metric increases.</li>
+                  </ul>
+               </ul>
+               </p>
+               <p>Identifying how these features make sense in the context of your system will allow you to focus on the relevant factors for predictive maintenance.</p>
+               <ul>
+                  <ul>
+                     <!--img width="500" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_pic_engine_sm.png"/-->
+                     <img width="700" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/turbine_diagram.png"/>
+                  </ul>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  Based on exploring the raw data and identifying features, we can conclude the following basic knowledge about the asset:<br/>
+                  <ul><ul><ul>
+                    <li>Jet engines have 3 major moving parts, representing a three-shaft configuration with different pressure systems spinning at different rates that correspond to features in data.</li>
+                    <li>Jet engines sensor metrics consists of 13 major sensors metrics that measures various speeds, temperatures, pressures, liquid flow ratios.</li>
+                  </ul></ul></ul>
+               </ul>
+            </ul>
+            <h2>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Data-set preprocessing : <font color="#8B0000">Normalization (Standard Scaling)</font>
+               </b>
+            </h2>
+            <ul>
+               <p>
+                  <b>Normalization</b> (often called as “<b>Standard Scaling</b>”) is a data processing technique that puts all dataset values in different scales to a single scale. Imagine you have 20 different data points that are all in different unit scales so far apart it is difficult to see patterns or trends in the data.
+               </p>
+               <!--img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/-->
+               <br/>
+               <ul>
+                  <img width="800" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_exp_01.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  As you see the results in metrics with different scales so far apart, the <b>directional trend</b> changes get buried in a bigger picture. Each feature metrics reading seems to have flat trending lines.<br/>
+                  <br/>
+               </ul>
+               <p>By doing the normalization (or Standard Scaling), you can convert all metrics in different scales into a single common scale, making each metrics scale at the average of value "0". This allows you to compare the trends between different metrics at different scales as well as amplifying the changes in data values.  This data pre-processing technique makes it ideal for creating machine learning models because it includes clear directional data changes in the deviations from one state to another.</p>
+               <ul>
+                  <img width="800" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_exp_02.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  <b>Normalization</b> provides important benefits in the analysis of initial data. It amplifies data with <b>small deviations</b> as well as equalizes data with <b>extream variances</b>, which uncovers clear trends that help clearly distinguish the <b>segments</b> (or <b>windows</b>) in the data. 
+                  <br/>
+                  <br/>
+               </ul>
+            </ul>
+            <h2>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Event Window : <font color="#8B0000">Capturing an event window</font>
+               </b>
+            </h2>
+            <ul>
+               <p>
+                  <b>Event windowing</b> is a technique to capture a full data cycle of the subject you want to analyze so that you can profile its behavior. After the <b>normalization</b> process, the full data cycles that reflect "a maintenance cycle" become clear. In a jet engine example like below, an "<b>event window</b>" is metrics readings from the initial maintenance completed state to the complete deterioration state of an engine. These windows of events can be used as the inputs to train a machine learning model.
+               </p>
+               <!--img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/-->
+               <br/>
+               <ul>
+                  <img width="1000" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_exp_03.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The results above show a clear event window that reflects a jet engine cycle from newly maintained to a deterioration state of the engine. A set of metrics from each time slice represents a numerical summary of a cycle. In the context of air transportation, this equates to average readings from a flight.<br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The length of this event window is approximately 120-400+ cycles (or flights) for a jet engine, which covers anywhere from 3 months to 10 months of use.<br/>
+                  <br/>
+               </ul>
+            </ul>
+            <h2>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Feature Exploration : <font color="#8B0000">Dataset feature analysis</font>
+               </b>
+            </h2>
+            <ul>
+               <p>
+                 By exploring the dataset, we can understand which features of the data are related to or correlated with maintenance performance metrics.  
+Features in the dataset are types of values that recorded captures the behavior of that particular asset in an analysis. Selecting the feature is a critical step to making a prediction model relevant. It is important to choose both to decide,
+                 <ul><ul><ul>
+                 <li>Features that are relevant to the problem trying to solve and</li>
+                 <li>Features that best represent the desired analytics result.</li>
+                 </ul></ul></ul>
+               </p>
+               <p>
+               The related features reflect the wear and tear trends in the data. Using this data, we can make decisions about which features are suitable for creating a machine learning prediction model. Exploring the data helps us gain insight into :
+               <ul><ul><ul>
+              <li>How different performance metrics deviate and what do the trends look.</li>
+              <li>How long the equipment lasts, and when the asset starts to deteriorate and when it fails.</li>
+              <li>Which features in the data reflect higher correlations and deviation related to the wear and tear.</li>
+                </ul></ul></ul>
+               </p>
+               <ul>
+                  <img width="1000" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_exp_04.png"/>
+                  <br/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  Looking at the full <b>event window</b> (a full maintenance cycle of an engine), we can clearly distinguish how the metrics stay within a certain range after the maintenance, then deviate as more cycle/flights that are taken with an engine or that an engine is used. Also, we can identify that some <b>features</b> have a stronger correlation with the usage of the asset than others. This is an important factor to consider as selecting optimal feature for <b>training a model</b> in the later stage.<br/>
+               </ul>
+               <br/>
+               <ul>
+                  <img width="1000" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_exp_06.png"/>
+                  <br/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                   Looking at the same result using the Box Plots visualization, it is easier to identify potential features for a machine learning model. You can use the Box Plots visualization to see a simple distribution of data in each feature. The taller the height of the bar, the greater the deviation of values, which means these features are more relevant or highly associated with wear and tear. Therefore, the taller box plot features are more optimal features to select for analysis. <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>Based on the results of the data exploration, we can Based on the results of the data exploration, we can select the following features as key for building the prediction model in the next stage: <b>Bleed Entropy, Bypass Ratio, Corr Fan Speed, HPT Coolant Bleed, LPC Outlet Temp, LPT Outlet Temp, Phys Fan Speed</b>
+                  <br/>
+                  <br/>
+               </ul>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   
+   
+   <row id="tab_step_00">
+      <panel>
+         <html tokens="true">
+            <h1>
+               <img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_tool.png"/>
+               <b>STEP BY STEP :</b> 
+               <!--a target="_blank" href="https://splunk.box.com/s/91omcsxgsg7pkacabbxum96n0gpim47k">
+                  <img height="15" width="130" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_demo_video.png"/>
+                  </a-->
+            </h1>
+            <p>
+              This step-by-step section guides you through applying the key techniques covered in the "Methodology Review" to the jet engine dataset. The Left column provides detailed instruction and the right column provides the results of the step. Use <img width="120" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/> button to jump directly into a live environment for each step.
+              
+              </p>
+            <h2>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Data-set preprocessing : <font color="#8B0000">Normalization (Standard Scaling)</font>
+               </b>
+            </h2>
+            <ul>
+               <p>Using the jet engine test dataset from the last section, review and apply normalization (or standard scaling) to the original sensor data. Then discover the patterns in the data. These steps guide you through the process of visualizing your data and normalizing your dataset values with a standard scale.
+               <ul>
+               </ul>
+               </p>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   
+   
+   <row id="tab_step_01">
+      <panel depends="$alwaysHideCSS$">
+         <html>
+            <style>#lef_01{
+            width:48% !important;
+          }
+          #mid_01{
+            width:4% !important;
+          }
+          #rig_01{
+            width:48% !important;
+          }</style>
+         </html>
+      </panel>
+      <panel id="lef_01">
+         <html>
+                  <ul>
+                     <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+                     <b>STEP 01</b>
+                     : Select jet engine dataset by searching for the source type iot_pm_fail. Then use the reverse, table, head 1000 command to sort and see the first 1000 records of jet engine performance dataset. Use the reverse command to sort the order of events from older to recent.
+                     <br/>
+                     <ul>
+                        <pre width="800"><font color="#8B0000"><b>sourcetype=iot_pm_fail</b></font>
+| reverse
+| table unit_cycle sname*
+| head 1000</pre>
+                        <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                        The output puts data in table cell format sorted by oldest record. Each line represents a set of summary statistics of a single cycle or a flight (a trip).
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;q=search%20sourcetype%3Diot_pm_fail%20%0A%7C%20reverse%20%0A%7C%20table%20unit_cycle%20sname*%20%0A%7C%20head%201000&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=statistics&amp;workload_pool=&amp;display.page.search.tab=statistics">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+                     </ul>
+                  </ul>
+         </html>
+      </panel>
+
+      <panel id="rig_01">
+         <table>
+            <title>RESULT STEP 01 : Retreived Raw Data in Table</title>
+            <search>
+               <query>sourcetype="iot_pm_fail"
+                  | reverse
+                  | table unit_cycle sname*
+                  | head 1000
+               </query>
+               <earliest>0</earliest>
+               <sampleRatio>1</sampleRatio>
+            </search>
+            <option name="count">4</option>
+            <option name="drilldown">none</option>
+         </table>
+      </panel>
+   </row>
+   
+   
+   <row id="tab_step_02">
+      <panel depends="$alwaysHideCSS$">
+         <html>
+            <style>#lef_02{
+            width:48% !important;
+          }
+          #mid_02{
+            width:4% !important;
+          }
+          #rig_02{
+            width:48% !important;
+          }</style>
+         </html>
+      </panel>
+      <panel id="lef_02">
+         <html>
+                  <ul>
+                     <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+                     <b>STEP 02</b>
+                     : View the data as a line chart, select "Visualization" then select the visualization type. For the visualization, select "Downsampled line chart".
+                     <br/>
+                     <ul>
+                        <img width="300" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_exp_08.png"/>
+                        <br/>
+                        <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                        The result shows the line chart of collected sensor values in original scales.
+                        <br/>
+                     </ul>
+                  </ul>
+         </html>
+      </panel>
+
+      <panel id="rig_02">
+         <viz type="Splunk_ML_Toolkit.LinesViz">
+            <title>RESULT STEP 02 : Viewing all Raw Data (metrics) in original scales</title>
+            <search>
+               <query>sourcetype="iot_pm_fail"
+                  | reverse
+                  | table unit_cycle sname*
+                  | head 1000
+               </query>
+               <earliest>0</earliest>
+               <sampleRatio>1</sampleRatio>
+            </search>
+            <option name="drilldown">none</option>
+            <option name="height">284</option>
+            <option name="trellis.enabled">0</option>
+            <option name="trellis.scales.shared">1</option>
+            <option name="trellis.size">medium</option>
+         </viz>
+      </panel>
+   </row>
+   
+   <row id="tab_step_03">
+      <panel depends="$alwaysHideCSS$">
+         <html>
+            <style>#lef_03{
+            width:48% !important;
+          }
+          #mid_03{
+            width:4% !important;
+          }
+          #rig_03{
+            width:48% !important;
+          }</style>
+         </html>
+      </panel>
+      <panel id="lef_03">
+         <html>
+                  <ul>
+                     <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+                     <b>STEP 03</b>
+                     : Add the "fit" command to normalize the differently-scaled data into a single scale. The fit command places the normalization-processed values into new fields starting with “SS_*”.
+                     <br/>
+                     <ul>
+                        <pre width="800">sourcetype="iot_pm_fail"
+| reverse
+| table unit_cycle sname*
+| <font color="#8B0000"><b>fit StandardScaler sname_Bleed_Enthalpy sname_Bypass_Ratio sname_Corr_Core_Speed sname_Corr_Fan_Speed sname_Fuel_Flow_Ratio sname_HPC_Outlet_Temp sname_HPT_Coolant_Bleed sname_LPC_Outlet_Temp sname_LPT_Outlet_Temp sname_Phys_Core_Speed sname_Phys_Fan_Speed with_mean=true with_std=true into app_pm_SS</b></font>
+| table unit_cycle SS_sname_Bleed_Enthalpy SS_sname_Bypass_Ratio SS_sname_Corr_Core_Speed SS_sname_Corr_Fan_Speed SS_sname_Fuel_Flow_Ratio SS_sname_HPC_Outlet_Temp SS_sname_HPT_Coolant_Bleed SS_sname_LPC_Outlet_Temp SS_sname_LPT_Outlet_Temp SS_sname_Phys_Core_Speed SS_sname_Phys_Fan_Speed
+| head 1000</pre>
+                        <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                        The result shows clear patterns and cycles in the data, making it easier to distinguish event windows.
+                        <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;q=search%20sourcetype%3Diot_pm_fail%20%0A%7C%20reverse%20%0A%7C%20table%20unit_cycle%20sname*%20%0A%7C%20fit%20StandardScaler%20sname_Bleed_Enthalpy%20sname_Bypass_Ratio%20sname_Corr_Core_Speed%20sname_Corr_Fan_Speed%20sname_Fuel_Flow_Ratio%20sname_HPC_Outlet_Temp%20sname_HPT_Coolant_Bleed%20sname_LPC_Outlet_Temp%20sname_LPT_Outlet_Temp%20sname_Phys_Core_Speed%20sname_Phys_Fan_Speed%20with_mean%3Dtrue%20with_std%3Dtrue%20into%20app_pm_SS%20%0A%7C%20table%20unit_cycle%20SS_sname_Bleed_Enthalpy%20SS_sname_Bypass_Ratio%20SS_sname_Corr_Core_Speed%20SS_sname_Corr_Fan_Speed%20SS_sname_Fuel_Flow_Ratio%20SS_sname_HPC_Outlet_Temp%20SS_sname_HPT_Coolant_Bleed%20SS_sname_LPC_Outlet_Temp%20SS_sname_LPT_Outlet_Temp%20SS_sname_Phys_Core_Speed%20SS_sname_Phys_Fan_Speed%20%0A%7C%20head%201000&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=visualizations&amp;workload_pool=&amp;display.page.search.tab=visualizations&amp;display.visualizations.type=charting&amp;display.visualizations.charting.chart=line">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/>
+                        </a>
+                     </ul>
+                  </ul>
+         </html>
+      </panel>
+
+      <panel id="rig_03">
+         <viz type="Splunk_ML_Toolkit.LinesViz">
+            <title>RESULT STEP 03 : After data values normalization (Standard Scaling) in a single scale</title>
+            <search>
+               <query>sourcetype="iot_pm_fail"
+                  | reverse
+                  | table unit_cycle sname*
+                  | fit StandardScaler sname_Bleed_Enthalpy sname_Bypass_Ratio sname_Corr_Core_Speed sname_Corr_Fan_Speed sname_Fuel_Flow_Ratio sname_HPC_Outlet_Temp sname_HPT_Coolant_Bleed sname_LPC_Outlet_Temp sname_LPT_Outlet_Temp sname_Phys_Core_Speed sname_Phys_Fan_Speed with_mean=true with_std=true into app_pm_SS 
+                  | table unit_cycle SS_sname_Bleed_Enthalpy SS_sname_Bypass_Ratio SS_sname_Corr_Core_Speed SS_sname_Corr_Fan_Speed SS_sname_Fuel_Flow_Ratio SS_sname_HPC_Outlet_Temp SS_sname_HPT_Coolant_Bleed SS_sname_LPC_Outlet_Temp SS_sname_LPT_Outlet_Temp SS_sname_Phys_Core_Speed SS_sname_Phys_Fan_Speed
+                  | head 1000
+               </query>
+               <earliest>0</earliest>
+               <sampleRatio>1</sampleRatio>
+            </search>
+            <option name="drilldown">none</option>
+            <option name="height">356</option>
+            <option name="trellis.enabled">0</option>
+            <option name="trellis.scales.shared">1</option>
+            <option name="trellis.size">medium</option>
+         </viz>
+      </panel>
+   </row>
+   
+   <row id="tab_step_00_02">
+      <panel>
+         <html tokens="true">
+            <h2>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Event Window : <font color="#8B0000">Capturing an event window</font>
+               </b>
+            </h2>
+            <ul>
+               <p>Now the <b>event window</b> is clearly visible, an event window is a set of data that shows a full cycle of a jet engine from a maintained state to a worn-out state. This app includes a macro to group and clip the event window for you. Click ""<a target="settings_window" href="/manager/Splunk_Essentials_Predictive_Maintenance_for_IOT/admin/macros/get_pm_event_window%281%29?uri=%2FservicesNS%2Fnobody%2FSplunk_Essentials_Predictive_Maintenance_for_IOT%2Fadmin%2Fmacros%2Fget_pm_event_window%25281%2529&amp;action=edit&amp;ns=Splunk_Essentials_Predictive_Maintenance_for_IOT"><b>get_pm_event_window</b></a>" macro to look at the macro defined for your reference.
+               </p>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   
+   
+   <row id="tab_step_04">
+
+      <panel depends="$alwaysHideCSS$">
+         <html>
+            <style>#lef_04{
+            width:48% !important;
+          }
+          #mid_04{
+            width:4% !important;
+          }
+          #rig_04{
+            width:48% !important;
+          }</style>
+         </html>
+      </panel>
+      <panel id="lef_04">
+         <html>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 04</b>
+               : Using the macro "get_pm_event_window", retrieve event window number 194. The macro `get_pm_event_window(194)` takes an argument of the window number. 
+               <br/>
+               <ul>
+                  <pre width="800"><font color="#8B0000"><b>`get_pm_event_window(194)`</b></font></pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  Event window number #194 is an event window of a jet engine that flew more than 350 cycles/flights.
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The get_pm_event_window macro already includes the normalization step as part of the macro, which simplifies preprocessing steps in analysis.
+                  <br/><br/>
+                        <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;admin__admin_U3BsdW5rX0Vzc2VudGlhbHNfUHJlZGljdGl2ZV9NYWludGVuYW5jZV9mb3JfSU9U__search4_1549941423.1742&amp;q=search%20%60get_pm_event_window(194)%60&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=visualizations&amp;display.page.search.tab=visualizations&amp;display.visualizations.charting.chart=line">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/></a>
+               </ul>
+               <br/>
+            </ul>
+         </html>
+      </panel>
+
+      <panel id="rig_04">
+         <viz type="Splunk_ML_Toolkit.LinesViz">
+            <title>RESULT STEP 04 : Full "Event Window" capture from good state to fail state</title>
+            <search>
+               <query>`get_pm_event_window(194)`
+               </query>
+               <earliest>0</earliest>
+               <sampleRatio>1</sampleRatio>
+            </search>
+            <option name="drilldown">none</option>
+            <option name="height">265</option>
+            <option name="trellis.enabled">0</option>
+            <option name="trellis.scales.shared">1</option>
+            <option name="trellis.size">medium</option>
+         </viz>
+      </panel>
+      
+   </row>
+   
+   
+   <row id="tab_step_00_01">
+      <panel>
+         <html tokens="true">
+            <h2>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b>Feature Exploration : <font color="#8B0000">Data-set feature analysis</font>
+               </b>
+            </h2>
+            <ul>
+               <p>Now, let's understand the characteristics of the jet engine data. This step uses some transformation and visualization techniques to select the features that are important when creating a machine learning model.</p>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   
+   
+   <row id="tab_step_05">
+
+      <panel depends="$alwaysHideCSS$">
+         <html>
+            <style>#lef_05{
+            width:48% !important;
+          }
+          #mid_05{
+            width:4% !important;
+          }
+          #rig_05{
+            width:48% !important;
+          }</style>
+         </html>
+      </panel>
+      <panel id="lef_05">
+         <html>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 05</b>
+               : Smooth out the spikes in the data using the trendline command to better render the characteristics of jet engines. The trendline command uses a smoothing technique to allow you to average metric values to better focus on trends in the data. To use this in this example, specify the sma4 function to average the last 4 values of the metric.
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(194)` |
+<font color="#8B0000"><b> trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed)</b></font>
+| where unit_cycle&gt;3
+| table sma4*</pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  trendline sma4 removes temporal spikes from the trends, which makes the characteristics of features more distinct.<br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  <b>where unit_cycle&gt;3</b> is used to filter out empty rows.<br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  After applying the smoothing function, the smoothed out fields start with sma4*, so use the table command to specify sma4* and view only those fields in the results.<br/>
+                       <br/> <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20sma4*&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=visualizations&amp;workload_pool=&amp;display.page.search.tab=visualizations&amp;display.visualizations.type=charting&amp;display.visualizations.charting.chart=line">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/></a>
+               </ul>
+            </ul>
+         </html>
+      </panel>
+
+      <panel id="rig_05">
+         <viz type="Splunk_ML_Toolkit.LinesViz">
+            <title>RESULT STEP 05 : Applying moving averages to smooth-out temporal spikes</title>
+            <search>
+               <query>`get_pm_event_window(194)`
+                  | trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed)
+                  | where unit_cycle&gt;3
+                  | table sma4*
+               </query>
+               <earliest>0</earliest>
+               <sampleRatio>1</sampleRatio>
+            </search>
+            <option name="drilldown">none</option>
+            <option name="height">341</option>
+            <option name="trellis.enabled">0</option>
+            <option name="trellis.scales.shared">1</option>
+            <option name="trellis.size">medium</option>
+         </viz>
+      </panel>
+      
+   </row>
+
+   <row id="tab_step_06">
+  
+      <panel depends="$alwaysHideCSS$">
+         <html>
+            <style>#lef_06{
+            width:48% !important;
+          }
+          #mid_06{
+            width:4% !important;
+          }
+          #rig_06{
+            width:48% !important;
+          }</style>
+         </html>
+      </panel>
+      <panel id="lef_06">
+         <html>
+            <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 06</b>
+               : To use boxplot to simply visualize all features(fields), use `boxplot` macro to create statistics on data dispersion per feature.
+               <br/>
+               <ul>
+                  <pre width="800">`get_pm_event_window(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed)
+| where unit_cycle&gt;3
+| table sma4*
+| <font color="#8B0000"><b>`boxplot`</b></font></pre>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  The boxplot macro calculates min, median, max, exactperc25, exactperc75 statistics per feature.  Here is the description of each statistics:
+                  <ul><ul>
+                      <li>max (Maximum) - Maximum value of the feature metrics</li>
+                      <li>exactperc75 - Upper quartile of the feature metrics</li>
+                      <li>med (Median) - Average of the feature metrics</li>
+                      <li>exactperc25 - Lower quartile of  the feature metrics</li>
+                      <li>min (Minumin) - Minimum value of the feature metrics</li>
+                  </ul></ul><br/>
+                       <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20sma4*%0A%7C%20%60boxplot%60&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=statistic&amp;workload_pool=&amp;display.page.search.tab=statistics">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/></a>
+               </ul>
+            </ul>
+         </html>
+      </panel>
+
+      <panel id="rig_06">
+         <table>
+            <title>RESULT STEP 06 : Statistics for boxplot visualization</title>
+            <search>
+               <query>`get_pm_event_window(194)`
+                  | trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed)
+                  | where unit_cycle&gt;3
+                  | table sma4*
+                  | `boxplot`
+               </query>
+               <earliest>0</earliest>
+               <sampleRatio>1</sampleRatio>
+            </search>
+            <option name="drilldown">none</option>
+         </table>
+      </panel>
+   </row>
+   
+   
+   <row id="tab_step_07">
+     
+      <panel depends="$alwaysHideCSS$">
+         <html>
+            <style>#lef_07{
+            width:48% !important;
+          }
+          #mid_07{
+            width:4% !important;
+          }
+          #rig_07{
+            width:48% !important;
+          }</style>
+         </html>
+      </panel>
+      <panel id="lef_07">
+         <html>
+           <ul>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+               <b>STEP 07</b>
+               : Use the Box Plots visualization to clarify feature selection, select "Visualization", and then select the "Boxplot Chart" visualization type.
+               <br/>
+               <ul>
+                  <img width="500" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_exp_07.png"/>
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                   Boxplot chart makes it easy to distinguish jet engine data features that are more sensitive to change, the longer bar features.
+                  <br/>
+                  <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+                  It is now pretty clear which features from jet engine dataset are more associated with wear and tear. These features will be used for the next stage.  
+                  <br/>
+                       <br/> <a target="exercise_window" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/search?earliest=0&amp;q=search%20%60get_pm_event_window(194)%60%20%0A%7C%20trendline%20sma4(SS_sname_Bleed_Enthalpy)%2C%20sma4(SS_sname_Bypass_Ratio)%2C%20sma4(SS_sname_Corr_Core_Speed)%2C%20sma4(SS_sname_Corr_Fan_Speed)%2C%20sma4(SS_sname_Fuel_Flow_Ratio)%2C%20sma4(SS_sname_HPC_Outlet_Temp)%2C%20sma4(SS_sname_HPT_Coolant_Bleed)%2C%20sma4(SS_sname_LPC_Outlet_Temp)%2C%20sma4(SS_sname_LPT_Outlet_Temp)%2C%20sma4(SS_sname_Phys_Core_Speed)%2C%20sma4(SS_sname_Phys_Fan_Speed)%20%0A%7C%20where%20unit_cycle%3E3%20%0A%7C%20table%20sma4*%0A%7C%20%60boxplot%60&amp;display.page.search.mode=fast&amp;dispatch.sample_ratio=1&amp;latest=&amp;display.general.type=visualizations&amp;workload_pool=&amp;display.page.search.tab=visualizations&amp;display.visualizations.charting.chart=line&amp;display.visualizations.type=custom&amp;display.visualizations.custom.type=Splunk_ML_Toolkit.BoxViz">
+                        <img width="150" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_icon_open_search_gr.png"/></a>
+               </ul>
+            </ul>
+         </html>
+      </panel>
+
+      <panel id="rig_07">
+         <viz type="Splunk_ML_Toolkit.BoxViz">
+            <title>RESULT STEP 07 : Alternative Visualization to better see "Features" in data-set</title>
+            <search>
+               <query>`get_pm_event_window(194)`
+                  | trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+                  | where unit_cycle&gt;3
+                  | table sma4*
+                  | `boxplot`
+               </query>
+               <earliest>0</earliest>
+               <sampleRatio>1</sampleRatio>
+            </search>
+            <option name="drilldown">none</option>
+            <option name="height">462</option>
+            <option name="trellis.enabled">0</option>
+            <option name="trellis.scales.shared">1</option>
+            <option name="trellis.size">medium</option>
+         </viz>
+      </panel>
+   </row>
+   
+   
+   <row id="tab_next">
+      <panel>
+         <html tokens="true">
+            <h1>
+               <img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_ques.png"/>
+               <b>What's Next?</b>
+               <!--a href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/sec_search_02">
+                  <img width="100" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_next_high.png"/>
+                  </a-->
+            </h1>
+            <ul>
+               <p>
+                  You completed the <b>Explore Data</b> stage in <b>Splunk Essentials for Predictive Maintenance</b>. Now that you identified key elements in predictive maintenance data-set, move on to the next stage in evaluting analytics method that would get you answer you need. 
+               </p>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+               <b>NEXT STEP </b> : Evaluate different analytics options.
+               <br/>
+               <br/>
+               <a href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_get_data_01">
+               <img height="15" width="118" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_button_prev_exer_nr.png"/>
+               </a>
+               <a href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_01">
+               <img height="15" width="118" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_button_next_exer_nr.png"/>
+               </a>
+            </ul>
+            <table>
+               <tr>
+                  <td>
+                     <div class="col-sm-6 col-lg-6 ">
+                        <h1>
+                           <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/> Do you need help? Ask an Industrial IOT Predictive Maintenance Expert
+                        </h1>
+                        <ul>
+                           <p>Need help with your environment and requirements? Send us your questions and we will get back to you as soon as possible.</p>
+                           <p>If you need immediate assistance, check out our community forum, <a href="http://answers.splunk.com/">Splunk Answers. (i1)</a>
+                           </p>
+                           <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=Splunk_Essentials_Predictive_Maintenance_for_IOTenance" class="btn" target="_ask_expert">Contact Us</a>
+                        </ul>
+                     </div>
+                  </td>
+                  <td>
+                     <div class="col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 photo-box">
+                        <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/Brian_Gilmore_white.png" alt="Predictive Maintenance expert photo" title=""/>
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         </html>
+      </panel>
+   </row>
+</dashboard>

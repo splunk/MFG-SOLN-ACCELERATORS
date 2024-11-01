@@ -1,0 +1,313 @@
+<form version="1.1" theme="light" script="tabs.js" stylesheet="available_icons.css,dashboard_set_01.css,tabs.css">
+  <label>Data Model : EDI All Transaction Data</label>
+  <description>Data Exploration Tool for Conversation Detail Events : Notification API (Real-time, For only conversations assigned to a queue)</description>
+  <search id="search_global_01">
+    <query>| from datamodel:"supply_chain_edi_sum_evt_edi_all" 
+      </query>
+    <earliest>$INPUT_TIME_GLOBAL.earliest$</earliest>
+    <latest>$INPUT_TIME_GLOBAL.latest$</latest>
+  </search>
+  <search id="search_global_02">
+    <query>`get_edi_x12_index` $INPUT_CUST_FILTER_01$* | fields + *</query>
+    <earliest>$INPUT_TIME_GLOBAL.earliest$</earliest>
+    <latest>$INPUT_TIME_GLOBAL.latest$</latest>
+  </search>
+  <search id="search_global_03">
+    <query>index=genesys_sum source=genesys_evt_sum_conv_aggregates metric="$INPUT_METRIC_TYPE_O$" group.ani="*$INPUT_ANI$*" group.conversationId="*$INPUT_CONV_ID$*" | fields + *</query>
+    <earliest>$INPUT_TIME_GLOBAL.earliest$</earliest>
+    <latest>$INPUT_TIME_GLOBAL.latest$</latest>
+  </search>
+  <fieldset submitButton="true" autoRun="true">
+    <input type="time" token="INPUT_TIME_GLOBAL" searchWhenChanged="true">
+      <label>Search Window</label>
+      <default>
+        <earliest>-7d@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+    <input type="multiselect" token="INPUT_EXCL_FIELDS" searchWhenChanged="true">
+      <label>Exclude Fields</label>
+      <choice value="raw_record">raw_record</choice>
+      <choice value="edi_hl_record">edi_hl_record</choice>
+      <choice value="source">source</choice>
+      <choice value="sourcetype">sourcetype</choice>
+      <choice value="edi_desc">edi_desc</choice>
+      <choice value="edi_name">edi_name</choice>
+      <choice value="_raw">raw</choice>
+      <default>raw_record,edi_hl_record,source,sourcetype,edi_desc,_raw</default>
+      <initialValue>raw_record,edi_hl_record,source,sourcetype,edi_desc,_raw</initialValue>
+      <prefix>| fields - </prefix>
+      <delimiter> </delimiter>
+      <search>
+        <query/>
+      </search>
+    </input>
+    <input type="text" token="INPUT_CUST_FILTER_01" searchWhenChanged="true">
+      <label>Event Search Pattern</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <html>
+            <div style="height:3px;background-color:#FF6833;margin:0px;"/>
+            <style>
+               table {
+               width: 80%;
+               border-collapse: collapse;
+               }
+               th, td {
+               border: 1px solid #dddddd;
+               padding: 8px;
+               text-align: left;
+               }
+               th {
+               background-color: #f2f2f2;
+               }
+            </style>
+            <h1>
+               <i class="fas fa-sort-numeric-up" style="font-size: 28px;color:#FF5733"/> Detailed EDI Transaction Records <button type="button" class="btn button3 w3-button w3-tiny float-r" data-toggle="collapse" data-target="#help1">Help</button>
+            </h1>
+            <div id="help1" class="collapse show panel-details">
+               <div class="panel-details-format">
+                   <p>
+                     Here’s a quick reference to <strong>EDI transaction</strong> events. Understanding these different EDI transaction events serves as a valuable guide in determining which types of analytics to execute.
+                  </p>
+                  <h2>Common EDI Events Definitions</h2>
+                  <table>
+                     <tr>
+                        <th>EDI Code</th>
+                        <th>Description</th>
+                     </tr>
+                     <tr>
+                        <td>EDI 810</td>
+                        <td>Invoice - Used by suppliers to request payment after goods or services are provided.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 850</td>
+                        <td>Purchase Order - Places an order for goods or services from a buyer to a supplier.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 855</td>
+                        <td>Purchase Order Acknowledgment - Confirms receipt and status of a purchase order.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 856</td>
+                        <td>Advance Ship Notice (ASN) - Provides shipment details including contents and delivery information.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 997</td>
+                        <td>Functional Acknowledgment - Confirms receipt of other EDI transactions, validating transmission success.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 846</td>
+                        <td>Inventory Inquiry/Advice - Shares inventory status or availability from a supplier to a buyer.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 830</td>
+                        <td>Planning Schedule - Conveys forecasted demands or long-term planning details to suppliers.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 820</td>
+                        <td>Payment Order/Remittance Advice - Authorizes payment or notifies about payments made.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 832</td>
+                        <td>Price/Sales Catalog - Provides price and product information from suppliers to buyers.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 860</td>
+                        <td>Purchase Order Change Request - Requests changes to an existing purchase order.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 214</td>
+                        <td>Transportation Carrier Shipment Status - Updates on shipment status from carriers to shippers.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 945</td>
+                        <td>Warehouse Shipping Advice - Informs the supplier or retailer that goods have been shipped.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 943</td>
+                        <td>Warehouse Stock Transfer Shipment Advice - Notifies of a transfer or shipment between warehouses.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 940</td>
+                        <td>Warehouse Shipping Order - Instructs a warehouse to ship product to a specified location.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 204</td>
+                        <td>Motor Carrier Load Tender - Provides details to a transportation carrier about shipment logistics.</td>
+                     </tr>
+                     <tr>
+                        <td>EDI 210</td>
+                        <td>Motor Carrier Freight Details and Invoice - Sends freight charges from shipper to carrier.</td>
+                     </tr>
+                  </table>
+            <br/>
+                   <p>
+                     Here’s a quick reference to <strong>EDI transaction</strong> events. Understanding these different EDI transaction events serves as a valuable guide in determining which types of analytics to execute.
+                  </p>
+                  <ol>
+                     <li>Search Utilization or Search Workload</li>
+                     <li>Ingestion Utilization or Indexing Workload</li>
+                     <li>Basic Services or Shared Services which is everything else.</li>
+                  </ol>
+               </div>
+            </div>
+         </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <search base="search_global_01">
+          <query>table _time * 
+                  $INPUT_EXCL_FIELDS$
+               </query>
+        </search>
+        <option name="count">5</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="DisconnectReason">
+          <colorPalette type="map">{"TELECOM_PROBLEM":#DC4E41,"CUSTOMER_DISCONNECT":#53A051,"AGENT_DISCONNECT":#F8BE34,"THIRD_PARTY_DISCONNECT":#F8BE34,"CONTACT_FLOW_DISCONNECT":#DC4E41,"OTHER":#DC4E41}</colorPalette>
+        </format>
+        <format type="color" field="Recording.Status">
+          <colorPalette type="map">{"AVAILABLE":#53A051,"DELETED":#DC4E41,"NULL":#F8BE34}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+            <div style="height:3px;background-color:#FF6833;margin:0px;"/>
+            <h1>
+               <i class="fas fa-sort-numeric-up" style="font-size: 28px;color:#FF5733"/> Query Builder <button type="button" class="btn button3 w3-button w3-tiny float-r" data-toggle="collapse" data-target="#help2">Help</button>
+            </h1>
+            <div id="help2" class="collapse show panel-details">
+               <div class="panel-query-format">
+                  <p> With the query builder below, you can create Splunk SPL <font color="#8B0000">"stats"</font> and  <font color="#8B0000">"timechart"</font> analyses using a predefined user interface for easy construction. 
+                  </p>
+                  <h2>QUERY BUILDER SEARCH SYNTAX</h2>
+                  <pre width="800">
+              <font color="#000000">| from datamodel:"supply_chain_edi_sum_evt_edi_all"
+| stats </font>
+              <font color="#8B0000">
+                <b>$INPUT_FIELD_01$</b>
+              </font> by <font color="#8B0000">
+                <b>$INPUT_SPLIT_BY_01$</b>
+              </font>  </pre>
+               </div>
+            </div>
+         </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <input type="dropdown" token="INPUT_FIELD_01" searchWhenChanged="true">
+        <label>Select Field</label>
+        <default>edi_tr_id</default>
+        <initialValue>edi_tr_id</initialValue>
+        <fieldForLabel>all_fields</fieldForLabel>
+        <fieldForValue>all_fields</fieldForValue>
+        <search>
+          <query>| makeresults 1
+               | eval input_field="ack_time_took	bsn_orig_asn	bsn_ship_date	bsn_ship_id	bsn_ship_time	edi_ack_status	edi_ack_status_combo	edi_code	edi_code_ack	edi_code_cnt	edi_code_groupby	edi_cont_num	edi_date	edi_flag	edi_n1_record	edi_po_ack	edi_po_curr_amt	edi_po_item_cnt	edi_po_record	edi_requestor	edi_responder	edi_sequence	edi_time edi_name edi_desc	edi_tr_id	evt_count	ge_grp_cont_num	ge_trans_set_num	host	iea_int_cont_num	iea_num_func_group	se_tran_cont_num	time_first	time_last"
+               | rex field=input_field max_match=100 "(?&lt;all_fields&gt;\w+)"
+               | table all_fields
+               | mvexpand all_fields
+| sort all_fields</query>
+        </search>
+      </input>
+      <input type="dropdown" searchWhenChanged="true" token="INPUT_FUNC_01">
+        <label>Calculate Function</label>
+        <choice value="count">Count</choice>
+        <choice value="dc">Count Distinct</choice>
+        <choice value="sum">Sum</choice>
+        <choice value="avg">Average</choice>
+        <choice value="stdev">Standard Div</choice>
+        <choice value="min">Min</choice>
+        <choice value="max">Max</choice>
+        <choice value="mode">Mode</choice>
+        <choice value="first">First</choice>
+        <choice value="last">Last</choice>
+        <default>count</default>
+        <initialValue>count</initialValue>
+      </input>
+      <input type="dropdown" token="INPUT_SPLIT_BY_01" searchWhenChanged="true">
+        <label>Split By</label>
+        <default>edi_name</default>
+        <initialValue>edi_name</initialValue>
+        <fieldForLabel>all_fields</fieldForLabel>
+        <fieldForValue>all_fields</fieldForValue>
+        <search>
+          <query>| makeresults 1
+               | eval input_field="ack_time_took	bsn_orig_asn	bsn_ship_date	bsn_ship_id	bsn_ship_time	edi_ack_status	edi_ack_status_combo	edi_code	edi_code_ack	edi_code_cnt	edi_code_groupby	edi_cont_num	edi_date	edi_flag	edi_n1_record	edi_po_ack	edi_po_curr_amt	edi_po_item_cnt	edi_po_record	edi_requestor	edi_responder	edi_sequence	edi_time edi_name edi_desc	edi_tr_id	evt_count	ge_grp_cont_num	ge_trans_set_num	host	iea_int_cont_num	iea_num_func_group	se_tran_cont_num	time_first	time_last"
+               | rex field=input_field max_match=100 "(?&lt;all_fields&gt;\w+)"
+               | table all_fields
+               | mvexpand all_fields
+| sort all_fields</query>
+          <earliest>-15m</earliest>
+          <latest>now</latest>
+        </search>
+      </input>
+    </panel>
+  </row>
+  <row id="tab_stats_o_02">
+    <panel>
+      <input type="dropdown" token="INPUT_VIZ_TYPE_01" searchWhenChanged="true">
+        <label>Visualization Type</label>
+        <choice value="area">Area</choice>
+        <choice value="line">Line</choice>
+        <choice value="column">Column</choice>
+        <choice value="bar">Bar</choice>
+        <default>area</default>
+        <initialValue>area</initialValue>
+      </input>
+      <chart>
+        <title>TIMECHART : Trending EDI Transactions</title>
+        <search base="search_global_01">
+          <query>timechart $INPUT_FUNC_01$($INPUT_FIELD_01$) by $INPUT_SPLIT_BY_01$</query>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">-45</option>
+        <option name="charting.chart">$INPUT_VIZ_TYPE_01$</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <input type="dropdown" token="INPUT_VIZ_TYPE_02" searchWhenChanged="true">
+        <label>Visualization Type</label>
+        <choice value="bar">bar</choice>
+        <choice value="pie">pie</choice>
+        <default>bar</default>
+        <initialValue>bar</initialValue>
+      </input>
+      <chart>
+        <title>STATS : Trending EDI Transactions</title>
+        <search base="search_global_01">
+          <query>stats $INPUT_FUNC_01$($INPUT_FIELD_01$) by $INPUT_SPLIT_BY_01$
+                  | sort - $INPUT_FUNC_01$($INPUT_FIELD_01$)
+               </query>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">-45</option>
+        <option name="charting.chart">$INPUT_VIZ_TYPE_02$</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+</form>

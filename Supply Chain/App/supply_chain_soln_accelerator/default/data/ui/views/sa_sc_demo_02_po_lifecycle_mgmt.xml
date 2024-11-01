@@ -1,0 +1,464 @@
+<form version="1.1" theme="dark">
+  <label>Demo 02 : Supply Chain PO Lifecycle Monitoring</label>
+  <description>Monitoring all EDI X12 / SAP iDocs Transactions from ERP / Data Exchange Platforms</description>
+  <search id="search_global_01">
+    <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997)
+| fields + * </query>
+    <earliest>$INPUT_TIME_GLOBAL.earliest$</earliest>
+    <latest>$INPUT_TIME_GLOBAL.latest$</latest>
+  </search>
+  <fieldset submitButton="true" autoRun="true">
+    <input type="text" token="INPUT_SEARCH_PATT">
+      <label>Event Search Pattern</label>
+    </input>
+    <input type="time" token="INPUT_TIME_GLOBAL" searchWhenChanged="true">
+      <label></label>
+      <default>
+        <earliest>-7d@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <html>
+        <div style="height:3px;background-color:#FF6833;margin:0px;"/>
+        <h1>
+          <i class="fas fa-sort-numeric-up" style="font-size: 28px;color:#FF5733"/>Purchase Order Processing Health KPIs
+        </h1>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Total Amount of POs</title>
+      <single>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval edi_ack_success=if(isnull(edi_ack_status), "No_Respond" , "Respond") 
+| timechart count by edi_ack_success 
+| eval edi_ack_request_total=No_Respond+Respond
+| table _time, edi_ack_request_total</query>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="height">80</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel">EDI Requests</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>POs with No Respose</title>
+      <single>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval edi_ack_success=if(isnull(edi_ack_status), "No_Respond" , "Respond") 
+| timechart count by edi_ack_success 
+| eval edi_ack_request_total=No_Respond+Respond
+| table _time, No_Respond</query>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="height">80</option>
+        <option name="numberPrecision">0</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel">No Response EDI Requests</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>PO Error / Retry Rates</title>
+      <single>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| search edi_ack_status=E OR edi_ack_status=R OR edi_ack_status=A 
+| timechart count by edi_ack_status 
+| eval total_transactions=A+E+R 
+| eval error_retry_rate=((E+R)/total_transactions)*100
+| table _time error_retry_rate</query>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="height">80</option>
+        <option name="numberPrecision">0.00</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">standard</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel">Error / Retry Rates</option>
+        <option name="unit">%</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>PO Response Performance</title>
+      <single>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, list(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_count by edi_tr_id edi_code_groupby 
+| eval ack_time_took=time_last-time_first 
+| timechart avg(ack_time_took) as ack_time_took</query>
+        </search>
+        <option name="colorBy">trend</option>
+        <option name="colorMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="height">80</option>
+        <option name="numberPrecision">0.00</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="rangeValues">[0,30,70,100]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="showSparkline">1</option>
+        <option name="showTrendIndicator">1</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+        <option name="trendColorInterpretation">inverse</option>
+        <option name="trendDisplayMode">absolute</option>
+        <option name="underLabel">Average Processing Times</option>
+        <option name="unit">Sec</option>
+        <option name="unitPosition">after</option>
+        <option name="useColors">1</option>
+        <option name="useThousandSeparators">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <div style="height:3px;background-color:#FF6833;margin:0px;"/>
+        <h1>
+          <i class="fas fa-sort-numeric-up" style="font-size: 28px;color:#FF5733"/>Purchase Order Processing Analysis 
+        </h1>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Total stats on EDI response status (Chart)</title>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| search edi_code_groupby=856 NOT edi_ack_status=A 
+| eval edi_ack_status=if(isnull(edi_ack_status), "Not Received" , edi_ack_status) 
+| top edi_ack_status 
+| replace E with Error, R with Reject in edi_ack_status</query>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Trends on EDI response status - Visual Line Chart</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval edi_ack_success=if(isnull(edi_ack_status), "No_Respond" , "Respond") 
+| timechart count by edi_ack_success 
+| eval edi_ack_request_total=No_Respond+Respond</query>
+          <earliest>-14d</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Visualization on error + retry trend</title>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| search edi_ack_status=E OR edi_ack_status=R OR edi_ack_status=A 
+| timechart count by edi_ack_status 
+| eval total_transactions=A+E+R 
+| eval error_retry_rate=((E+R)/total_transactions)*100</query>
+        </search>
+        <option name="charting.axisY2.enabled">1</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.overlayFields">A,E,R,total_transactions</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Suppliers with EDI Processing Issues</title>
+      <chart>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" NOT edi_code=997 
+    [ search index=supply_chain_edi sourcetype="edi:x12" source=edi_quantumline_customer_full NOT edi_code=997 
+    | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+    | eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+    | strcat edi_code "-" edi_ack_status edi_event_pattern_combo 
+    | stats count as evt_cnt by edi_tr_id edi_code 
+    | search evt_cnt&gt;2 
+    | table edi_tr_id ] 
+| table _time edi_tr_id edi_requestor edi_responder edi_code edi_type edi_cont_num edi_date edi_flag edi_time 
+| sort edi_tr_id, _time
+| top edi_responder</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>Trends on EDI transmission success rates w/ occurrences</title>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval edi_ack_success=if(isnull(edi_ack_status), "No_Respond" , "Respond")
+| timechart count by edi_ack_success 
+| eval edi_ack_request_total=No_Respond+Respond 
+| eval edi_ack_success_rate=(Respond/edi_ack_request_total)*100
+| fields - edi_ack_request_total</query>
+        </search>
+        <option name="charting.axisY2.enabled">1</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.overlayFields">Respond,No_Respond</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Trends when response rates were below SLA.</title>
+        <search base="search_global_01">
+          <query>| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval edi_ack_success=if(isnull(edi_ack_status), "No_Respond" , "Respond")
+| timechart count by edi_ack_success 
+| eval edi_ack_request_total=No_Respond+Respond 
+| eval edi_ack_success_rate=(Respond/edi_ack_request_total)*100 
+| search edi_ack_success_rate&lt;80
+| table _time, edi_ack_success_rate</query>
+        </search>
+        <option name="charting.axisY2.enabled">1</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.overlayFields">Respond,No_Respond</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <chart>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, list(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status, count as evt_count by edi_tr_id edi_code_groupby 
+| eval ack_time_took=time_last-time_first 
+| timechart avg(ack_time_took) as ack_time_took</query>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>RESULT ANALYSIS 02 : Total stats on EDI response status</title>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval ack_time_took=time_last-time_first 
+| search edi_ack_status=A ack_time_took&gt;1000
+| timechart count</query>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">283</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <div style="height:3px;background-color:#FF6833;margin:0px;"/>
+        <h1>
+          <i class="fas fa-sort-numeric-up" style="font-size: 28px;color:#FF5733"/>Transactions Details and investigate 
+        </h1>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>EDI Transactions Records</title>
+      <input type="dropdown" token="INPUT_TRANS_STATUS">
+        <label>Filter Status</label>
+        <choice value="*">All</choice>
+        <choice value="E">Error</choice>
+        <choice value="R">Reject</choice>
+        <choice value="No Response">No Ack</choice>
+        <default>*</default>
+        <initialValue>*</initialValue>
+      </input>
+      <table>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type edi_name 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, values(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_name) as edi_name, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| search edi_code_groupby=856 NOT edi_ack_status=A 
+| table _time edi_tr_id edi_requestor edi_responder edi_code edi_name edi_ack_status 
+| eval edi_ack_status=if(isnull(edi_ack_status), "Not Received" , edi_ack_status)</query>
+        </search>
+        <option name="count">7</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"R":#D94E17,"E":#D41F1F}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 02 : Total stats on EDI response status</title>
+        <search base="search_global_01">
+          <query>```index=supply_chain_edi sourcetype="edi:x12" ```
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats latest(_time) as time_last, earliest(_time) as time_first,first(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval ack_time_took=time_last-time_first 
+| search edi_ack_status=A ack_time_took&gt;1000
+| table _time edi_tr_id time_last time_first edi_requestor edi_responder edi_code edi_ack_status	ack_time_took</query>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent">
+          <option name="precision">1</option>
+          <option name="unit">%</option>
+        </format>
+        <format type="color" field="percent">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="color" field="ack_time_took">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"A":#55C169}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+</form>

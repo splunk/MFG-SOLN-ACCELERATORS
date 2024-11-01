@@ -1,0 +1,79 @@
+<nav search_view="search">
+
+   <view name="sa_sc_introduction" default='true' />
+
+    <collection label="Use Cases">
+        <collection label="Monitoring Supply Chain EDI Transactions">
+              <view name="sa_sc_01_mon_edi_00_intro" />
+              <view name="sa_sc_01_mon_edi_01_mon_edi_ack" />
+              <view name="sa_sc_01_mon_edi_02_trans_succ_rate" />
+              <view name="sa_sc_01_mon_edi_03_trans_error_retry" />
+              <view name="sa_sc_01_mon_edi_04_edi_ack_timing" />
+              <view name="sa_sc_01_mon_edi_05_find_repeat_trans" />
+        </collection>
+          <divider />
+
+        <collection label="Managing Supply Chain PO Lifecycle">
+              <view name="sa_sc_02_po_lifecycle_00_intro" />
+              <view name="sa_sc_02_po_lifecycle_01_po_ack_verify" />
+              <view name="sa_sc_02_po_lifecycle_02_po_sup_perf" />
+              <view name="sa_sc_02_po_lifecycle_03_po_no_res_sup" />
+              <view name="sa_sc_02_po_lifecycle_04_po_change_mon" />
+              <view name="sa_sc_02_po_lifecycle_05_po_resp_succ_rate" />
+              <view name="sa_sc_02_po_lifecycle_06_po_proc_error_rate" />
+        </collection>
+    <divider />
+  </collection>
+  
+   <collection label="Dashboards">
+      <view name="sa_sc_demo_intro" />
+      <divider/>
+      <view name="sa_sc_demo_01_mon_edi_trans" />
+      <view name="sa_sc_demo_02_po_lifecycle_mgmt" />
+      <divider/>
+      <view name="sa_sc_demo_1" />
+      <view name="sa_sc_demo_2" />
+      <view name="sa_sc_demo_3" />
+      <view name="sa_sc_demo_4" />
+      <view name="sa_sc_demo_5" />
+      <view name="sa_sc_demo_6" />
+      <view name="sa_sc_demo_7" />
+      <view name="sa_sc_demo_8" />
+      <divider/>
+   </collection>
+  
+     <collection label="Reports">
+      <view name="sa_sc_demo_intro" />
+      <divider/>
+      <view name="sa_sc_report_01_mon_edi_trans" />
+      <view name="sa_sc_report_02_po_lifecycle_mgmt" />
+      <divider/>
+      <view name="sa_sc_report_1" />
+      <view name="sa_sc_report_2" />
+      <view name="sa_sc_report_3" />
+      <view name="sa_sc_report_4" />
+      <view name="sa_sc_report_5" />
+      <divider/>
+   </collection>
+
+
+    <collection label="Data Exploration">  
+    <!--divider />
+    <view name="sa_sc_data_exp_raw_edi_all" /-->
+    <divider />
+    <view name="sa_sc_data_exp_datamodel_edi_all" />
+    <divider />
+    <a href="pivot?model=%2FservicesNS%2Fnobody%2Fsupply_chain_edi%2Fdatamodel%2Fmodel%2Fsupply_chain_edi_sum_evt_edi_all">Pivot to supply chain EDI dataset</a>
+    <view name="analytics_workspace" />
+  </collection>  
+
+    <view name="search" />
+
+  
+   <collection label="Default">
+      <view name="datasets" />
+      <view name="reports" />
+      <view name="alerts" />
+   </collection>
+
+</nav>

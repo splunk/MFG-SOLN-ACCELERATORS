@@ -1,0 +1,15 @@
+The relevant EDI X12 transactions for this use case are:
+
+EDI 850 (Purchase Order): Represents the initial order placed by the customer.
+EDI 855 (Purchase Order Acknowledgment): Confirms receipt and acceptance of the order by the supplier.
+EDI 830 (Planning Schedule with Release Capability): Communicates production plans and schedule forecasts.
+EDI 856 (Advance Ship Notice/Manifest): Details the shipment, including contents, quantities, and shipping dates.
+EDI 810 (Invoice): Represents the invoice sent after shipment.
+EDI 214 (Transportation Carrier Shipment Status Message): Provides updates on the shipment status.
+EDI 862 (Shipping Schedule): Communicates detailed shipping requirements.
+EDI 940 (Warehouse Shipping Order): Directs a warehouse to ship an order.
+EDI 945 (Warehouse Shipping Advice): Confirms the shipment of goods from the warehouse.
+EDI 947 (Warehouse Inventory Adjustment Advice): Communicates inventory adjustments.
+EDI 861 (Receiving Advice/Acceptance Certificate): Confirms receipt of goods and reports discrepancies, damages, or errors.
+EDI 824 (Application Advice): Reports any errors or discrepancies found in the transactions.
+

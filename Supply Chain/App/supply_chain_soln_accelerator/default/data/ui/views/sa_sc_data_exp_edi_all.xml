@@ -1,0 +1,325 @@
+<form version="1.1" theme="light" script="tabs.js" stylesheet="available_icons.css,dashboard_set_01.css,tabs.css">
+  <label>Raw Events : EDI All Transaction Data</label>
+  <description>Data Exploration Tool for Conversation Detail Events : Notification API (Real-time, For only conversations assigned to a queue)</description>
+  <search id="search_global_01">
+    <query>`genesys_cloud_index` sourcetype="genesys:cloud:notification:conv_activity" NOT channel.metadata $INPUT_CONV_ID$ 
+| rename eventBody.id as id_conversation
+| spath path="eventBody.participants{}" output=rec_participants
+| table _time id_conversation metadata.CorrelationId topicName rec_participants
+| mvexpand rec_participants
+| rex field="rec_participants" "purpose\"*\:\s*\"*(?&lt;purpose&gt;\w+)"
+| eval purpose=mvdedup(purpose)
+| search $INPUT_PURPOSE$ 
+| spath input=rec_participants
+| search $INPUT_ENDED_ST$ $INPUT_CUST_FILTER_01$ $INPUT_ADDRESS$
+| fields - rec_participants $INPUT_ATT_DISP$
+| fields + *</query>
+    <earliest>$INPUT_TIME_GLOBAL.earliest$</earliest>
+    <latest>$INPUT_TIME_GLOBAL.latest$</latest>
+  </search>
+  <search id="search_global_02">
+    <query>index=genesys_sum source=genesys_evt_sum_conv_aggregates metric="$INPUT_METRIC_TYPE_T$" group.ani="*$INPUT_ANI$*" group.conversationId="*$INPUT_CONV_ID$*" | fields + *</query>
+    <earliest>$INPUT_TIME_GLOBAL.earliest$</earliest>
+    <latest>$INPUT_TIME_GLOBAL.latest$</latest>
+  </search>
+  <search id="search_global_03">
+    <query>index=genesys_sum source=genesys_evt_sum_conv_aggregates metric="$INPUT_METRIC_TYPE_O$" group.ani="*$INPUT_ANI$*" group.conversationId="*$INPUT_CONV_ID$*" | fields + *</query>
+    <earliest>$INPUT_TIME_GLOBAL.earliest$</earliest>
+    <latest>$INPUT_TIME_GLOBAL.latest$</latest>
+  </search>
+  <fieldset submitButton="true">
+    <input type="text" token="INPUT_CONV_ID" searchWhenChanged="true">
+      <label>Searching Conversation ID</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <prefix>eventBody.id="*</prefix>
+      <suffix>*"</suffix>
+    </input>
+    <input type="text" token="INPUT_ADDRESS" searchWhenChanged="true">
+      <label>Searching Address</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+      <prefix>address="*</prefix>
+      <suffix>*"</suffix>
+    </input>
+    <input type="text" token="INPUT_CUST_FILTER_01">
+      <label>Other Custom Filters</label>
+      <default></default>
+    </input>
+    <input type="multiselect" token="INPUT_PURPOSE">
+      <label>Purpose</label>
+      <choice value="customer">Customer</choice>
+      <choice value="ivr">IVR</choice>
+      <choice value="acd">ACD</choice>
+      <choice value="external">External</choice>
+      <choice value="agent">Agent</choice>
+      <default>customer,ivr,acd,external,agent</default>
+      <prefix>purpose IN (</prefix>
+      <suffix>)</suffix>
+      <initialValue>customer,ivr,acd,external,agent</initialValue>
+      <delimiter>,</delimiter>
+    </input>
+    <input type="radio" token="INPUT_ATT_DISP">
+      <label>Include Custom Attributes</label>
+      <choice value="*">Yes</choice>
+      <choice value="attributes.*">No</choice>
+      <default>attributes.*</default>
+      <initialValue>attributes.*</initialValue>
+    </input>
+    <input type="radio" token="INPUT_ENDED_ST">
+      <label>Ended Participants</label>
+      <choice value="endTime=*">Yes</choice>
+      <choice value="*">No</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="time" token="INPUT_TIME_GLOBAL">
+      <label></label>
+      <default>
+        <earliest>-60m@m</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <html>
+        <div style="height:3px;background-color:#FF6833;margin:0px;"/>
+        <h1>
+          <i class="fas fa-sort-numeric-up" style="font-size: 28px;color:#FF5733"/> Detailed Contact Record Information <button type="button" class="btn button3 w3-button w3-tiny float-r" data-toggle="collapse" data-target="#help1">Help</button>
+        </h1>
+               <div id="help1" class="collapse show panel-details">
+                  <div class="panel-details-format">
+                     <p>
+                        SVC stands for
+                        <strong>Splunk Virtual Compute</strong>
+                        which is basically a unit of capabilities that includes the following resources in Splunk Cloud:
+                        <strong>compute, memory, and I/O</strong>
+                        .
+                     </p>
+                     <p>
+                        If you click on
+                        <strong>3.1 Show License, Utilization and Cost</strong>
+                        the app retrieves the Total SVC utilization of the day and the following breakdown of that utilization from the Cloud Monitoring Console (CMC):
+                     </p>
+                     <ol>
+                        <li>Search Utilization or Search Workload</li>
+                        <li>Ingestion Utilization or Indexing Workload</li>
+                        <li>Basic Services or Shared Services which is everything else.</li>
+                     </ol>
+                     <p>
+                        Launch the Cloud Monitoring Console (CMC), from the
+                        <strong>License Usage</strong>
+                        menu dropdown launch the
+                        <strong>Workload</strong>
+                        dashboard; The first panel SVC Usage will show an hourly SVC usage.
+                     </p>
+                     <p>Scroll down to SVC Consumer panel and it will show SVC usage for ingestion, search and shared services.</p>
+                     <p>The Setup/Help tab in this dashboard will has an acronym and help panel with additional information.</p>
+                </div>
+              </div>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <search base="search_global_01">
+          <query>table _time id_conversation *</query>
+        </search>
+        <option name="count">5</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="DisconnectReason">
+          <colorPalette type="map">{"TELECOM_PROBLEM":#DC4E41,"CUSTOMER_DISCONNECT":#53A051,"AGENT_DISCONNECT":#F8BE34,"THIRD_PARTY_DISCONNECT":#F8BE34,"CONTACT_FLOW_DISCONNECT":#DC4E41,"OTHER":#DC4E41}</colorPalette>
+        </format>
+        <format type="color" field="Recording.Status">
+          <colorPalette type="map">{"AVAILABLE":#53A051,"DELETED":#DC4E41,"NULL":#F8BE34}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Contact Record Event Timeline</title>
+      <viz type="event-timeline-viz.event-timeline-viz">
+        <search base="search_global_01">
+          <query>| strcat id ":" purpose combo
+| dedup combo
+| eval group=id 
+| eval label=purpose 
+| eval start=connectedTime 
+| eval end=endTime 
+| table group label start end</query>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="event-timeline-viz.event-timeline-viz.backgroundColor">#ffffff</option>
+        <option name="event-timeline-viz.event-timeline-viz.eventColor">#53a051</option>
+        <option name="event-timeline-viz.event-timeline-viz.maxZoom">86400000</option>
+        <option name="event-timeline-viz.event-timeline-viz.minZoom">60000</option>
+        <option name="event-timeline-viz.event-timeline-viz.orientation">top</option>
+        <option name="event-timeline-viz.event-timeline-viz.showCurrentTime">true</option>
+        <option name="event-timeline-viz.event-timeline-viz.sortGroupsBy">name</option>
+        <option name="event-timeline-viz.event-timeline-viz.stack">true</option>
+        <option name="event-timeline-viz.event-timeline-viz.textColor">#ffffff</option>
+        <option name="event-timeline-viz.event-timeline-viz.tokenAllVisible">tok_et_all_visible</option>
+        <option name="event-timeline-viz.event-timeline-viz.tokenData">tok_et_data</option>
+        <option name="event-timeline-viz.event-timeline-viz.tokenEnd">tok_et_end</option>
+        <option name="event-timeline-viz.event-timeline-viz.tokenLabel">tok_et_label</option>
+        <option name="event-timeline-viz.event-timeline-viz.tokenStart">tok_et_start</option>
+        <option name="event-timeline-viz.event-timeline-viz.tooltipDateFormat">YYYY-MM-DD</option>
+        <option name="height">369</option>
+        <option name="refresh.display">progressbar</option>
+      </viz>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <html>
+        <div style="height:3px;background-color:#FF6833;margin:0px;"/>
+        <h1>
+          <i class="fas fa-sort-numeric-up" style="font-size: 28px;color:#FF5733"/> Query Builder <button type="button" class="btn button3 w3-button w3-tiny float-r" data-toggle="collapse" data-target="#help1">Help</button>
+        </h1>
+               <div id="help1" class="collapse show panel-details">
+                  <div class="panel-details-format">
+                     <p>
+                        SVC stands for
+                        <strong>Splunk Virtual Compute</strong>
+                        which is basically a unit of capabilities that includes the following resources in Splunk Cloud:
+                        <strong>compute, memory, and I/O</strong>
+                        .
+                     </p>
+                     <p>
+                        If you click on
+                        <strong>3.1 Show License, Utilization and Cost</strong>
+                        the app retrieves the Total SVC utilization of the day and the following breakdown of that utilization from the Cloud Monitoring Console (CMC):
+                     </p>
+                     <ol>
+                        <li>Search Utilization or Search Workload</li>
+                        <li>Ingestion Utilization or Indexing Workload</li>
+                        <li>Basic Services or Shared Services which is everything else.</li>
+                     </ol>
+                     <p>
+                        Launch the Cloud Monitoring Console (CMC), from the
+                        <strong>License Usage</strong>
+                        menu dropdown launch the
+                        <strong>Workload</strong>
+                        dashboard; The first panel SVC Usage will show an hourly SVC usage.
+                     </p>
+                     <p>Scroll down to SVC Consumer panel and it will show SVC usage for ingestion, search and shared services.</p>
+                     <p>The Setup/Help tab in this dashboard will has an acronym and help panel with additional information.</p>
+                </div>
+              </div>
+      </html>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <input type="text" token="INPUT_FIELD_01" searchWhenChanged="true">
+        <label>Select Field</label>
+        <default>id_conversation</default>
+        <initialValue>id_conversation</initialValue>
+      </input>
+      <input type="dropdown" searchWhenChanged="true" token="INPUT_FUNC_01">
+        <label>Calculate Function</label>
+        <choice value="count">Count</choice>
+        <choice value="sum">Sum</choice>
+        <choice value="avg">Average</choice>
+        <choice value="min">Min</choice>
+        <choice value="max">Max</choice>
+        <default>count</default>
+        <initialValue>count</initialValue>
+      </input>
+      <input type="text" token="INPUT_SPLIT_BY_01" searchWhenChanged="true">
+        <label>Split By</label>
+        <default>address</default>
+        <initialValue>address</initialValue>
+        <fieldForLabel>column</fieldForLabel>
+        <fieldForValue>column</fieldForValue>
+      </input>
+    </panel>
+  </row>
+  <row id="tab_stats_o_02">
+    <panel>
+      <input type="dropdown" token="INPUT_VIZ_TYPE_01" searchWhenChanged="true">
+        <label>Visualization Type</label>
+        <choice value="area">Area</choice>
+        <choice value="line">Line</choice>
+        <choice value="column">Column</choice>
+        <choice value="bar">Bar</choice>
+        <default>area</default>
+        <initialValue>area</initialValue>
+      </input>
+      <chart>
+        <title>O - Service Level Statistics</title>
+        <search base="search_global_01">
+          <query>timechart $INPUT_FUNC_01$($INPUT_FIELD_01$) by $INPUT_SPLIT_BY_01$</query>
+        </search>
+        <!--option name="charting.chart">area</option-->
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">-45</option>
+        <option name="charting.chart">$INPUT_VIZ_TYPE_01$</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+    <panel>
+      <!--input type="text" token="INPUT_FIELD_02" searchWhenChanged="true">
+        <label>Calculate Function</label>
+        <choice value="id_conversation">id_conversation</choice>
+        <choice value="address">address</choice>
+        <default>id_conversation</default>
+        <initialValue>id_conversation</initialValue>
+      </input>
+      <input type="dropdown" searchWhenChanged="true" token="INPUT_FUNC_02">
+        <label>Calculate Function</label>
+        <choice value="count">Count</choice>
+        <choice value="sum">Sum</choice>
+        <choice value="avg">Average</choice>
+        <choice value="min">Min</choice>
+        <choice value="max">Max</choice>
+        <default>count</default>
+        <initialValue>count</initialValue>
+      </input-->
+      <!--input type="text" token="INPUT_SPLIT_BY_02" searchWhenChanged="true">
+        <label>Split By</label>
+        <default>address</default>
+        <initialValue>address</initialValue>
+        <fieldForLabel>column</fieldForLabel>
+        <fieldForValue>column</fieldForValue>
+        <search>
+          <query/>
+        </search>
+      </input-->
+      <input type="dropdown" token="INPUT_VIZ_TYPE_02" searchWhenChanged="true">
+        <label>Visualization Type</label>
+        <choice value="bar">bar</choice>
+        <choice value="pie">pie</choice>
+        <default>bar</default>
+        <initialValue>bar</initialValue>
+      </input>
+      <chart>
+        <title>O - Service Level Statistics</title>
+        <search base="search_global_01">
+          <query>stats $INPUT_FUNC_01$($INPUT_FIELD_01$) by $INPUT_SPLIT_BY_01$
+| sort - $INPUT_FUNC_01$($INPUT_FIELD_01$)</query>
+        </search>
+        <!--option name="charting.chart">area</option-->
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">-45</option>
+        <option name="charting.chart">$INPUT_VIZ_TYPE_02$</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.chart.showDataLabels">minmax</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+</form>

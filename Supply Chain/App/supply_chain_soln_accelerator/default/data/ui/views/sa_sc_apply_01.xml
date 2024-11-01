@@ -1,0 +1,283 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>Stage 4 : Apply</label>
+  <row>
+    <panel>
+      <html>
+            <img width="1300" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_stage_banner_04.png"/>
+             <ul>
+            <h1>
+               <!--img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_icon_08.png"/>
+               APPLY : --><font color="#8B0000">How to put Splunk to work?</font>
+            </h1>
+            <!--h2>OVERVIEW :</h2-->
+               <p>As you complete the analysis of predictive maintenance asset in your environment, now you may be wondering how I can put this to immediate use?  Now you can use the prediction results in various ways like in dashboards, reports, alerts and integrate with other systems. This section will provide you ideas on how you can put the result of the analysis to work.
+               </p>
+            </ul>
+            <img width="200" align="top" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_st_navi_gr_button_02.png"/>
+            <img width="650" align="top" usemap="#nav_map" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_stage_button_new_04.png"/>
+            <map name="nav_map">
+               <area shape="rect" coords="5,3,95,83" alt="Stage_01" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_get_data_01"/>
+               <area shape="rect" coords="140,3,233,83" alt="Stage_02" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_exploration_01"/>
+               <area shape="rect" coords="280,3,510,60" alt="Stage_03" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_01"/>
+               <area shape="rect" coords="280,65,510,93" alt="Stage_03-01" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_02"/>
+               <area shape="rect" coords="280,105,510,130" alt="Stage_03-02" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_03"/>
+               <area shape="rect" coords="280,140,510,165" alt="Stage_03-04" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_04"/>
+               <area shape="rect" coords="558,3,650,83" alt="Stage_04" href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_apply_01"/>
+            </map>
+            <br/>
+         </html>
+    </panel>
+  </row>
+
+   <row id="tabs">
+      <panel>
+         <html>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_navi_gr_button.png"/>
+               </li>
+               <li class="active">
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a>
+               </li>
+               <!--li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_method">2 | METHODOLOGY REVIEW</a>
+               </li-->
+               <li>
+                  <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_01,tab_step_02,tab_step_03,tab_step_04_01,tab_step_04,tab_step_05,tab_step_06">2 | EXAMPLES</a>
+               </li>
+               <!--li><a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_next">WHAT'S NEXT?</a></li-->
+            </ul>
+         </html>
+      </panel>
+   </row>
+   <row id="tab_objective">
+      <panel>
+         <html>
+            <h1>
+               <img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_target.png"/>
+               <b>OBJECTIVE :</b> 
+            </h1>
+            <ul>
+               <p>Splunk Enterprise already is equipped with different creative ways to put your Splunk to work without any development at all.  In the methodology section, examples of how Splunk can be put into your operational environment. (Dashboards, Reports, Alerts and Integratoon) </p>
+               <br/>
+                  <b>After reading this section, you will be able to</b> :
+               <ul>
+                  <ul>
+                     <li>See examples on how to create dashboards and reports.</li>
+                     <li>See examples on Understand how to define alerts.</li>
+                     <li>See examples on  how to integrate Splunk with other software.</li>
+                  </ul>
+               </ul>
+               <br/>
+            </ul>
+         </html>
+      </panel>
+   </row>
+
+   
+   
+   <row id="tab_step_00">
+      <panel>
+         <html tokens="true">
+            <h1>
+               <img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_tool.png"/>
+               <b>EXAMPLES :</b> 
+               <!--a target="_blank" href="https://splunk.box.com/s/91omcsxgsg7pkacabbxum96n0gpim47k">
+                  <img height="15" width="130" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_demo_video.png"/>
+                  </a-->
+            </h1>
+            <p>This technical resources page guides you through examples on what you can do with the result of your predictive analysis.  Please review various contents and resources link here to learn about how you can expand Splunk to real operations.</p>
+            <h2>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b><font color="#8B0000">Operationalize dashboards and reports to your environment</font>
+               </b>
+            </h2>
+            <ul>
+               <p>Online documentation and videos that help you understand how to implement Splunk into your operations.</p>
+            </ul>
+         </html>
+      </panel>
+   </row>
+   
+   
+   <row id="tab_step_01">
+      <panel>
+         <html tokens="true">
+            <style>
+               * {
+               box-sizing: border-box;
+               }
+               left_box {
+               float: left;
+               width: 95%;
+               }
+               middle_arrow {
+               margin: auto;
+               float: left;
+               padding: 10px;
+               width: 5%;
+               }
+               }
+            </style>
+            <section>
+               <left_box>
+                  <ul>
+                     <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+                     <b>Creatig Dashboard : Predictive Maintenance Dashboard</b>
+                  <ul><ul>
+                    <li>Use the analyzed prediction, create dashboard to show the status of engines in different state.</li>
+                     <li>Use <a target="_howto" href="https://splunkbase.splunk.com/app/1603/">Splunk Dashboard Examples App</a> to customize visuilization and various user inputs and controls.</li>
+                     <li>Navigate Predictive Maintenance demo app created using the exact steps here in this app : <a target="_howto" href="http://demo-fraud.splunkoxygen.com/demos/Splunk_Predictive_Analytics">Click here</a></li>
+                  </ul></ul>
+                  </ul>
+               </left_box>
+
+            </section>
+         </html>
+      </panel>
+      <panel>
+        <html tokens="true">
+               <b>Predictive Maintenance Dashboard</b>
+               <br/>
+               <ul>
+                  <a target="_howto" href="http://demo-fraud.splunkoxygen.com/demos/Splunk_Predictive_Analytics"><img width="400" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_apply_01.png"/></a>
+                  <br/>
+                  <br/>
+               </ul>
+         </html>
+      </panel>
+   </row>
+
+   <row id="tab_step_02">
+      <panel>
+         <html tokens="true">
+            <section>
+               <left_box>
+                  <ul>
+                     <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+                     <b>Creating Reports in Splunk Enterprise :</b>
+                  <ul><ul>
+                     <li>Watch training video on "<a target="_howto" href="https://www.youtube.com/watch?v=L-CnmXEXIug">How to create reports in Splunk</a>"</li>
+                     <li>Splunk documentation on "<a target="_howto" href="https://docs.splunk.com/Documentation/Splunk/7.2.3/Report/Createandeditreports">How to create reports</a>"</li>
+                  </ul></ul>
+                  </ul>
+               </left_box>
+
+            </section>
+         </html>
+      </panel>
+      <panel>
+        <html tokens="true">
+               <b>Creating Reports in Splunk Enterprise</b>
+               <br/>
+               <ul>
+                  <a target="_howto" href="https://www.youtube.com/watch?v=L-CnmXEXIug"><img width="400" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_apply_02.png"/></a>
+                  <br/>
+                  <br/>
+               </ul>
+         </html>
+      </panel>
+   </row> 
+   
+   
+   <row id="tab_step_00_01">
+      <panel>
+         <html tokens="true">
+                       <h2>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/>
+               <b><font color="#8B0000">Define alerts and rules for your maintenance opearatios.</font></b>
+                           </h2>
+            <ul>
+               <p>Learn how you can create real-time alerts based on predictive analysis on your assets :</p>
+            </ul>
+         </html>
+      </panel>
+   </row>
+
+
+  <row id="tab_step_03">
+      <panel>
+         <html tokens="true">
+            <section>
+               <left_box>
+                  <ul>
+                     <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_01.png"/>
+                     <b>Creating Alerts in Splunk</b>
+                  <ul><ul>
+                     <li>Watch training video on "<a target="_howto" href="https://www.youtube.com/watch?v=0REbozaALX0">How to create alerts in Splunk</a>"</li>
+                     <li>Splunk documentation on "<a target="_howto" href="https://docs.splunk.com/Documentation/Splunk/7.2.3/Alert/Aboutalerts">How to define alerts</a>"</li>
+                  </ul></ul>
+                  </ul>
+               </left_box>
+
+            </section>
+         </html>
+      </panel>
+      <panel>
+        <html tokens="true">
+               <b>Creating Alerts in Splunk Enterprise</b>
+               <br/>
+               <ul>
+                  <a target="_howto" href="https://www.youtube.com/watch?v=0REbozaALX0"><img width="400" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SE_PM_apply_03.png"/></a>
+                  <br/>
+                  <br/>
+               </ul>
+         </html>
+      </panel>
+   </row> 
+   
+
+   
+   <row id="tab_next">
+      <panel>
+         <html tokens="true">
+            <h1>
+               <img width="45" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/PM_image_icon_ques.png"/>
+               <b>What's Next?</b>
+               <!--a href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/sec_search_02">
+                  <img width="100" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_next_high.png"/>
+                  </a-->
+            </h1>
+            <ul>
+               <p>
+                  Now you have completed all the exercises in Splunk Essentials for Predictive Maintenance.  Do you feel comfortable about how you can apply the concept in the app to your data?  If you need help, please email us to support your use-case in making your operation mode proactive.  Thank you very much for your attention.
+               </p>
+               <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_03.png"/>
+               <b>NEXT STEP </b> : Evaluate how you can apply the concepts you learned in this app.
+               <br/>
+               <br/>
+               
+               <a href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_analysis_04">
+               <img height="15" width="118" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_button_prev_exer_nr.png"/>
+               </a>
+               <!--a href="/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/pm_exploration_01"-->
+               <img height="15" width="118" src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_button_next_exer_grey_nr.png"/>
+               <!--/a-->
+            </ul>
+            <table>
+               <tr>
+                  <td>
+                     <div class="col-sm-6 col-lg-6 ">
+                        <h1>
+                           <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/SI_image_bullet_04.png"/> Do you need help? Ask an Industrial IOT Predictive Maintenance Expert
+                        </h1>
+                        <ul>
+                           <p>Need help with your environment and requirements? Send us your questions and we will get back to you as soon as possible.</p>
+                           <p>If you need immediate assistance, check out our community forum, <a href="http://answers.splunk.com/">Splunk Answers.</a>
+                           </p>
+                           <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=Splunk_Essentials_Predictive_Maintenance_for_IOTenance" class="btn" target="_ask_expert">Contact Us</a>
+                        </ul>
+                     </div>
+                  </td>
+                  <td>
+                     <div class="col-sm-6 col-lg-5 col-lg-offset-1 col-md-offset-1 photo-box">
+                        <img src="/static/app/Splunk_Essentials_Predictive_Maintenance_for_IOT/Brian_Gilmore_white.png" alt="Predictive Maintenance expert photo" title=""/>
+                     </div>
+                  </td>
+               </tr>
+            </table>
+         </html>
+      </panel>
+   </row>
+   
+   
+</dashboard>

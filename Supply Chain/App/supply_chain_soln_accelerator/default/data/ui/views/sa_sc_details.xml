@@ -1,0 +1,185 @@
+<form version="1.1" theme="dark">
+  <label>Engine Performance Details</label>
+  <fieldset submitButton="true" autoRun="false">
+    <input type="text" token="events_frame_id">
+      <label>Asset</label>
+      <choice value="$events_frame_id$">$events_frame_id$</choice>
+      <default>$asset$</default>
+    </input>
+    <input type="text" token="unit_cycle">
+      <label>current cycle</label>
+      <initialValue>$unit_cycle$</initialValue>
+    </input>
+    <input type="time" token="TIME">
+      <label>Analysis Window</label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Trained Baseline Engine Profile - ML Algorithm (Random Forest)</title>
+      <chart>
+        <title>state 0=Normal 1=Warning 2=Critical</title>
+        <search>
+          <query>`get_pm_event_frame(194)` 
+| trendline sma4(SS_sname_Bleed_Enthalpy), sma4(SS_sname_Bypass_Ratio), sma4(SS_sname_Corr_Core_Speed), sma4(SS_sname_Corr_Fan_Speed), sma4(SS_sname_Fuel_Flow_Ratio), sma4(SS_sname_HPC_Outlet_Temp), sma4(SS_sname_HPT_Coolant_Bleed), sma4(SS_sname_LPC_Outlet_Temp), sma4(SS_sname_LPT_Outlet_Temp), sma4(SS_sname_Phys_Core_Speed), sma4(SS_sname_Phys_Fan_Speed) 
+| where unit_cycle&gt;3 
+| eval state=case(unit_cycle&lt;=200, "0", unit_cycle&gt;=201 AND unit_cycle&lt;=275, "1", unit_cycle&gt;275, "2")
+| table sma4* state</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisLabelsX.majorLabelStyle.overflowMode">ellipsisNone</option>
+        <option name="charting.axisLabelsX.majorLabelStyle.rotation">0</option>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisX.abbreviation">none</option>
+        <option name="charting.axisX.scale">linear</option>
+        <option name="charting.axisY.abbreviation">none</option>
+        <option name="charting.axisY.maximumNumber">3</option>
+        <option name="charting.axisY.minimumNumber">-3</option>
+        <option name="charting.axisY.scale">linear</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.bubbleMaximumSize">50</option>
+        <option name="charting.chart.bubbleMinimumSize">10</option>
+        <option name="charting.chart.bubbleSizeBy">area</option>
+        <option name="charting.chart.nullValueMode">gaps</option>
+        <option name="charting.chart.showDataLabels">none</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+        <option name="charting.chart.stackMode">default</option>
+        <option name="charting.chart.style">shiny</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.layout.splitSeries.allowIndependentYRanges">0</option>
+        <option name="charting.legend.labelStyle.overflowMode">ellipsisMiddle</option>
+        <option name="charting.legend.mode">standard</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.lineWidth">2</option>
+        <option name="height">320</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Drilled in Detailed Asset Performance Metrics - ID $asset$</title>
+      <chart>
+        <title>Real-time data classified through ML Model (0=Normal 1=Warning 2=Critical)</title>
+        <search>
+          <query>`get_pm_event_frame($events_frame_id$)`
+| search unit_cycle&lt;$unit_cycle$
+| rename SS_sname_Bleed_Enthalpy as sma4(SS_sname_Bleed_Enthalpy), SS_sname_Bypass_Ratio as sma4(SS_sname_Bypass_Ratio), SS_sname_Corr_Core_Speed as sma4(SS_sname_Corr_Core_Speed), SS_sname_Corr_Fan_Speed as sma4(SS_sname_Corr_Fan_Speed), SS_sname_Fuel_Flow_Ratio as sma4(SS_sname_Fuel_Flow_Ratio), SS_sname_HPC_Outlet_Temp as sma4(SS_sname_HPC_Outlet_Temp), SS_sname_HPT_Coolant_Bleed as sma4(SS_sname_HPT_Coolant_Bleed), SS_sname_LPC_Outlet_Temp as sma4(SS_sname_LPC_Outlet_Temp), SS_sname_LPT_Outlet_Temp as sma4(SS_sname_LPT_Outlet_Temp), SS_sname_Phys_Core_Speed as sma4(SS_sname_Phys_Core_Speed), SS_sname_Phys_Fan_Speed as sma4(SS_sname_Phys_Fan_Speed) 
+| table events_frame_id unit_cycle sma4* 
+| apply _app_pm_super_randomforest_01
+| fields - unit_cycle</query>
+          <earliest>$TIME.earliest$</earliest>
+          <latest>$TIME.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisY.maximumNumber">3</option>
+        <option name="charting.axisY.minimumNumber">-3</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.drilldown">none</option>
+        <option name="height">318</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Box Plot - Showing major data ranges and spread for Training data profile</title>
+      <viz type="Splunk_ML_Toolkit.BoxViz">
+        <search>
+          <query>`get_pm_event_frame(194)` 
+| table SS*
+| `boxplot`</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </viz>
+    </panel>
+    <panel>
+      <title>Box Plot - Asset ID $asset$ feature distribution</title>
+      <viz type="Splunk_ML_Toolkit.BoxViz">
+        <search>
+          <query>`get_pm_event_frame($events_frame_id$)`
+| search unit_cycle&lt;$unit_cycle$
+| fields - unit_cycle
+| `boxplot`</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </viz>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Asset Maintenance Records</title>
+      <table>
+        <title>Verify past maintenance activity records in work order system</title>
+        <search>
+          <query>| inputlookup engine_maint_record.csv
+| search asset_id=$events_frame_id$
+| table asset_id, date, record, operator</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="operator">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+      </table>
+    </panel>
+    <panel>
+      <title>Asset Maintenance Recommendation</title>
+      <table>
+        <title>Recommendation guideline for current state engine</title>
+        <search>
+          <query>| inputlookup engine_maint_recom.csv
+| search asset_id=$events_frame_id$
+| table order recommendation</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

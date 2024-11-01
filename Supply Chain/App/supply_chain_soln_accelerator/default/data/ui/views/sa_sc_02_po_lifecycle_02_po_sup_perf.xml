@@ -1,0 +1,365 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>02 : Supplier Performance on Purchase Orders Process</label>
+  <description>Use Case - Managing Supply Chain PO Lifecycle  |  Supplier Performance on Purchase Orders Process</description>
+  <row>
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <font color="#8B0000">Introduction to Supplier Performance on Purchase Orders Processing</font>
+               </h1>
+               <p>Ensuring that suppliers acknowledge Purchase Orders is critical for confirming that they are aware of and processing the order. Without acknowledgement, there is uncertainty whether the supplier is acting on the order, which can cause significant delays.
+               </p>
+            </ul>
+
+         </html>
+    </panel>
+  </row>
+  <row id="tabs">
+    <panel>
+      <html>
+            <p>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+            </li>
+               <li class="active">
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a>
+            </li>
+             
+               <li>
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_00_03,tab_step_00_04,tab_step_00_05,tab_title_01,tab_step_01,tab_title_02,tab_step_02,tab_title_03,tab_step_03,tab_title_04,tab_step_04,tab_title_05,tab_step_05,tab_title_05,tab_step_06,tab_step_07,tab_step_08,tab_step_09,tab_step_10">2 | ANALYSIS</a>
+               </li>
+               <li><a href="https://lantern.splunk.com/Splunk_Platform/UCE/Manufacturing/PO_Monitoring%3A_Supplier_performance_on_purchase_orders_process" target="_blank">3 | LANTERN RECIPES</a></li>
+            </ul>
+            </p>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_objective">
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>OBJECTIVE :</b> 
+               </h1>
+               <p>To ensure the smooth processing of the Purchase Order lifecycle, it is essential to monitor two major components. These key performance indicators (KPIs) will help track the efficiency and effectiveness of the entire process.</p>
+               <p>
+               <ul>
+                  <ul>
+                     <li>
+                        <b>PurchInitial Purchase Order</b> : Track the transmission and acknowledgment of Purchase Orders (EDI 850) by the supplier.
+                     </li>
+                     <li>
+                        <b>Order Confirmation</b> : Track the actual acknowledgment of Purchase Orders (EDI 855) by the supplier to the buyer.
+                     </li>
+                     <li>
+                        <b>Order Changes</b> : Monitor any modifications to the PO (such as EDI 860 for order changes) and ensure that the changes are acknowledged and correctly processed.
+                     </li>
+                  </ul>
+               </ul>
+               </p> 
+               <p>Ensuring that suppliers are fully informed and in agreement with the order details reduces the risk of discrepancies or missed deliveries. By catching and resolving purchase order discrepancies early in the cycle, businesses can avoid delays in procurement, fulfillment, and payment process</p>
+          <p>
+                 Failing to monitor the health of the purchase order lifecycle can result in several critical supply chain operations issues. For instance, a failure to acknowledge purchase orders may lead to supply chain bottlenecks or unfulfilled orders. Additionally, delays in supplier responses can disrupt production schedules and customer delivery timelines.</p>
+            </ul>
+            <hr width="100%"/>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>THE GOAL :</b> 
+               </h1>
+               <p>This KPI tracks the timely receipt of functional acknowledgments (e.g., EDI 997) from suppliers, confirming that they have received and acknowledged the Purchase Order (EDI 850).</p>
+               <p>Watch for missing or delayed acknowledgments. If functional acknowledgments are not received within an expected time frame, it may indicate potential communication issues or that the supplier has not processed the order.</p>
+               <p>There are two types of acknowledgments we can check. The first is the system-level acknowledgment (EDI 997), which indicates that the purchase order (PO) message was technically received. However, more importantly, in the full order-to-cash process cycle, the PO (EDI 850) is generated, followed by the supplier's business-level acknowledgment through an EDI 855 message. This response confirms that the supplier has received and acknowledged the PO from the business level perspective.</p>
+             </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_00">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_tool.png"/>
+                  <b>ANALYSIS : Supplier Performance on Purchase Orders Process</b> 
+               </h1>
+               <p>
+                  This solutions template demonstrates a variety of analytics techniques for building solutions. The analysis showcases foundational approaches for generating critical insights, accelerating development by providing an environment with data available for experimentation.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_title_01">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Calculating Supplier Responses times per EDI PO transactions.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>Using this dataset (EDI 850, 855), we can set thresholds for situations where a supplier fails to respond to the buyer's PO, as well as monitor overall business performance (how fast) regarding how POs are being acknowledged by suppliers. To do this, group the search by "edi_code IN (850, 855)" and calculate the duration between these two events to measure supplier response times and business efficiency.</p>
+                     <p>The calculation of "time_po_to_ack_time" is applied to each purchase order and business process-level acknowledgment, indicating how long the supplier took to respond to the initial purchase order request. With this time data, thresholds (such as SLAs) can be applied, or averages can be calculated to monitor performance at various levels, such as by supplier, product, or order timing.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_01">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850 855) 
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, earliest(_time) as time_po, latest(_time) as time_po_ack, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, dc(edi_code) as edi_code_cnt, last(edi_ack_status) as edi_ack_status by edi_tr_id 
+| search edi_code_cnt&gt;1 
+| eval time_po_to_ack_time=(time_po_ack-time_po)/60/60/24
+| table _time edi_tr_id	time_po	time_po_ack	edi_requestor	edi_responder	edi_code	edi_code_cnt	time_po_to_ack_time</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F}</colorPalette>
+        </format>
+        <format type="number" field="time_po_to_ack_time">
+          <option name="precision">1</option>
+          <option name="unit">hrs</option>
+        </format>
+        <format type="color" field="time_po_to_ack_time">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_title_02">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Analyzing Supplier PO processing performance / average response times.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>At this point, with the calculated time taken to receive a purchase order acknowledgment (EDI 855), which indicates the supplier has successfully acknowledged the order, we can measure their performance in handling orders. By applying another "stats" aggregation command, we can calculate the average "time_po_to_ack_time" by "edi_responder." This provides insights into how responsive each supplier is in processing orders. While this summary gives an overview of supplier performance, we can also track it over time by analyzing trends. Using the “stats” and “avg(time_po_to_ack_time)” functions grouped by "edi_responder," we can observe how suppliers' responsiveness evolves.</p>
+                     <p>The results display the performance of each supplier by calculating the average time it takes for them to acknowledge and respond to purchase order requests from the buyer. By using the "sort" command, we can identify suppliers with longer response times, which may indicate potential violations of business SLAs. On a positive note, all suppliers have responded to the purchase order requests.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_02">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 02 : Total stats on EDI response status</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850 855) 
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, earliest(_time) as time_po, latest(_time) as time_po_ack, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, dc(edi_code) as edi_code_cnt, last(edi_ack_status) as edi_ack_status by edi_tr_id 
+| search edi_code_cnt&gt;1 
+| eval time_po_to_ack_time=(time_po_ack-time_po)/60/60/24 
+| stats avg(time_po_to_ack_time) as avg_time_po_to_ack_time by edi_responder 
+| sort - avg_time_po_to_ack_time</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="count">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="percent">
+          <option name="precision">1</option>
+          <option name="unit">%</option>
+        </format>
+        <format type="color" field="percent">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="avg_time_po_to_ack_time">
+          <option name="unit">hrs</option>
+        </format>
+        <format type="color" field="avg_time_po_to_ack_time">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+      </table>
+    </panel>
+    <panel>
+      <chart>
+        <title>Total stats on EDI response status (Chart)</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850 855) 
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, earliest(_time) as time_po, latest(_time) as time_po_ack, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, dc(edi_code) as edi_code_cnt, last(edi_ack_status) as edi_ack_status by edi_tr_id 
+| search edi_code_cnt&gt;1 
+| eval time_po_to_ack_time=(time_po_ack-time_po)/60/60/24 
+| stats avg(time_po_to_ack_time) as avg_time_po_to_ack_time by edi_responder 
+| sort - avg_time_po_to_ack_time
+| head 10</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">bar</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row id="tab_title_03">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Analyzing Supplier PO processing performance Trends</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>Monitoring performance trends over time for each supplier can provide valuable insights, helping to spot any spikes that might disrupt the flow of materials in the supply chain. By simply replacing the "stats" command with "timechart," you can quickly shift the analysis to understand how suppliers have performed over time.</p>
+                     <p>The average purchase order response time, broken down by supplier, helps identify any sudden changes that may indicate early operational issues.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_03">
+    <panel>
+      <chart>
+        <title>RESULT ANALYSIS 02 : Total stats on EDI response status</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850 855) 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, earliest(_time) as time_po, latest(_time) as time_po_ack, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, dc(edi_code) as edi_code_cnt, last(edi_ack_status) as edi_ack_status by edi_tr_id 
+| search edi_code_cnt&gt;1 
+| eval time_po_to_ack_time=(time_po_ack-time_po)/60/60/24 
+| timechart span=6h avg(time_po_to_ack_time) as avg_time_po_to_ack_time by edi_responder</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row id="tab_title_04">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Identifying PO Transaction exceeding SLA of 3 hrs</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>Based on the performance of various suppliers in responding to purchase orders, we can establish a threshold of a certain number of days. In the previous example, three days seems to be the average time for supplier PO acknowledgment, so we will use this as a threshold to identify which supplier orders are at risk of delay. After calculating the time between the purchase order and the acknowledgement ("time_po_to_ack_time"), we apply a search condition to filter for orders where this calculated value exceeds three days. This can be done using the search condition: search time_po_to_ack_time>=3.</p>
+                     <p>The result displays all EDI 850 Purchase Order (PO) requests where the supplier has not acknowledged the order for three days or more. Splunk SPL offers an easy and powerful way to calculate and apply logical conditions, such as this duration, directly within the search criteria.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_04">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850 855) 
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, earliest(_time) as time_po, latest(_time) as time_po_ack, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, dc(edi_code) as edi_code_cnt, last(edi_ack_status) as edi_ack_status by edi_tr_id 
+| search edi_code_cnt&gt;1 
+| eval time_po_to_ack_time=(time_po_ack-time_po)/60/60/24
+| search time_po_to_ack_time>=3
+| table _time edi_tr_id	time_po	time_po_ack	edi_requestor	edi_responder	edi_code	edi_code_cnt	time_po_to_ack_time</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F}</colorPalette>
+        </format>
+        <format type="number" field="time_po_to_ack_time">
+          <option name="precision">1</option>
+          <option name="unit">hrs</option>
+        </format>
+        <format type="color" field="time_po_to_ack_time">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+               </h1>
+               <p>
+                 Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+                  <ul>
+                     <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                  <b>Solutions Accelerator</b>
+                </a> page.</li>
+                     <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                  <b>Contact Us</b>
+                </a>
+              </li>
+                     <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/">
+                  <b>Splunk Answers</b>
+                </a>.</li>
+                  </ul>
+               </p>
+               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+            </ul>
+            
+         </html>
+    </panel>
+  </row>
+</dashboard>

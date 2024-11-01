@@ -1,0 +1,201 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>06 : Purchase Order Processing Error Rates</label>
+  <description>Use Case - Managing Supply Chain PO Lifecycle  |  Purchase Order Processing Error Rates</description>
+  <row>
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <font color="#8B0000">Introduction to Purchase Order Processing Error Rates</font>
+               </h1>
+               <p>High error rates in the Purchase Order process can disrupt order fulfillment, leading to rework, delays, and higher operational costs. Monitoring these errors helps identify the root cause of issues and allows for quicker resolution.
+               </p>
+            </ul>
+
+         </html>
+    </panel>
+  </row>
+  <row id="tabs">
+    <panel>
+      <html>
+            <p>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+            </li>
+               <li class="active">
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a>
+            </li>
+               <li>
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_00_03,tab_step_00_04,tab_step_00_05,tab_title_01,tab_step_01,tab_title_02,tab_step_02,tab_title_03,tab_step_03,tab_title_04,tab_step_04_01,tab_title_05,tab_step_05,tab_title_05,tab_step_06,tab_step_07,tab_step_08,tab_step_09,tab_step_10">2 | ANALYSIS</a>
+               </li>
+               <li><a href="https://lantern.splunk.com/Splunk_Platform/UCE/Manufacturing/PO_Monitoring%3A_Purchase_order_processing_error_rates" target="_blank">3 | LANTERN RECIPES</a></li>
+            </ul>
+            </p>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_objective">
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>OBJECTIVE :</b> 
+               </h1>
+               <p>To ensure the smooth processing of the Purchase Order lifecycle, it is essential to monitor two major components. These key performance indicators (KPIs) will help track the efficiency and effectiveness of the entire process.</p>
+               <p>
+               <ul>
+                  <ul>
+                     <li>
+                        <b>PurchInitial Purchase Order</b> : Track the transmission and acknowledgment of Purchase Orders (EDI 850) by the supplier.
+                     </li>
+                     <li>
+                        <b>Order Confirmation</b> : Track the actual acknowledgment of Purchase Orders (EDI 855) by the supplier to the buyer.
+                     </li>
+                     <li>
+                        <b>Order Changes</b> : Monitor any modifications to the PO (such as EDI 860 for order changes) and ensure that the changes are acknowledged and correctly processed.
+                     </li>
+                  </ul>
+               </ul>
+               </p> 
+               <p>Ensuring that suppliers are fully informed and in agreement with the order details reduces the risk of discrepancies or missed deliveries. By catching and resolving purchase order discrepancies early in the cycle, businesses can avoid delays in procurement, fulfillment, and payment process</p>
+          <p>
+                 Failing to monitor the health of the purchase order lifecycle can result in several critical supply chain operations issues. For instance, a failure to acknowledge purchase orders may lead to supply chain bottlenecks or unfulfilled orders. Additionally, delays in supplier responses can disrupt production schedules and customer delivery timelines.</p>
+            </ul>
+            <hr width="100%"/>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>THE GOAL :</b> 
+               </h1>
+               <p>This KPI tracks any failed or rejected transactions during the Purchase Order process, such as communication errors, data mismatches, or invalid EDI format.</p>
+               <p>Watch for spikes in error rates or recurring issues with specific suppliers or systems. Patterns of failed transactions may reveal systemic problems in data integration, EDI formatting errors, or communication faults in the supply chain</p>
+             </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_00">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_tool.png"/>
+                  <b>ANALYSIS : Monitoring EDI Acknowledgments</b> 
+               </h1>
+               <p>
+                  This solutions template demonstrates a variety of analytics techniques for building solutions. The analysis showcases foundational approaches for generating critical insights, accelerating development by providing an environment with data available for experimentation.
+               </p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_title_01">
+    <panel>
+      <html tokens="true">
+            <section>
+               <ul>
+                  <h2>
+                     <img src="/static/app/supply_chain_edi/SI_image_bullet_01.png"/>
+                     <b>
+                     <font color="#8B0000">Analyze the Purchase Order error rate trends.</font>
+                     </b>
+                  </h2>
+                  <ul>
+                     <p>Here's an example of analyzing PO error rate trends over time. Using the visual dashboard, we can quickly spot any spikes in PO processing error rates. You can also set a threshold, allowing Splunk to alert you whenever the error rate exceeds the defined limit.</p>
+                  </ul>
+               </ul>
+            </section>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_01">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval edi_ack_status=if(isnull(edi_ack_status), "NO_R" , edi_ack_status) 
+| timechart count by edi_ack_status 
+| eval edi_ack_request_total=A+E+R+NO_R 
+| eval edi_ack_request_error_rate=((E+R)/edi_ack_request_total)*100</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">6</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F}</colorPalette>
+        </format>
+        <format type="color" field="edi_ack_request_error_rate">
+          <colorPalette type="minMidMax" maxColor="#D41F1F" minColor="#FFFFFF"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="edi_ack_request_error_rate">
+          <option name="unit">%</option>
+        </format>
+        <format type="number" field="edi_ack_request_total">
+          <option name="precision">0</option>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_step_02">
+    <panel>
+      <chart>
+        <title>Total stats on EDI response status (Chart)</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (850, 997) 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack) 
+| stats last(_time) as _time, last(edi_requestor) as edi_requestor, last(edi_responder) as edi_responder, first(edi_code) as edi_type, values(edi_code) as edi_code, last(edi_ack_status) as edi_ack_status by edi_tr_id edi_code_groupby 
+| eval edi_ack_status=if(isnull(edi_ack_status), "NO_R" , edi_ack_status) 
+| timechart span=6h count by edi_ack_status 
+| eval edi_ack_request_total=A+E+R+NO_R 
+| eval edi_ack_request_error_rate=((E+R)/edi_ack_request_total)*100</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisY2.enabled">1</option>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.overlayFields">A,E,NO_R,R,edi_ack_request_total</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+               </h1>
+               <p>
+                 Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+                  <ul>
+                     <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                  <b>Solutions Accelerator</b>
+                </a> page.</li>
+                     <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                  <b>Contact Us</b>
+                </a>
+              </li>
+                     <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/">
+                  <b>Splunk Answers</b>
+                </a>.</li>
+                  </ul>
+               </p>
+               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+
+            </ul>
+         </html>
+    </panel>
+  </row>
+</dashboard>

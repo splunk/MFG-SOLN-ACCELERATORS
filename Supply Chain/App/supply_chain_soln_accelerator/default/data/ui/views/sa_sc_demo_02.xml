@@ -1,0 +1,245 @@
+<form version="1.1" >
+  <label>Predictive Maintenance - Remaining Useful Life (RUL) Analysis - Using Similarity Model</label>
+  <description>Remaining Useful Life Calculator - Created from engine conditional indicators - Input "Current Unit Cycle" and "Current Conditional Indicator Value" for calculation.</description>
+  <fieldset submitButton="true" autoRun="true">
+    <input type="text" token="INPUT_CYCLE" searchWhenChanged="true">
+      <label>CURRENT UNIT CYCLE</label>
+      <default>150</default>
+      <initialValue>150</initialValue>
+    </input>
+    <input type="text" token="INPUT_IND_VALUE" searchWhenChanged="true">
+      <label>CURRENT CONDITION INDICATOR VALUE</label>
+      <default>-1</default>
+      <initialValue>-1</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>Remaining Useful Life Prediction Results</title>
+      <table>
+        <search>
+          <query>index=iot_pm_stash EVT_TYPE=RUL_STATS
+| table events_frame_id, unit_cycle, condition_ind, eol 
+| eval test_condition_ind=$INPUT_IND_VALUE$
+| search unit_cycle=$INPUT_CYCLE$ condition_ind&gt;$INPUT_IND_VALUE$
+| sort condition_ind 
+| head 5 
+| append 
+    [ search index=iot_pm_stash EVT_TYPE=RUL_STATS
+    | table events_frame_id, unit_cycle, condition_ind, eol 
+    | eval test_condition_ind=$INPUT_IND_VALUE$
+    | search unit_cycle=$INPUT_CYCLE$ condition_ind&lt;$INPUT_IND_VALUE$
+    | sort - condition_ind 
+    | head 5 
+    ]
+| stats count as input_data_cnt, avg(eol) as predicted_eol by unit_cycle test_condition_ind
+| rename predicted_eol as PREDICTED_END_OF_LIFE, input_data_cnt as INPUT_MODEL_COUNT, unit_cycle as UNIT_AGE, test_condition_ind as INPUT_CONDITION_IND
+| eval REMAINING_LIFE=PREDICTED_END_OF_LIFE-UNIT_AGE
+| eval LEFT_PERCENT=(REMAINING_LIFE/PREDICTED_END_OF_LIFE)*100</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">row</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">false</option>
+        <format type="color" field="INPUT_MODEL_COUNT">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <format type="color" field="PREDICTED_END_OF_LIFE">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <format type="color" field="REMAINING_LIFE">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <format type="number" field="REMAINING_LIFE">
+          <option name="precision">0</option>
+          <option name="unit">Cycles</option>
+        </format>
+        <format type="number" field="PREDICTED_END_OF_LIFE">
+          <option name="precision">0</option>
+          <option name="unit">Cycles</option>
+        </format>
+        <format type="number" field="INPUT_MODEL_COUNT">
+          <option name="precision">0</option>
+          <option name="unit">Number of Similar Models Used</option>
+          <option name="unitPosition">before</option>
+        </format>
+        <format type="number" field="UNIT_AGE">
+          <option name="precision">0</option>
+          <option name="unit">Cycles (Current)</option>
+        </format>
+        <format type="color" field="LEFT_PERCENT">
+          <colorPalette type="sharedList"></colorPalette>
+          <scale type="sharedCategory"></scale>
+        </format>
+        <format type="number" field="LEFT_PERCENT">
+          <option name="unit">%</option>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Remaining Useful Life Prediction Model - Selected Age and Condition</title>
+      <chart>
+        <search>
+          <query>index=iot_pm_stash EVT_TYPE=RUL_STATS 
+    [ search index=iot_pm_stash EVT_TYPE=RUL_STATS 
+    | table events_frame_id, unit_cycle, condition_ind, eol 
+    | search unit_cycle=$INPUT_CYCLE$ condition_ind&gt;$INPUT_IND_VALUE$
+    | sort condition_ind 
+    | head 5 
+    | table events_frame_id ] OR 
+    [ search index=iot_pm_stash EVT_TYPE=RUL_STATS 
+    | table events_frame_id, unit_cycle, condition_ind, eol 
+    | search unit_cycle=$INPUT_CYCLE$ condition_ind&lt;$INPUT_IND_VALUE$
+    | sort - condition_ind 
+    | head 5 
+    | table events_frame_id ] 
+| chart last(condition_ind) as cond by unit_cycle, events_frame_id
+| eval CURRENT_AGE=if(unit_cycle=$INPUT_CYCLE$,1,0)</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="charting.axisTitleX.visibility">visible</option>
+        <option name="charting.axisTitleY.visibility">visible</option>
+        <option name="charting.axisTitleY2.text">CURRENT_AGE_LOC</option>
+        <option name="charting.axisTitleY2.visibility">visible</option>
+        <option name="charting.axisY.abbreviation">auto</option>
+        <option name="charting.axisY2.abbreviation">none</option>
+        <option name="charting.axisY2.enabled">1</option>
+        <option name="charting.axisY2.maximumNumber">1</option>
+        <option name="charting.axisY2.minimumNumber">0</option>
+        <option name="charting.axisY2.scale">inherit</option>
+        <option name="charting.chart">line</option>
+        <option name="charting.chart.overlayFields">CURRENT_AGE</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.layout.splitSeries">0</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="height">423</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Remaining Useful Life Prediction Model - ALL Assets</title>
+      <viz type="Splunk_ML_Toolkit.LinesViz">
+        <search>
+          <query>index=iot_pm_stash EVT_TYPE=RUL_STATS 
+| chart last(condition_ind) as cond by unit_cycle, events_frame_id useother=0 limit=0</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="height">540</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </viz>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Remaining Useful Life Prediction Model - Historical End Of Life Age Distro</title>
+      <viz type="Splunk_ML_Toolkit.HistogramViz">
+        <search>
+          <query>index=iot_pm_stash EVT_TYPE=RUL_STATS unit_cycle=1
+
+| `histogram(eol,100)`</query>
+          <earliest>0</earliest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="trellis.enabled">0</option>
+        <option name="trellis.scales.shared">1</option>
+        <option name="trellis.size">medium</option>
+      </viz>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Assets with Different Remaining life Analysis</title>
+      <table>
+        <search>
+          <query>index=iot_pm_stash EVT_TYPE=RUL_STATS 
+| table events_frame_id unit_cycle condition_ind 
+| eval pkey=events_frame_id+"-"+unit_cycle 
+| lookup engine_run_status pkey as pkey OUTPUT pkey as MATCH 
+| search MATCH=* 
+| table events_frame_id unit_cycle condition_ind 
+| head 10
+| map search="search index=iot_pm_stash EVT_TYPE=RUL_STATS unit_cycle=$$unit_cycle$$
+    [ search index=iot_pm_stash EVT_TYPE=RUL_STATS 
+    | table events_frame_id, unit_cycle, condition_ind, eol 
+    | search unit_cycle=$$unit_cycle$$ condition_ind&gt;$$condition_ind$$
+    | sort condition_ind 
+    | head 5 
+    | table events_frame_id ] OR 
+    [ search index=iot_pm_stash EVT_TYPE=RUL_STATS 
+    | table events_frame_id, unit_cycle, condition_ind, eol 
+    | search unit_cycle=$$unit_cycle$$ condition_ind&lt;$$condition_ind$$
+    | sort - condition_ind 
+    | head 5 
+    | table events_frame_id ] 
+| stats count as input_data_cnt, avg(eol) as predicted_eol by unit_cycle  | eval condition_ind=$$condition_ind$$ "
+| eval REMAINDER_LIFE=predicted_eol-unit_cycle
+| table unit_cycle, condition_ind input_data_cnt predicted_eol  REMAINDER_LIFE
+| eval LEFT_PERCENT=(REMAINDER_LIFE/predicted_eol)*100
+| sort LEFT_PERCENT</query>
+          <earliest>0</earliest>
+          <latest></latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="REMAINDER_LIFE">
+          <colorPalette type="minMidMax" maxColor="#FFFFFF" minColor="#DC4E41"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="REMAINDER_LIFE">
+          <option name="precision">0</option>
+          <option name="unit">Cycles Left</option>
+        </format>
+        <format type="color" field="LEFT_PERCENT">
+          <colorPalette type="minMidMax" maxColor="#FFFFFF" minColor="#006D9C"></colorPalette>
+          <scale type="minMidMax"></scale>
+        </format>
+        <format type="number" field="LEFT_PERCENT">
+          <option name="unit">%</option>
+        </format>
+        <format type="number" field="predicted_eol">
+          <option name="precision">0</option>
+          <option name="unit">Cycles</option>
+        </format>
+        <format type="number" field="input_data_cnt">
+          <option name="precision">0</option>
+          <option name="unit">Models Used</option>
+        </format>
+        <format type="number" field="condition_ind"></format>
+        <format type="number" field="unit_cycle">
+          <option name="unit">Cycles</option>
+        </format>
+      </table>
+    </panel>
+  </row>
+</form>

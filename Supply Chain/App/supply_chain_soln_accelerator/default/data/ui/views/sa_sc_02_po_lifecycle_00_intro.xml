@@ -1,0 +1,206 @@
+<dashboard version="1.1" theme="light" script="tabs.js" stylesheet="tabs.css">
+  <label>Introduction to Purchase Orders Lifecycle Monitoring</label>
+  <description>Use Case - Managing Supply Chain PO Lifecycle</description>
+  <row>
+    <panel>
+      <html>
+            <h1>
+               <img width="40" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+               <b>INTRODUCTION</b> 
+            </h1>
+            <ul>
+              <p>The purchase order (PO) lifecycle is a vital component of supply chain operations, encompassing all stages from the initial creation of a purchase order to its final fulfillment and payment. This lifecycle is essential for maintaining effective communication and coordination between buyers and suppliers, ensuring that all parties are aligned and informed throughout the process.</p>
+              <p>EDI 850 documents, which represent purchase orders, play a crucial role in this lifecycle. By facilitating the electronic exchange of order information, EDI 850 documents streamline the communication between organizations and their suppliers.</p>
+              <p>Consider a scenario where a manufacturing company places an order for essential raw materials using an EDI 850 document. If the supplier fails to acknowledge the purchase order in a timely manner or if any changes to the order, communicated through an EDI 860, are overlooked, it can lead to delays in production schedules. This situation may result in costly downtime for the manufacturing company.</p>
+              <p>This example helps users understand the potential business challenges of not properly monitoring the PO lifecycle and why active monitoring is critical for maintaining operational flow.</p>
+               </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tabs">
+    <panel>
+      <html>
+            <p>
+            <ul id="tabs" class="nav nav-tabs">
+               <li> <img width="200" src="/static/app/supply_chain_edi/PM_image_icon_navi_gr_button.png"/>
+            </li>
+               <li class="active">
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_objective">1 | OBJECTIVE</a>
+            </li>
+               <li>
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_method">2 | KPIs</a>
+            </li>
+               <li>
+              <a href="#" class="toggle-tab" data-toggle="tab" data-elements="tab_step_00,tab_step_00_01,tab_step_00_02,tab_step_00_03,tab_step_00_04,tab_step_00_05,tab_title_01,tab_step_01,tab_title_02,tab_step_02,tab_title_03,tab_step_03,tab_title_04,tab_step_04_01,tab_title_05,tab_step_05,tab_title_05,tab_step_06,tab_step_07,tab_step_08,tab_step_09,tab_step_10">3 | ACCESS DATA</a>
+               </li>
+               <li>
+              <a href="https://lantern.splunk.com/Splunk_Platform/UCE/Manufacturing/Monitoring_purchase_order_life_cycles" target="_blank">4 | LANTERN RECIPES</a>
+            </li>
+            </ul>
+            </p>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_objective">
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>OBJECTIVE :</b> 
+               </h1>
+               <p>Effective monitoring of the purchase order lifecycle ensures that suppliers receive, acknowledge, and respond to purchase orders promptly. This proactive approach minimizes the risk of errors or delays, enabling businesses to maintain efficient operations and uphold customer satisfaction. Failing to monitor the health of the purchase order lifecycle can result in several critical supply chain operations issues. For instance, a failure to acknowledge purchase orders might lead to supply chain bottlenecks or unfulfilled orders. Additionally, delays in supplier responses can disrupt production schedules and customer delivery timelines.</p>
+               <p>By leveraging electronic data interchange (EDI) as the analysis data source, organizations can gain valuable insights into their PO processes, leading to improved decision-making and operational efficiency.</p>
+               <p>These EDI transactions are especially useful for monitoring purchase order lifecycles : 
+               <ul>
+                  <ul>
+                     <li>
+                        <b>Initial purchase order</b> : Track the transmission and acknowledgment of purchase orders (EDI 850) by the supplier.
+                     </li>
+                     <li>
+                        <b>Order confirmation</b> : Track the actual acknowledgment of purchase orders (EDI 855) by the supplier to the buyer.
+                     </li>
+                     <li>
+                        <b>Order changes</b> : Monitor any modifications to the PO (such as EDI 860 for order changes) and ensure that the changes are acknowledged and correctly processed.
+                     </li>
+                  </ul>
+               </ul>
+               </p> 
+               <p>The 997 Functional Acknowledgment confirms that these documents have been received and processed successfully. Without receiving these acknowledgments, businesses are left in the dark about whether critical documents have been delivered, risking delays in order fulfillment, inventory management, and payment processing.</p>
+            </ul>
+            <hr width="100%"/>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>PREREQUISITES :</b> 
+               </h1>
+               <p>The following software is required for this use case :</p>
+               <ul>
+                  <ul>
+                     <li>
+                        <b>The Splunk platform</b> : Mainly used for initial data processing, analysis and alerting.
+                     </li>
+                     <li>
+                        <b>Splunk ITSI</b> (Optional) : For futher expanding the analytics leveraging ITSI's thresholding and anomaly detection capability.
+                     </li>
+                     <li>
+                        <b>SAP PowerConnect</b> (Optional) : If the supply chain operational transactions needs to be integrated from SAP ERP. this is nessasary.
+                     </li>
+                  </ul>
+               </ul>
+               <p>The following data types from supply chain operational transactions are required inputs for accomplishing this use case :</p>
+               <ul>
+                  <ul>
+                     <li>
+                        <b>EDI X12, EDIFACT</b> : Standard supply chain transations data.
+                     </li>
+                     <li>
+                        <b>API Data</b> (Optional) : Supply chain transations data gathered through APIs.
+                     </li>
+                     <li>
+                        <b>SAP iDocs</b> (Optional) : iDocs data collected using SAP Powerconnect for Splunk.
+                     </li>
+                  </ul>
+               </ul>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_method">
+    <panel>
+      <html>
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_target.png"/>
+                  <b>KPIs : What to monitor?</b> 
+               </h1>
+               <p>It's important to track a few key performance indicators (KPIs) to ensure effective PO lifecycle monitoring :</p>
+               <ul>
+                  <ul>
+                     <li>
+                <b>Acknowledgment of Purchase Orders</b> : Track the timely receipt of functional acknowledgments (for example, EDI 997) from suppliers, ensuring that they acknowledge the orders.</li>
+                     <li>
+                <b>Order Change Monitoring</b> : Ensure that any order changes (EDI 860) are properly transmitted and acknowledged by the supplier.</li>
+                     <li>
+                <b>Purchase Order Transmission Success Status</b> : Confirm that all purchase orders (EDI 850) sent to suppliers are successfully transmitted and received.</li>
+                     <li>
+                <b>Supplier Response Time</b> : Monitor how quickly suppliers respond to the purchase orders and order changes.</li>
+                     <li>
+                <b>Order Error Rates</b> : Track any failed or rejected transactions during the purchase order process (for example, communication errors or data mismatches).</li>
+                     <li>
+                <b>Supplier Hasn't Responded.</b> : Search for open purchase orders that haven’t been acknowledged by the supplier after receiving the order.</li>
+                  </ul>
+               </ul>
+               <p>Click on the link to the above KPIs to directly navigate to the analysis.</p>
+
+            </ul>
+
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_00">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="35" src="/static/app/supply_chain_edi/PM_image_icon_tool.png"/>
+                  <b>ACCESS DATA : Data cube for Purchase order lifecycle monitoring</b> 
+               </h1>
+               <p>To begin building the monitoring component for the purchase order lifecycle, start by creating a foundational analytics data cube for analysis. This foundation should include key EDI transactions: EDI 850 (Purchase Order Confirmation), EDI 855 (Purchase Order Acknowledgment), EDI 860 (Purchase Order Change), and EDI 997 (Transaction Acknowledgment). These are essential for tracking and analyzing the purchase order lifecycle effectively.</p>
+               <p>The result of the statscommand offers a strong foundation for various other analyses, especially in identifying issues related to missing acknowledgments. For example, if an acknowledgment for an EDI 850 (Purchase Order) is not received, we can infer that the receiver has not recognized or processed the order. By searching for 850 Purchase Orders and mapping thFromem with their acknowledgments, we can quickly identify which orders are at risk of not being fulfilled.</p>
+            </ul>
+         </html>
+    </panel>
+  </row>
+  <row id="tab_step_01">
+    <panel>
+      <table>
+        <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
+        <search>
+          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (860, 850, 997)
+| table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type 
+| eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status
+| eval edi_code_groupby=if(isnull(edi_code_ack), edi_code, edi_code_ack)
+| stats last(_time) AS _time, last(edi_requestor) AS edi_requestor, last(edi_responder) AS edi_responder, first(edi_code) AS edi_type, values(edi_code) AS edi_code, last(edi_ack_status) AS edi_ack_status BY edi_tr_id edi_code_groupby</query>
+          <earliest>-7d@h</earliest>
+          <latest>now</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">15</option>
+        <option name="drilldown">none</option>
+        <format type="color" field="edi_ack_status">
+          <colorPalette type="map">{"Not Received":#3C444D,"R":#E3723A,"E":#D41F1F}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+  <row id="tab_next">
+    <panel>
+      <html tokens="true">
+            <ul>
+               <h1>
+                  <img width="45" src="/static/app/supply_chain_edi/PM_image_icon_ques.png"/>
+                  <b>Do you need help? Ask an Manufacturing and IoT Expert.</b>
+               </h1>
+               <p>
+                 Need help with your environment or requirements? Send us your questions, and we’ll get back to you as soon as possible.
+                  <ul>
+                     <li> For detailed step-by-step instructions on implementing the solution using this Solutions Accelerator, visit our <a href="https://lantern.splunk.com/@go/page/6494">
+                  <b>Solutions Accelerator</b>
+                </a> page.</li>
+                     <li> To expedite implementation with professional services, please reach out to our sales team by clicking <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" target="_ask_expert">
+                  <b>Contact Us</b>
+                </a>
+              </li>
+                     <li> If you need immediate assistance, explore our community forum, <a href="http://answers.splunk.com/">
+                  <b>Splunk Answers</b>
+                </a>.</li>
+                  </ul>
+               </p>
+               <img src="/static/app/supply_chain_edi/SI_image_bullet_03.png"/> <a href="https://www.splunk.com/en_us/ask-an-expert.html?expertCode=supply_chain_solutions_accelerator" class="btn" target="_ask_expert">Contact Us</a>
+            </ul>
+            
+         </html>
+    </panel>
+  </row>
+</dashboard>

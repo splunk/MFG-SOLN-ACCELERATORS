@@ -114,7 +114,7 @@
       <table>
         <title>RESULT ANALYSIS 01 : EDI Transactions with response status determined.</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (860, 850, 997) 
+          <query>sourcetype="edi:x12" edi_code IN (860, 850, 997) 
 | rex field=_raw max_match=100 "(?P&lt;po_item&gt;PO1\|[^\~]*)~" 
 | rex field=_raw max_match=100 "(?P&lt;po_change_item&gt;POC\|[^\~]*)~" 
 | table _time edi_ack_status edi_buyer edi_code edi_code_ack edi_cont_num edi_date edi_flag edi_requestor edi_responder edi_seller edi_sequence edi_time edi_tr_id edi_type po_item po_change_item 
@@ -170,7 +170,7 @@
       <table>
         <title>RESULT ANALYSIS 02 : Total stats on EDI response status</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (860, 850, 997) 
+          <query>sourcetype="edi:x12" edi_code IN (860, 850, 997) 
 | rex field=_raw max_match=100 "(?P&lt;po_item&gt;PO1\|[^\~]*)~" 
 | rex field=_raw max_match=100 "(?P&lt;po_change_item&gt;POC\|[^\~]*)~" 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
@@ -207,7 +207,7 @@
       <chart>
         <title>Total stats on EDI response status (Chart)</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (860, 850, 997) 
+          <query>sourcetype="edi:x12" edi_code IN (860, 850, 997) 
 | rex field=_raw max_match=100 "(?P&lt;po_item&gt;PO1\|[^\~]*)~" 
 | rex field=_raw max_match=100 "(?P&lt;po_change_item&gt;POC\|[^\~]*)~" 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
@@ -227,7 +227,7 @@
         <option name="charting.chart">bar</option>
         <option name="charting.chart.overlayFields">item_qty</option>
         <option name="charting.drilldown">none</option>
-        <option name="height">332.997</option>
+        <option name="height">333</option>
         <option name="refresh.display">progressbar</option>
       </chart>
     </panel>
@@ -237,7 +237,7 @@
       <table>
         <title>RESULT ANALYSIS 02 : Total stats on EDI response status</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (860, 850, 997) 
+          <query>sourcetype="edi:x12" edi_code IN (860, 850, 997) 
 | rex field=_raw max_match=100 "(?P&lt;po_item&gt;PO1\|[^\~]*)~" 
 | rex field=_raw max_match=100 "(?P&lt;po_change_item&gt;POC\|[^\~]*)~" 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
@@ -287,7 +287,7 @@
       <chart>
         <title>Total stats on EDI response status (Chart)</title>
         <search>
-          <query>index=supply_chain_edi sourcetype="edi:x12" edi_code IN (860, 850, 997) 
+          <query>sourcetype="edi:x12" edi_code IN (860, 850, 997) 
 | rex field=_raw max_match=100 "(?P&lt;po_item&gt;PO1\|[^\~]*)~" 
 | rex field=_raw max_match=100 "(?P&lt;po_change_item&gt;POC\|[^\~]*)~" 
 | eval edi_ack_status_combo=edi_code+"-"+edi_code_ack+"-"+edi_ack_status 
@@ -309,7 +309,7 @@
         <option name="charting.chart">bar</option>
         <option name="charting.chart.overlayFields">item_qty</option>
         <option name="charting.drilldown">none</option>
-        <option name="height">332.997</option>
+        <option name="height">333</option>
         <option name="refresh.display">progressbar</option>
       </chart>
     </panel>

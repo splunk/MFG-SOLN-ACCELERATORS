@@ -3,7 +3,7 @@
 This is a collection of various resources and information that provide guidance around using the OT Security Solution Accelerator within Splunk.  Releases can be directly installed in Splunk and are compatible with Splunk Enterprise and Splunk Cloud.
 
 > [!IMPORTANT]  
-> The OT Security App is not directly supported by Splunk support
+> The OT Security Solution Accelerator is not directly supported by Splunk support
 
 > [!TIP]
 > For a more complete set of capabilities beyond the OT Security Solution Accelerator and integration with Splunk's Enterprise Security, please see the [OT Security Add-on for Splunk](https://splunkbase.splunk.com/app/5151), related [app documentation](https://splunk.github.io/ot-security-solution), or reach out to your Splunk Sales team.

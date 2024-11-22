@@ -23,8 +23,9 @@ This section includes informations of how data can be collected in the OT enviro
 | SFTP/FTP | Typically text based logs | SFTP (preferred) and FTP can be used to export logs periodically to systems using a Universal Forwarder to forward the logs | Agent based |
 | Windows Event Forwarding | Windows Events including ***Authentication events*** | Can be used to collect Security, System, Application, or other specific windows events | Configuration |
 | Syslog | ***Network and firewall logs***, netflow, security alerts from other products | Best practice to leverage a syslog server rather than sending directly to Splunk | Configuration |
-| Zeek | ***Network traffic*** | Zeek can collect information on network activity such as network traffic and in some cases may support industrial protocols | Configuration|
 | OT Security Solutions | asset information, alerts, vulnerabilities | Most OT Security Solutions have the ability to send asset, alerts, and vulnerability information to Splunk but may change as capabilities mature.  In most cases they provide this information via syslog and REST API's | Remote |
+| EdgeHub | Process data related to operations | EdgeHub allows organizations to collect process data from OT environments.  See [EdgeHub Central](https://www.edgehubcentral.com/) | Remote |
+| Zeek | ***Network traffic*** | Zeek can collect information on network activity such as network traffic and in some cases may support industrial protocols | Configuration|
 | REST API's | Depending on application but could include malware, security events, vulnerability information, and asset information | Common mechanism leveraged by OT Security Products to collect alerts, asset info, and vulnerabilities | Remote |
 | DBConnect | ICS Logs, Alarm Information, Configuration, Patching Info, Host Based Information | Leveraged by data historians, patching solutions, ICS systems, and other systems | Remote |
 | WMI Collector | OS components, process & service information, applications, user accounts, security settings | Consideration should be given to scaling of WMI for large environments| Remote |
